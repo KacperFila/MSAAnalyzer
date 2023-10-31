@@ -7,6 +7,26 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid HorizontalAlignment="Left" Height="434" Margin="1,0,0,0" VerticalAlignment="Center" Width="399">
+            <Button Content="Zapisz dane" HorizontalAlignment="Left" Height="35" Margin="241,373,0,0" VerticalAlignment="Top" Width="112"/>
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="27,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110"/>
+            <Label Content="Wartość wzorca" HorizontalAlignment="Left" Height="37" Margin="27,23,0,0" VerticalAlignment="Top" Width="110"/>
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="27,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110"/>
+            <Label Content="Górna granica" HorizontalAlignment="Left" Height="37" Margin="27,87,0,0" VerticalAlignment="Top" Width="110"/>
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="27,179,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110"/>
+            <Label Content="Dolna granica" HorizontalAlignment="Left" Height="36" Margin="27,154,0,0" VerticalAlignment="Top" Width="110"/>
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="27,242,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110"/>
+            <Label Content="Rozdzielczość" HorizontalAlignment="Left" Height="37" Margin="27,217,0,0" VerticalAlignment="Top" Width="110"/>
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="27,308,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110"/>
+            <Label Content="T" HorizontalAlignment="Left" Height="37" Margin="27,283,0,0" VerticalAlignment="Top" Width="110"/>
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="187,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110"/>
+            <Label Content="Kolejny pomiar" HorizontalAlignment="Left" Height="25" Margin="187,23,0,0" VerticalAlignment="Top" Width="110"/>
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="187,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110"/>
+            <Label Content="Średnia" HorizontalAlignment="Left" Height="37" Margin="187,87,0,0" VerticalAlignment="Top" Width="110"/>
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="187,179,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110"/>
+            <Label Content="Odchylenie" HorizontalAlignment="Left" Height="36" Margin="187,154,0,0" VerticalAlignment="Top" Width="110"/>
+        </Grid>
+        <Grid HorizontalAlignment="Right" Height="434" Margin="1,0,0,0" VerticalAlignment="Center" Width="399"/>
 
     </Grid>
 </Window>
