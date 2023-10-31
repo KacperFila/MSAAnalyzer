@@ -53,39 +53,39 @@ namespace MSAAnalyzer
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             listaPomiarow.Clear();
-            Double.TryParse(WartoscWzorcaTextBox.Text, out double wartoscWzorca);
-            Double.TryParse(GornaGranicaTextBox.Text, out double gorna);
-            Double.TryParse(DolnaGranicaTextBox.Text, out double dolna);
+            double.TryParse(WartoscWzorcaTextBox.Text, out var wartoscWzorca);
+            double.TryParse(GornaGranicaTextBox.Text, out var gorna);
+            double.TryParse(DolnaGranicaTextBox.Text, out var dolna);
+
             firstProcedure.SetWartoscWzorca(wartoscWzorca);
             firstProcedure.SetGranice(gorna, dolna);
+
             ValidateAndEnableKolejnyPomiarTextBox();
-            if (fieldsValidated)
-            {
-                UpdateUIWithResults();
-                ZapisanoDaneTextBox.Text = "Dane zostały zapisane";
-                timer.Start();
-            }
+            if (!fieldsValidated) return;
+
+            UpdateUIWithResults();
+            ZapisanoDaneTextBox.Text = "Dane zostały zapisane";
+            timer.Start();
         }
 
         private void KolejnyPomiarTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (e.Key != Key.Enter) return;
+
+            var pomiar = double.TryParse(KolejnyPomiarTextBox.Text, out var pomiarValue);
+            if (!pomiar || pomiarValue <= 0)
             {
-                var pomiar = double.TryParse(KolejnyPomiarTextBox.Text, out var pomiarValue);
-                if (!pomiar || pomiarValue <= 0)
-                {
-                    MessageBox.Show("Nieprawidłowa wartość dla pomiaru.");
-                }
-                else { 
+                MessageBox.Show("Nieprawidłowa wartość dla pomiaru.");
+            }
+            else { 
 
-                    listaPomiarow.Add(pomiarValue);
+                listaPomiarow.Add(pomiarValue);
 
-                    KolejnyPomiarTextBox.Clear();
-                    firstProcedure.UpdateData(listaPomiarow);
-                    firstProcedure.IncrementLicznikElementow();
-                    ValidateTextBoxes();
-                    UpdateUIWithResults();
-                }
+                KolejnyPomiarTextBox.Clear();
+                firstProcedure.UpdateData(listaPomiarow);
+                firstProcedure.IncrementLicznikElementow();
+                ValidateTextBoxes();
+                UpdateUIWithResults();
             }
         }
 
@@ -125,22 +125,22 @@ namespace MSAAnalyzer
         {
             var errorMessages = new List<string>();
 
-            if (!double.TryParse(WartoscWzorcaTextBox.Text, out double wzorzecValue) || wzorzecValue < 0)
+            if (!double.TryParse(WartoscWzorcaTextBox.Text, out var wzorzecValue) || wzorzecValue < 0)
             {
                 errorMessages.Add("Nieprawidłowa wartość dla wzorca.");
             }
 
-            if (!double.TryParse(GornaGranicaTextBox.Text, out double gornaGranicaValue) || gornaGranicaValue < 0)
+            if (!double.TryParse(GornaGranicaTextBox.Text, out var gornaGranicaValue) || gornaGranicaValue < 0)
             {
                 errorMessages.Add("Nieprawidłowa wartość dla górnej granicy.");
             }
 
-            if (!double.TryParse(DolnaGranicaTextBox.Text, out double dolnaGranicaValue) || dolnaGranicaValue < 0)
+            if (!double.TryParse(DolnaGranicaTextBox.Text, out var dolnaGranicaValue) || dolnaGranicaValue < 0)
             {
                 errorMessages.Add("Nieprawidłowa wartość dla dolnej granicy.");
             }
 
-            if (!double.TryParse(RozdzielczoscTextBox.Text, out double rozdzielczoscValue) || rozdzielczoscValue < 0)
+            if (!double.TryParse(RozdzielczoscTextBox.Text, out var rozdzielczoscValue) || rozdzielczoscValue < 0)
             {
                 errorMessages.Add("Nieprawidłowa wartość dla rozdzielczości.");
             }
@@ -160,13 +160,11 @@ namespace MSAAnalyzer
                 errorMessages.Add("Górna granica nie może być mniejsza od wzorca.");
             }
 
-            if (errorMessages.Count > 0)
-            {
-                MessageBox.Show(string.Join("\n", errorMessages));
-                return false;
-            }
+            if (errorMessages.Count <= 0) return true;
 
-            return true;
+            MessageBox.Show(string.Join("\n", errorMessages));
+            return false;
+
         }
 
         private void CgTextBox_TextChanged(object sender, TextChangedEventArgs e)
