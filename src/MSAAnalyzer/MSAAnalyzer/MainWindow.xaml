@@ -5,28 +5,44 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MSAAnalyzer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MSAAnalyzer" Height="450" Width="800">
     <Grid>
         <Grid HorizontalAlignment="Left" Height="434" Margin="1,0,0,0" VerticalAlignment="Center" Width="399">
-            <Button Content="Zapisz dane" HorizontalAlignment="Left" Height="35" Margin="241,373,0,0" VerticalAlignment="Top" Width="112"/>
-            <TextBox HorizontalAlignment="Left" Height="23" Margin="27,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110"/>
-            <Label Content="Wartość wzorca" HorizontalAlignment="Left" Height="37" Margin="27,23,0,0" VerticalAlignment="Top" Width="110"/>
-            <TextBox HorizontalAlignment="Left" Height="23" Margin="27,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110"/>
-            <Label Content="Górna granica" HorizontalAlignment="Left" Height="37" Margin="27,87,0,0" VerticalAlignment="Top" Width="110"/>
-            <TextBox HorizontalAlignment="Left" Height="23" Margin="27,179,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110"/>
-            <Label Content="Dolna granica" HorizontalAlignment="Left" Height="36" Margin="27,154,0,0" VerticalAlignment="Top" Width="110"/>
-            <TextBox HorizontalAlignment="Left" Height="23" Margin="27,242,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110"/>
-            <Label Content="Rozdzielczość" HorizontalAlignment="Left" Height="37" Margin="27,217,0,0" VerticalAlignment="Top" Width="110"/>
-            <TextBox HorizontalAlignment="Left" Height="23" Margin="27,308,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110"/>
-            <Label Content="T" HorizontalAlignment="Left" Height="37" Margin="27,283,0,0" VerticalAlignment="Top" Width="110"/>
-            <TextBox HorizontalAlignment="Left" Height="23" Margin="187,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110"/>
-            <Label Content="Kolejny pomiar" HorizontalAlignment="Left" Height="25" Margin="187,23,0,0" VerticalAlignment="Top" Width="110"/>
-            <TextBox HorizontalAlignment="Left" Height="23" Margin="187,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110"/>
-            <Label Content="Średnia" HorizontalAlignment="Left" Height="37" Margin="187,87,0,0" VerticalAlignment="Top" Width="110"/>
-            <TextBox HorizontalAlignment="Left" Height="23" Margin="187,179,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110"/>
-            <Label Content="Odchylenie" HorizontalAlignment="Left" Height="36" Margin="187,154,0,0" VerticalAlignment="Top" Width="110"/>
+            <Button Content="Zapisz dane" HorizontalAlignment="Left" Height="35" Margin="27,370,0,0" VerticalAlignment="Top" Width="112" Click="Button_Click" FontSize="16" Background="#FF00AF83" BorderThickness="0,0,0,0"/>
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="27,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" Name="WartoscWzorcaTextBox"/>
+            <Label Content="Wartość wzorca:" HorizontalAlignment="Left" Height="37" Margin="27,23,0,0" VerticalAlignment="Top" Width="110"/>
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="27,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" Name="GornaGranicaTextBox"/>
+            <Label Content="Górna granica:" HorizontalAlignment="Left" Height="37" Margin="27,87,0,0" VerticalAlignment="Top" Width="110"/>
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="27,179,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" Name="DolnaGranicaTextBox"/>
+            <Label Content="Dolna granica:" HorizontalAlignment="Left" Height="36" Margin="27,154,0,0" VerticalAlignment="Top" Width="110"/>
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="27,242,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" Name="RozdzielczoscTextBox"/>
+            <Label Content="Rozdzielczość:" HorizontalAlignment="Left" Height="37" Margin="27,217,0,0" VerticalAlignment="Top" Width="110"/>
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="187,243,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" IsReadOnly="True" Name="TTextBox"/>
+            <Label Content="T:" HorizontalAlignment="Left" Height="37" Margin="187,218,0,0" VerticalAlignment="Top" Width="110"/>
+            <TextBox x:Name="KolejnyPomiarTextBox" HorizontalAlignment="Left" Height="23" Margin="187,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" KeyDown="KolejnyPomiarTextBox_KeyDown"/>
+            <Label Content="Kolejny pomiar:" HorizontalAlignment="Left" Height="25" Margin="187,23,0,0" VerticalAlignment="Top" Width="110"/>
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="187,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" IsReadOnly="True" Name="SredniaTextBox"/>
+            <Label Content="Średnia:" HorizontalAlignment="Left" Height="37" Margin="187,87,0,0" VerticalAlignment="Top" Width="110"/>
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="187,179,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" IsReadOnly="True" Name="OdchylenieTextBox"/>
+            <Label Content="Odchylenie:" HorizontalAlignment="Left" Height="36" Margin="187,154,0,0" VerticalAlignment="Top" Width="110"/>
+            <TextBox TextWrapping="Wrap" Text="" Margin="167,375,30,24" Name="ZapisanoDaneTextBox" FontSize="18" Foreground="#FF00AF83" BorderThickness="0,0,0,0"/>
         </Grid>
-        <Grid HorizontalAlignment="Right" Height="434" Margin="1,0,0,0" VerticalAlignment="Center" Width="399"/>
-
+        <Grid HorizontalAlignment="Right" Height="434" Margin="1,0,0,0" VerticalAlignment="Center" Width="399">
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="53,51,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200" IsReadOnly="True" Name="CgTextBox" TextChanged="CgTextBox_TextChanged"/>
+            <Label Content="Cg:" HorizontalAlignment="Left" Height="37" Margin="53,26,0,0" VerticalAlignment="Top" Width="110"/>
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="53,104,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200" IsReadOnly="True" Name="CgkTextBox" TextChanged="CgkTextBox_TextChanged"/>
+            <Label Content="Cgk:" HorizontalAlignment="Left" Height="37" Margin="53,79,0,0" VerticalAlignment="Top" Width="110"/>
+            <TextBox HorizontalAlignment="Left" Height="23" Margin="53,157,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" IsReadOnly="True" Name="LiczbaPomiarowTextBox"/>
+            <Label Content="Liczba pomiarów:" HorizontalAlignment="Left" Height="37" Margin="53,132,0,0" VerticalAlignment="Top" Width="110"/>
+            <ProgressBar Name="CgProgressBar" Minimum="0" Maximum="4" Value="{Binding ElementName=CgTextBox, Path=Text}" Height="26" VerticalAlignment="Center" Width="200" Margin="53,0,146,0" RenderTransformOrigin="0.87,1.155" Foreground="#FF00AF83"/>
+            <Line X1="66" Y1="0" X2="66" Y2="25" Stroke="Black" StrokeThickness="2" VerticalAlignment="Center" Margin="53,0,146,0"/>
+            <Label Content="Cg:" HorizontalAlignment="Left" Height="37" Margin="53,179,0,0" VerticalAlignment="Top" Width="110"/>
+            <Label Content="1.33" HorizontalAlignment="Left" Height="36" Margin="102,226,0,0" VerticalAlignment="Top" Width="110"/>
+            <ProgressBar x:Name="CgkProgressBar" Minimum="0" Maximum="4" Value="{Binding ElementName=CgkTextBox, Path=Text}" Height="26" VerticalAlignment="Top" Width="200" Margin="53,268,146,0" RenderTransformOrigin="0.87,1.155" Foreground="#FF00AF83"/>
+            <Line X1="66" Y1="0" X2="66" Y2="25" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" Margin="53,268,146,0"/>
+            <Label Content="Cgk:" HorizontalAlignment="Left" Height="37" Margin="53,243,0,0" VerticalAlignment="Top" Width="110"/>
+            <Label Content="1.33" HorizontalAlignment="Left" Height="36" Margin="102,290,0,0" VerticalAlignment="Top" Width="110"/>
+            <TextBox TextWrapping="Wrap" Margin="53,325,34,83" Name="ZdolnoscSystemuTextBox" IsReadOnly="True" FontWeight="Bold" FontSize="18" BorderThickness="0,0,0,0"/>
+        </Grid>
     </Grid>
 </Window>
