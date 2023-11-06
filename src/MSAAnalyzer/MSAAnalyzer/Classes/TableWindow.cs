@@ -52,10 +52,5 @@ namespace MSAAnalyzer.Classes
 
             return data;
         }
-
-        public List<List<List<double>>> GetData()
-        {
-            return dataValues;
-        }
     }
 }

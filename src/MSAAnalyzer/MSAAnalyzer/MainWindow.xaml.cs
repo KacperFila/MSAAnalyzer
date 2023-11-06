@@ -22,28 +22,25 @@ public partial class MainWindow : Window
     DispatcherTimer timer;
     private List<List<double>> dataValues = new List<List<double>>();
     public static Dictionary<(int, int, int), double> pomiary = new Dictionary<(int, int, int), double>();
-        
+    private static FirstProcedureResult result;
+    private readonly SecondProcedure secondProcedure;
+    private static int LicznikElementow = 0;
+
     public MainWindow()
     {
         InitializeComponent();
         firstProcedure = new FirstProcedure(listaPomiarow);
-        UpdateUIWithResults();
+        secondProcedure = new SecondProcedure();
+        UpdateFirstProcedureUIWithResults();
         timer = new DispatcherTimer();
         timer.Tick += Timer_Tick;
         timer.Interval = TimeSpan.FromSeconds(2);
         KolejnyPomiarTextBox.IsEnabled = false;
-
-        pomiary.Add((1, 1, 1), 0); 
-        pomiary.Add((1, 1, 2), 0);
-        pomiary.Add((1, 2, 1), 0);
-        pomiary.Add((1, 2, 2), 0);
-        pomiary.Add((2, 1, 1), 0);
-        pomiary.Add((2, 1, 2), 0);
-        pomiary.Add((2, 2, 1), 0);
-        pomiary.Add((2, 2, 2), 0);
+        result = firstProcedure.Calculate();
     }
 
     #region procedura1
+
     private void Timer_Tick(object sender, EventArgs e)
     {
         ZapisanoDaneTextBox.Text = "";
@@ -64,9 +61,20 @@ public partial class MainWindow : Window
         }
     }
 
-    private void Button_Click(object sender, RoutedEventArgs e)
+    private void Button_Click(object sender, RoutedEventArgs e) // Zapis procedura 1
+    {
+        InitializeFirstProcedure();
+        UpdateFirstProcedureUIWithResults();
+        ZapisanoDaneTextBox.Text = "Dane zostały zapisane";
+        timer.Start();
+    }
+
+    private void InitializeFirstProcedure()
     {
         listaPomiarow.Clear();
+        result = firstProcedure.Calculate();
+        LicznikElementow = 0;
+
         double.TryParse(WartoscWzorcaTextBox.Text, out var wartoscWzorca);
         double.TryParse(GornaGranicaTextBox.Text, out var gorna);
         double.TryParse(DolnaGranicaTextBox.Text, out var dolna);
@@ -76,10 +84,6 @@ public partial class MainWindow : Window
 
         ValidateAndEnableKolejnyPomiarTextBox();
         if (!fieldsValidated) return;
-
-        UpdateUIWithResults();
-        ZapisanoDaneTextBox.Text = "Dane zostały zapisane";
-        timer.Start();
     }
 
     private void KolejnyPomiarTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -91,32 +95,32 @@ public partial class MainWindow : Window
         {
             MessageBox.Show("Nieprawidłowa wartość dla pomiaru.");
         }
-        else { 
+        else
+        {
 
             listaPomiarow.Add(pomiarValue);
 
             KolejnyPomiarTextBox.Clear();
             firstProcedure.UpdateData(listaPomiarow);
-            firstProcedure.IncrementLicznikElementow();
+            LicznikElementow++;
             ValidateTextBoxes();
-            UpdateUIWithResults();
+            UpdateFirstProcedureUIWithResults();
         }
     }
 
-    private void UpdateUIWithResults()
+    private void UpdateFirstProcedureUIWithResults()
     {
-        var result = firstProcedure.Calculate();
+        result = firstProcedure.Calculate();
 
         TTextBox.Text = result.T.ToString();
-           
-        LiczbaPomiarowTextBox.Text = result.LicznikElementow.ToString();
 
-           
-
-        if (result.LicznikElementow > 3)
+        LiczbaPomiarowTextBox.Text = LicznikElementow.ToString();
+        
+        if (LicznikElementow > 3)
         {
-            ZdolnoscSystemuTextBox.Text = result is { Cg: > 1.33, Cgk: > 1.33 } ? "SYSTEM JEST ZDOLNY" : "SYSTEM NIE JEST ZDOLNY";
-            ZdolnoscSystemuTextBox.Foreground = result is { Cg: > 1.33, Cgk: > 1.33 } 
+            ZdolnoscSystemuTextBox.Text =
+                result is { Cg: > 1.33, Cgk: > 1.33 } ? "SYSTEM JEST ZDOLNY" : "SYSTEM NIE JEST ZDOLNY";
+            ZdolnoscSystemuTextBox.Foreground = result is { Cg: > 1.33, Cgk: > 1.33 }
                 ? new SolidColorBrush(Color.FromArgb(0xFF, 0x00, 0xAF, 0x83))
                 : new SolidColorBrush(Color.FromArgb(0xFF, 0xA2, 0x3D, 0x3D));
 
@@ -124,6 +128,9 @@ public partial class MainWindow : Window
             SredniaTextBox.Text = result.Mean.ToString();
             CgTextBox.Text = result.Cg.ToString();
             CgkTextBox.Text = result.Cgk.ToString();
+            CgProgressBar.Value = double.IsPositiveInfinity(result.Cg) || double.IsNaN(result.Cg) ? 4 : result.Cg;
+            CgkProgressBar.Value = double.IsPositiveInfinity(result.Cgk) || double.IsNaN(result.Cgk) ? 4 : result.Cgk;
+
         }
         else
         {
@@ -132,6 +139,8 @@ public partial class MainWindow : Window
             SredniaTextBox.Text = string.Empty;
             CgTextBox.Text = string.Empty;
             CgkTextBox.Text = string.Empty;
+            CgProgressBar.Value = 0;
+            CgkProgressBar.Value = 0;
         }
     }
 
@@ -181,26 +190,19 @@ public partial class MainWindow : Window
 
     }
 
-    private void CgTextBox_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        var cg = firstProcedure.Calculate().Cg;
-        if (double.IsPositiveInfinity(cg))
-            cg = 4;
-        CgProgressBar.Value = cg;
-    }
-
-    private void CgkTextBox_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        var cgk = firstProcedure.Calculate().Cgk;
-        if (double.IsPositiveInfinity(cgk))
-            cgk = 4;
-        CgkProgressBar.Value = cgk;
-    }
     #endregion
 
     #region procedura2
+
     private void ShowTableButton_Click(object sender, RoutedEventArgs e)
     {
+        if (!pomiary.Any())
+        {
+            MessageBox.Show("Aby wprowadzić pomiary podaj liczbę operatorów, serii oraz wyrobów.", "Błąd",
+                MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
         var window = new Window
         {
             Title = "Pomiary - procedura 2",
@@ -300,6 +302,7 @@ public partial class MainWindow : Window
                     }
                 }
             }
+
             MessageBox.Show("Zapisano dane!", "Zawartość pomiarów", MessageBoxButton.OK, MessageBoxImage.Information);
             window.Close();
         };
@@ -307,9 +310,9 @@ public partial class MainWindow : Window
         var scrollViewer = new ScrollViewer
         {
             VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-            HorizontalScrollBarVisibility = ScrollBarVisibility.Auto
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
+            Content = stackPanel
         };
-        scrollViewer.Content = stackPanel;
 
         Grid.SetColumn(scrollViewer, 0);
         mainGrid.Children.Add(scrollViewer);
@@ -320,52 +323,85 @@ public partial class MainWindow : Window
         window.ShowDialog();
     }
 
-
-    #endregion
-
-
-    private void ShowPomiaryAlert()
+    private void SaveProcedure2ConfigClick(object sender, RoutedEventArgs e)
     {
-        var message = string.Join("\n", pomiary.Select(item => $"Klucz: {item.Key}, Wartość: {item.Value}"));
-        MessageBox.Show(message, "Pomiary", MessageBoxButton.OK, MessageBoxImage.Information);
-    }
 
+        if (!int.TryParse(OperatorzyTextBox.Text, out var liczbaOperatorow) || liczbaOperatorow < 0)
+        {
+            MessageBox.Show(
+                "Nieprawidłowa wartość dla liczby operatorów. Upewnij się, że wartość jest nieujemną liczbą całkowitą.",
+                "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
 
-    private void Button_Click_1(object sender, RoutedEventArgs e)
-    {
-        int.TryParse(OperatorzyTextBox.Text, out var liczbaOperatorow);
-        int.TryParse(SeriaTextBox.Text, out var liczbaSerii);
-        int.TryParse(WyrobyTextBox.Text, out var liczbaWyrobow);
+        if (!int.TryParse(SeriaTextBox.Text, out var liczbaSerii) || liczbaSerii < 0)
+        {
+            MessageBox.Show(
+                "Nieprawidłowa wartość dla liczby serii. Upewnij się, że wartość jest nieujemną liczbą całkowitą.",
+                "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        if (!int.TryParse(WyrobyTextBox.Text, out var liczbaWyrobow) || liczbaWyrobow < 0)
+        {
+            MessageBox.Show(
+                "Nieprawidłowa wartość dla liczby wyrobów. Upewnij się, że wartość jest nieujemną liczbą całkowitą.",
+                "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
 
         pomiary.Clear();
 
-        for (int i = 1; i <= liczbaOperatorow; i++)
+
+        for (var i = 1; i <= liczbaOperatorow; i++)
         {
-            for (int j = 1; j <= liczbaSerii; j++)
+            for (var j = 1; j <= liczbaSerii; j++)
             {
-                for (int k = 1; k <= liczbaWyrobow; k++)
+                for (var k = 1; k <= liczbaWyrobow; k++)
                 {
                     pomiary[(i, j, k)] = 0;
                 }
             }
         }
+        MessageBox.Show("Zapisano ustawienia!", "Ustawienia", MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+    #endregion
+    
+    private void CalculateProcedure2Button_Click(object sender, RoutedEventArgs e)
+    {
+        int.TryParse(WyrobyTextBox.Text, out var  liczbaWyrobow);
+        int.TryParse(OperatorzyTextBox.Text, out var liczbaOperatorow);
+        int.TryParse(SeriaTextBox.Text, out var numerSerii);
+        double.TryParse(TTextBox.Text, out var t);
 
-        ShowPomiaryAlert();
+        if (!pomiary.Any(x => x.Value == 0) || pomiary.Count != 0)
+        {
+            var result = secondProcedure.Calculate(pomiary, liczbaWyrobow, liczbaOperatorow, numerSerii, t);
+            UpdateSecondProcedureUIWithResults(result);
+        }
+        else
+        {
+            UpdateSecondProcedureUIWithResults(null);
+            MessageBox.Show("Wprowadzone pomiary nie są kompletne!", "Pomiary", MessageBoxButton.OK, MessageBoxImage.Information);
+            
+        }
+
     }
 
-    private void Button_Procedura1_Click(object sender, RoutedEventArgs e)
+    private void UpdateSecondProcedureUIWithResults(SecondProcedureResult? result)
     {
-        tabControl.SelectedIndex = 0; // Przełącz na pierwszą zakładkę
-    }
-
-    private void Button_Procedura2_Click(object sender, RoutedEventArgs e)
-    {
-        tabControl.SelectedIndex = 1; // Przełącz na drugą zakładkę
-    }
-
-    private void Button_Procedura3_Click(object sender, RoutedEventArgs e)
-    {
-        tabControl.SelectedIndex = 2; // Przełącz na trzecią zakładkę
+        RsrTextBox.Text = result is not null ? result.Rsr.ToString() : "";
+        XdiffTextBox.Text = result is not null ? result.Xdiff.ToString() : "";
+        RpTextBox.Text = result is not null ? result.Rp.ToString() : "";
+        EVTextBox.Text = result is not null ? result.EV.ToString() : "";
+        AVTextBox.Text = result is not null ? result.AV.ToString() : "";
+        GRRTextBox.Text = result is not null ? result.GRR.ToString() : "";
+        PVTextBox.Text = result is not null ? result.PV.ToString() : "";
+        TVTextBox.Text = result is not null ? result.TV.ToString() : "";
+        PercentEVTextBox.Text = result is not null ? result.percentEV.ToString() : "";
+        PercentAVTextBox.Text = result is not null ? result.percentAV.ToString() : "";
+        PercentGRRTextBox.Text = result is not null ? result.percentGRR.ToString() : "";
+        PercentPVTextBox.Text = result is not null ? result.percentPV.ToString() : "";
     }
 }
 

@@ -34,10 +34,6 @@ namespace MSAAnalyzer.Classes
             DolnaGranica = dolna;
         }
 
-        public void IncrementLicznikElementow()
-        {
-            LicznikElementów++;
-        }
         public FirstProcedureResult Calculate()
         {
             var diffT = GornaGranica - DolnaGranica;
@@ -51,7 +47,6 @@ namespace MSAAnalyzer.Classes
                     Cgk = 0,
                     Sigma = 0,
                     Variance = 0,
-                    LicznikElementow = 0,
                     T = diffT
                 };
             }
@@ -69,7 +64,6 @@ namespace MSAAnalyzer.Classes
                 Cgk = cgk,
                 Sigma = sigma,
                 Variance = variance,
-                LicznikElementow = this.LicznikElementów,
                 T = diffT
             };
         }
