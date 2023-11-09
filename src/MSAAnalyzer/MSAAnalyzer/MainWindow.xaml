@@ -44,14 +44,14 @@
 
         <StackPanel Orientation="Horizontal" Margin="10,10,10,0"/>
 
-        <TabControl x:Name="tabControl" Grid.Row="1" Margin="7,10,13,10">
+        <TabControl x:Name="tabControl" Grid.Row="1" Margin="7,10,13,10" Background="Gainsboro">
 
             <TabItem Header="Procedura 1">
                 <Grid Margin="10" Width="1200" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="2*"/>
-                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Height="395" Margin="0,205,0,0" Width="256">
                         <Button Content="Zapisz dane" Margin="0,300,0,0" VerticalAlignment="Top" Click="Button_Click" HorizontalAlignment="Center" Width="110"/>
