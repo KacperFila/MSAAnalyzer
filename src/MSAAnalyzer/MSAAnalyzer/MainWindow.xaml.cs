@@ -22,7 +22,6 @@ public partial class MainWindow : Window
     private ThirdProcedure thirdProcedure;
     private List<double> listaPomiarow = new();
     private bool fieldsValidated;
-    private DispatcherTimer timer;
     public static Dictionary<(int, int, int), double> pomiary = new();
     public Dictionary<(int, int), double> thirdProcedurePomiary = new Dictionary<(int, int), double>
     {

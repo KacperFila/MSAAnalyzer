@@ -5,10 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MSAAnalyzer"
         mc:Ignorable="d"
-        Title="MSAAnalyzer" Height="900" Width="1600" WindowStartupLocation="CenterScreen">
+        Title="MSAAnalyzer" Height="810" Width="1440" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
-
         <Style TargetType="Button">
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="Margin" Value="0,10,0,0" />
@@ -19,6 +18,11 @@
             <Setter Property="Padding" Value="5" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="BorderBrush" Value="#FF00AF83" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <Style TargetType="TabItem">
@@ -26,14 +30,32 @@
             <Setter Property="Background" Value="#FF00AF83" />
             <Setter Property="FontSize" Value="12" />
             <Setter Property="Padding" Value="5" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <Style TargetType="ProgressBar">
             <Setter Property="Foreground" Value="#FF00AF83" />
             <Setter Property="Height" Value="26" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
         </Style>
 
+        <Style TargetType="TextBox">
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
+
 
 
     <Grid Background="Silver">
@@ -53,8 +75,8 @@
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
-                    <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Height="395" Margin="0,205,0,0" Width="256">
-                        <Button Content="Zapisz dane" Margin="0,300,0,0" VerticalAlignment="Top" Click="Button_Click" HorizontalAlignment="Center" Width="110"/>
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="395" Width="256">
+                        <Button Content="Zapisz dane" Margin="0,300,0,0" VerticalAlignment="Top" Click="Button_Click" HorizontalAlignment="Center" Width="110" Height="33"/>
                         <TextBox HorizontalAlignment="Center" Height="23" Margin="0,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" x:Name="WartoscWzorcaTextBox"/>
                         <Label Content="Wartość wzorca:" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110"/>
                         <TextBox HorizontalAlignment="Center" Height="23" Margin="0,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" x:Name="GornaGranicaTextBox"/>
@@ -83,68 +105,99 @@
                         <ProgressBar x:Name="CgProgressBar" Minimum="0" Maximum="4" Value="{Binding Text, ElementName=CgTextBox}" Height="26" VerticalAlignment="Top" Width="200" Margin="38,48,18,0"/>
                         <Line X1="66" Y1="0" X2="66" Y2="25" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" Margin="38,49,19,0"/>
                         <Label Content="Cg:" HorizontalAlignment="Left" Height="37" Margin="38,24,0,0" VerticalAlignment="Top" Width="200"/>
-                        <Label Content="1.33" HorizontalAlignment="Left" Height="37" Margin="107,52,0,0" VerticalAlignment="Top" Width="107"/>
+                        <Label Content="1.33" HorizontalAlignment="Left" Height="26" Margin="107,48,0,0" VerticalAlignment="Top" Width="107"/>
                         <ProgressBar x:Name="CgkProgressBar" Minimum="0" Maximum="4" Value="{Binding Text, ElementName=CgkTextBox}" Height="26" VerticalAlignment="Top" Width="200" Margin="38,115,18,0"/>
                         <Line X1="66" Y1="0" X2="66" Y2="25" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" Margin="38,116,18,0"/>
                         <Label Content="Cgk:" HorizontalAlignment="Left" Height="37" Margin="38,94,0,0" VerticalAlignment="Top" Width="200"/>
-                        <Label Content="1.33" HorizontalAlignment="Left" Height="34" Margin="107,0,0,0" VerticalAlignment="Center" Width="107"/>
+                        <Label Content="1.33" HorizontalAlignment="Left" Height="25" Margin="107,116,0,0" VerticalAlignment="Top" Width="107"/>
                         <TextBox HorizontalAlignment="Left" Height="24" Margin="38,242,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" IsReadOnly="True" x:Name="CgkTextBox"/>
-                        <TextBox HorizontalAlignment="Left" Height="24" Margin="38,307,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" IsReadOnly="True" x:Name="ZdolnoscSystemuTextBox" BorderThickness="0,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <TextBox HorizontalAlignment="Left" Height="24" Margin="38,307,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" IsReadOnly="True" x:Name="ZdolnoscSystemuTextBox" BorderThickness="1,1,1,1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="White"/>
                         <TextBox HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" IsReadOnly="True" x:Name="CgTextBox" Margin="38,180,0,0"/>
                         <Label Content="Cg:" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="199" Margin="38,154,0,0"/>
                         <Label Content="Cgk:" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="200" Margin="38,218,0,0" />
+                        <Label Content="Zdolność systemu:" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="200" Margin="38,282,0,0" />
                         <!-- Dodaj pozostałe elementy dla trzeciej kolumny tutaj -->
                     </Grid>
 
                 </Grid>
             </TabItem>
-
             <TabItem Header="Procedura 2">
-                <Grid Margin="10" Width="1600">
-                    <StackPanel Margin="0,0,377,0">
-                        <TextBlock Text="Ilość operatorów:" Margin="0,10,0,0" />
-                        <TextBox x:Name="OperatorzyTextBox" HorizontalAlignment="Left" Width="120" Margin="0,5,0,0" />
-                        <TextBlock Text="Ilość serii:" Margin="0,10,0,0" />
+                <Grid Margin="10" Width="1200" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                        <TextBox x:Name="SeriaTextBox" HorizontalAlignment="Left" Width="120" Margin="0,5,0,0" />
-                        <TextBlock Text="Ilość wyrobów:" Margin="0,10,0,0" />
-                        <TextBox x:Name="WyrobyTextBox" HorizontalAlignment="Left" Width="120" Margin="0,5,0,0" />
-                        <Button Content="Zapisz dane" Click="SaveProcedure2ConfigClick" Width="178" />
-                        <Button Name="WprowadzPomiaryButton" Content="➕ Wprowadź pomiary" Click="ShowProcedure2TablesButton_Click" Width="179"/>
-                        <Button Name ="ObliczButton" Content="Oblicz" Click="CalculateProcedure2Button_Click" Width="179"/>
-                    </StackPanel>
-                    <Grid Margin="372,-7,-110,-7">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="13*"/>
-                            <RowDefinition Height="22*"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="Rsr:" HorizontalAlignment="Left" Height="37" Margin="0,6,0,0" VerticalAlignment="Top" Width="110"/>
-                        <TextBox x:Name="RsrTextBox" Margin="0,43,1154,221" />
-                        <Label Content="Xdiff:" HorizontalAlignment="Left" Height="38" Margin="0,94,0,0" VerticalAlignment="Top" Width="110"/>
-                        <TextBox x:Name="XdiffTextBox" Margin="0,132,1154,131" />
-                        <Label Content="Rp:" HorizontalAlignment="Left" Height="37" Margin="0,188,0,0" VerticalAlignment="Top" Width="110"/>
-                        <TextBox x:Name="RpTextBox" Margin="0,225,1154,33" />
-                        <Label Content="EV:" HorizontalAlignment="Left" Height="37" Margin="0,8,0,0" VerticalAlignment="Top" Width="110" Grid.Row="1"/>
-                        <TextBox x:Name="EVTextBox" Margin="0,45,1154,422" Grid.Row="1" />
-                        <TextBox x:Name="AVTextBox" Margin="0,149,1154,319" Grid.Row="1" />
-                        <Label Content="GRR:" HorizontalAlignment="Left" Height="37" Margin="0,210,0,0" VerticalAlignment="Top" Width="110" Grid.Row="1"/>
-                        <TextBox x:Name="GRRTextBox" Margin="0,246,1154,224" Grid.Row="1" />
-                        <Label Content="PV:" HorizontalAlignment="Left" Height="37" Margin="193,6,0,0" VerticalAlignment="Top" Width="110"/>
-                        <TextBox x:Name="PVTextBox" Margin="193,44,966,221" />
-                        <Label Content="TV:" HorizontalAlignment="Left" Height="37" Margin="193,95,0,0" VerticalAlignment="Top" Width="110"/>
-                        <TextBox x:Name="TVTextBox" Margin="193,132,966,131" />
-                        <Label Content="%EV:" HorizontalAlignment="Left" Height="37" Margin="193,189,0,0" VerticalAlignment="Top" Width="108"/>
-                        <TextBox x:Name="PercentEVTextBox" Margin="193,225,966,33" />
-                        <Label Content="%AV:" HorizontalAlignment="Left" Height="37" Margin="193,8,0,0" VerticalAlignment="Top" Width="110" Grid.Row="1"/>
-                        <TextBox x:Name="PercentAVTextBox" Margin="192,45,966,422" Grid.Row="1" />
-                        <Label Content="%GRR:" HorizontalAlignment="Left" Height="37" Margin="191,113,0,0" VerticalAlignment="Top" Width="110" Grid.Row="1"/>
-                        <TextBox x:Name="PercentGRRTextBox" Margin="192,149,966,319" Grid.Row="1" />
-                        <Label Content="%PV:" HorizontalAlignment="Left" Height="37" Margin="193,211,0,0" VerticalAlignment="Top" Width="110" Grid.Row="1"/>
-                        <TextBox x:Name="PercentPVTextBox" Margin="192,246,966,224" Grid.Row="1" />
-                        <Label Content="AV:" HorizontalAlignment="Left" Height="37" Margin="0,112,0,0" VerticalAlignment="Top" Width="110" Grid.Row="1"/>
+                    
+                    <Grid Grid.Column="0" Height="395">
+                        <Label Content="Liczba operatorów:" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="199" Margin="118,95,0,0"/>
+                        <Label Content="Liczba serii:" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="199" Margin="118,155,0,0"/>
+                        <TextBox x:Name="OperatorzyTextBox" HorizontalAlignment="Left" Width="110" Margin="120,119,0,253" RenderTransformOrigin="0.5,0.5" Height="23" ></TextBox>
+                        <TextBox x:Name="SeriaTextBox" HorizontalAlignment="Left" Width="110" Margin="120,179,0,193" Height="23" />
+                        <TextBox x:Name="WyrobyTextBox" HorizontalAlignment="Left" Width="110" Margin="120,246,0,126" Height="23" />
+                        <Button Content="Zapisz dane" Click="SaveProcedure2ConfigClick" Width="110" Margin="370,109,0,253" Height="33"/>
+                        <Button Name="WprowadzPomiaryButton" Content="➕ Dodaj" Click="ShowProcedure2TablesButton_Click" Width="110" Margin="370,174,0,188"/>
+                        <Button Name ="ObliczButton" Content="Oblicz" Click="CalculateProcedure2Button_Click" Width="110"  Height="33" Margin="370,246,0,116"/>
+                        <Label Content="Liczba wyrobów:" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="199" Margin="118,221,0,0"/>
                     </Grid>
+
+                    <!-- Drugi Grid -->
+                    <Grid Grid.Column="1" Height="395">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Content="Rsr:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
+                        <TextBox x:Name="RsrTextBox" Grid.Column="0" Grid.Row="0" Margin="5,49,5,5" Height="44" />
+
+                        <Label Content="Xdiff:" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
+                        <TextBox x:Name="XdiffTextBox" Grid.Column="1" Grid.Row="1" Margin="5,48,5,6" Height="44" />
+
+                        <Label Content="Rp:" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
+                        <TextBox x:Name="RpTextBox" Grid.Column="2" Grid.Row="2" Margin="5,50,5,4" Height="44" />
+
+                        <Label Content="EV:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
+                        <TextBox x:Name="EVTextBox" Grid.Column="0" Grid.Row="1" Margin="4,48,6,6" Height="44" />
+
+                        <Label Content="AV:" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
+                        <TextBox x:Name="AVTextBox" Grid.Column="1" Grid.Row="0" Margin="5,49,5,5" Height="44" />
+
+                        <Label Content="GRR:" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
+                        <TextBox x:Name="GRRTextBox" Grid.Column="2" Grid.Row="1" Margin="5,48,5,6" Height="44" />
+
+                        <Label Content="PV:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
+                        <TextBox x:Name="PVTextBox" Grid.Column="0" Grid.Row="2" Margin="5,50,5,0" Height="44" VerticalAlignment="Top" />
+
+                        <Label Content="TV:" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
+                        <TextBox x:Name="TVTextBox" Grid.Column="1" Grid.Row="2" Margin="5,50,5,0" Height="44" VerticalAlignment="Top" />
+
+                        <Label Content="%EV:" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                        <TextBox x:Name="PercentEVTextBox" Grid.Column="1" Grid.Row="3" Margin="5,45,5,5" Height="44" />
+
+                        <Label Content="%AV:" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
+                        <TextBox x:Name="PercentAVTextBox" Grid.Column="2" Grid.Row="0" Margin="5,49,5,5" Height="44" />
+
+                        <Label Content="%GRR:" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
+                        <TextBox x:Name="PercentGRRTextBox" Grid.Column="0" Grid.Row="3" Margin="5,49,5,5" Height="44" />
+
+                        <Label Content="%PV:" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
+                        <TextBox x:Name="PercentPVTextBox" Grid.Column="2" Grid.Row="3" Margin="5,49,5,5" Height="44" />
+
+                    </Grid>
+
                 </Grid>
             </TabItem>
+
 
             <TabItem Header="Procedura 3">
                 <Grid Margin="10" Width="1600">
