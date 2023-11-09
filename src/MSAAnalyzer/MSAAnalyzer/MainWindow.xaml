@@ -47,51 +47,60 @@
         <TabControl x:Name="tabControl" Grid.Row="1" Margin="7,10,13,10">
 
             <TabItem Header="Procedura 1">
-                <Grid>
+                <Grid Margin="10" Width="1200" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="24*"/>
-                        <ColumnDefinition Width="26*"/>
-                        <ColumnDefinition Width="7*"/>
-                        <ColumnDefinition Width="330*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Content="Zapisz dane" HorizontalAlignment="Left" Margin="27,300,0,0" VerticalAlignment="Top" Click="Button_Click" Grid.ColumnSpan="4"/>
-                    <TextBox HorizontalAlignment="Left" Height="23" Margin="27,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" x:Name="WartoscWzorcaTextBox" Grid.ColumnSpan="4"/>
-                    <Label Content="Wartość wzorca:" HorizontalAlignment="Left" Height="37" Margin="27,23,0,0" VerticalAlignment="Top" Width="110" Grid.ColumnSpan="4"/>
-                    <TextBox HorizontalAlignment="Left" Height="23" Margin="27,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" x:Name="GornaGranicaTextBox" Grid.ColumnSpan="4"/>
-                    <Label Content="Górna granica:" HorizontalAlignment="Left" Height="37" Margin="27,87,0,0" VerticalAlignment="Top" Width="110" Grid.ColumnSpan="4"/>
-                    <TextBox HorizontalAlignment="Left" Height="23" Margin="27,179,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" x:Name="DolnaGranicaTextBox" Grid.ColumnSpan="4"/>
-                    <Label Content="Dolna granica:" HorizontalAlignment="Left" Height="36" Margin="27,154,0,0" VerticalAlignment="Top" Width="110" Grid.ColumnSpan="4"/>
-                    <TextBox HorizontalAlignment="Left" Height="23" Margin="27,242,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" x:Name="RozdzielczoscTextBox" Grid.ColumnSpan="4"/>
-                    <Label Content="Rozdzielczość:" HorizontalAlignment="Left" Height="37" Margin="27,217,0,0" VerticalAlignment="Top" Width="110" Grid.ColumnSpan="4"/>
-                    <TextBox HorizontalAlignment="Left" Height="23" Margin="73,240,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" IsReadOnly="True" x:Name="TTextBox" Grid.Column="3"/>
-                    <Label Content="T:" HorizontalAlignment="Left" Height="37" Margin="73,218,0,0" VerticalAlignment="Top" Width="110" Grid.Column="3"/>
-                    <TextBox x:Name="KolejnyPomiarTextBox" HorizontalAlignment="Left" Height="23" Margin="73,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" KeyDown="KolejnyPomiarTextBox_KeyDown" Grid.Column="3"/>
-                    <Label Content="Kolejny pomiar:" HorizontalAlignment="Left" Height="25" Margin="73,24,0,0" VerticalAlignment="Top" Width="110" Grid.Column="3"/>
-                    <TextBox HorizontalAlignment="Left" Height="23" Margin="73,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" IsReadOnly="True" x:Name="SredniaTextBox" Grid.Column="3"/>
-                    <Label Content="Średnia:" HorizontalAlignment="Left" Height="37" Margin="73,87,0,0" VerticalAlignment="Top" Width="110" Grid.Column="3"/>
-                    <TextBox HorizontalAlignment="Left" Height="23" Margin="73,179,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" IsReadOnly="True" x:Name="OdchylenieTextBox" Grid.Column="3"/>
-                    <Label Content="Odchylenie:" HorizontalAlignment="Left" Height="36" Margin="73,154,0,0" VerticalAlignment="Top" Width="110" Grid.Column="3"/>
-                    <TextBox FontWeight="Bold" FontSize="18" TextWrapping="Wrap" Text="" Margin="35,373,1159,389" x:Name="ZapisanoDaneTextBox" Grid.ColumnSpan="4" BorderThickness="0,0,0,0"/>
-                    <TextBox HorizontalAlignment="Left" Height="23" Margin="318,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200" IsReadOnly="True" x:Name="CgTextBox" Grid.Column="3"/>
-                    <Label Content="Cg:" HorizontalAlignment="Left" Height="37" Margin="318,85,0,0" VerticalAlignment="Top" Width="110" Grid.Column="3"/>
-                    <TextBox HorizontalAlignment="Left" Height="21" Margin="320,180,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200" IsReadOnly="True" x:Name="CgkTextBox" Grid.Column="3"/>
-                    <Label Content="Cgk:" HorizontalAlignment="Left" Height="37" Margin="320,158,0,0" VerticalAlignment="Top" Width="110" Grid.Column="3"/>
-                    <TextBox HorizontalAlignment="Left" Height="24" Margin="318,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" IsReadOnly="True" x:Name="LiczbaPomiarowTextBox" Grid.Column="3"/>
-                    <Label Content="Liczba pomiarów:" HorizontalAlignment="Left" Height="37" Margin="318,24,0,0" VerticalAlignment="Top" Width="110" Grid.Column="3"/>
-                    <ProgressBar x:Name="CgProgressBar" Minimum="0" Maximum="4" Value="{Binding Text, ElementName=CgTextBox}" Height="26" VerticalAlignment="Top" Width="200" Margin="320,235,822,0" RenderTransformOrigin="0.87,1.155"  Grid.Column="3"/>
-                    <Line X1="66" Y1="0" X2="66" Y2="25" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" Margin="320,234,168,0" Grid.Column="3"/>
-                    <Label Content="Cg:" HorizontalAlignment="Left" Height="37" Margin="320,208,0,0" VerticalAlignment="Top" Width="110" Grid.Column="3"/>
-                    <Label Content="1.33" HorizontalAlignment="Left" Height="37" Margin="370,253,0,0" VerticalAlignment="Top" Width="110" Grid.Column="3"/>
-                    <ProgressBar x:Name="CgkProgressBar" Minimum="0" Maximum="4" Value="{Binding Text, ElementName=CgkTextBox}" Height="26" VerticalAlignment="Top" Width="200" Margin="320,280,822,0" RenderTransformOrigin="0.87,1.155"  Grid.Column="3"/>
-                    <Line X1="66" Y1="0" X2="66" Y2="25" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" Margin="320,280,-235,0" Grid.Column="3"/>
-                    <Label Content="Cgk:" HorizontalAlignment="Left" Height="37" Margin="320,258,0,0" VerticalAlignment="Top" Width="110" Grid.Column="3"/>
-                    <Label Content="1.33" HorizontalAlignment="Left" Height="36" Margin="370,300,0,0" VerticalAlignment="Top" Width="110" Grid.Column="3"/>
-                    <TextBox TextWrapping="Wrap" Margin="251,368,738,389" x:Name="ZdolnoscSystemuTextBox" IsReadOnly="True" FontWeight="Bold" FontSize="18" BorderThickness="0,0,0,0" Grid.Column="3"/>
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Top" Height="395" Margin="0,205,0,0" Width="256">
+                        <Button Content="Zapisz dane" Margin="0,300,0,0" VerticalAlignment="Top" Click="Button_Click" HorizontalAlignment="Center" Width="110"/>
+                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" x:Name="WartoscWzorcaTextBox"/>
+                        <Label Content="Wartość wzorca:" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110"/>
+                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" x:Name="GornaGranicaTextBox"/>
+                        <Label Content="Górna granica:" HorizontalAlignment="Center" Height="37" Margin="0,86,0,0" VerticalAlignment="Top" Width="110"/>
+                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,179,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" x:Name="DolnaGranicaTextBox"/>
+                        <Label Content="Dolna granica:" HorizontalAlignment="Center" Height="36" Margin="0,153,0,0" VerticalAlignment="Top" Width="110"/>
+                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,242,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" x:Name="RozdzielczoscTextBox"/>
+                        <Label Content="Rozdzielczość:" HorizontalAlignment="Center" Height="37" Margin="0,216,0,0" VerticalAlignment="Top" Width="110"/>
+
+                    </Grid>
+
+                    <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="395" Width="256">
+                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,242,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" IsReadOnly="True" x:Name="TTextBox"/>
+                        <Label Content="T:" HorizontalAlignment="Left" Height="37" Margin="73,218,0,0" VerticalAlignment="Top" Width="110" Grid.Column="4"/>
+                        <TextBox x:Name="KolejnyPomiarTextBox" HorizontalAlignment="Center" Height="23" Margin="0,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" KeyDown="KolejnyPomiarTextBox_KeyDown"/>
+                        <Label Content="Kolejny pomiar:" HorizontalAlignment="Left" Height="25" Margin="73,24,0,0" VerticalAlignment="Top" Width="110" Grid.Column="4"/>
+                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" IsReadOnly="True" x:Name="SredniaTextBox"/>
+                        <Label Content="Średnia:" HorizontalAlignment="Left" Height="37" Margin="73,87,0,0" VerticalAlignment="Top" Width="110" Grid.Column="4"/>
+                        <TextBox HorizontalAlignment="Center" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Margin="0,179,0,0" Width="110" IsReadOnly="True" x:Name="OdchylenieTextBox"/>
+                        <Label Content="Odchylenie:" HorizontalAlignment="Left" Height="36" Margin="73,154,0,0" VerticalAlignment="Top" Width="110" Grid.Column="4"/>
+                        <TextBox HorizontalAlignment="Center" Height="24" Margin="0,307,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" IsReadOnly="True" x:Name="LiczbaPomiarowTextBox"/>
+                        <Label Content="Liczba pomiarów:" HorizontalAlignment="Center" Height="37" Margin="0,282,0,0" VerticalAlignment="Top" Width="110"/>
+                    </Grid>
+
+                    <Grid Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="395" Width="256">
+                        <ProgressBar x:Name="CgProgressBar" Minimum="0" Maximum="4" Value="{Binding Text, ElementName=CgTextBox}" Height="26" VerticalAlignment="Top" Width="200" Margin="38,48,18,0"/>
+                        <Line X1="66" Y1="0" X2="66" Y2="25" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" Margin="38,49,19,0"/>
+                        <Label Content="Cg:" HorizontalAlignment="Left" Height="37" Margin="38,24,0,0" VerticalAlignment="Top" Width="200"/>
+                        <Label Content="1.33" HorizontalAlignment="Left" Height="37" Margin="107,52,0,0" VerticalAlignment="Top" Width="107"/>
+                        <ProgressBar x:Name="CgkProgressBar" Minimum="0" Maximum="4" Value="{Binding Text, ElementName=CgkTextBox}" Height="26" VerticalAlignment="Top" Width="200" Margin="38,115,18,0"/>
+                        <Line X1="66" Y1="0" X2="66" Y2="25" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" Margin="38,116,18,0"/>
+                        <Label Content="Cgk:" HorizontalAlignment="Left" Height="37" Margin="38,94,0,0" VerticalAlignment="Top" Width="200"/>
+                        <Label Content="1.33" HorizontalAlignment="Left" Height="34" Margin="107,0,0,0" VerticalAlignment="Center" Width="107"/>
+                        <TextBox HorizontalAlignment="Left" Height="24" Margin="38,242,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" IsReadOnly="True" x:Name="CgkTextBox"/>
+                        <TextBox HorizontalAlignment="Left" Height="24" Margin="38,307,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" IsReadOnly="True" x:Name="ZdolnoscSystemuTextBox" BorderThickness="0,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <TextBox HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" IsReadOnly="True" x:Name="CgTextBox" Margin="38,180,0,0"/>
+                        <Label Content="Cg:" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="199" Margin="38,154,0,0"/>
+                        <Label Content="Cgk:" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="200" Margin="38,218,0,0" />
+                        <!-- Dodaj pozostałe elementy dla trzeciej kolumny tutaj -->
+                    </Grid>
+
                 </Grid>
             </TabItem>
 
             <TabItem Header="Procedura 2">
-                <Grid Margin="10">
+                <Grid Margin="10" Width="1600">
                     <StackPanel Margin="0,0,377,0">
                         <TextBlock Text="Ilość operatorów:" Margin="0,10,0,0" />
                         <TextBox x:Name="OperatorzyTextBox" HorizontalAlignment="Left" Width="120" Margin="0,5,0,0" />
@@ -138,19 +147,21 @@
             </TabItem>
 
             <TabItem Header="Procedura 3">
-                <Grid Margin="10">
+                <Grid Margin="10" Width="1600">
                     <Button Name="ShowProcedure3TablesButton" Click="ShowProcedure3TablesButton_Click" Content="➕ Wprowadź pomiary" Width="180" VerticalAlignment="Top" Margin="52,88,0,0"/>
                     <Button Name="ObliczProcedure3Button" Content="Oblicz" Width="180" VerticalAlignment="Top" Margin="52,145,0,0" Click="ObliczProcedure3Button_Click"/>
                     <Label Content="σΔ:" HorizontalAlignment="Left" Height="37" Margin="463,84,0,0" VerticalAlignment="Top" Width="110"/>
-                    <TextBox x:Name="sigmaProcedure3TextBox" Margin="463,126,853,625" />
+                    <TextBox x:Name="sigmaProcedure3TextBox" Margin="463,126,853,625" IsReadOnly="True"/>
                     <Label Content="EV:" HorizontalAlignment="Left" Height="37" Margin="463,194,0,0" VerticalAlignment="Top" Width="110"/>
-                    <TextBox x:Name="EVProcedure3TextBox" Margin="463,236,853,515" />
+                    <TextBox x:Name="EVProcedure3TextBox" Margin="463,236,853,515" IsReadOnly="True"/>
                     <Label Content="%EV:" HorizontalAlignment="Left" Height="37" Margin="463,304,0,0" VerticalAlignment="Top" Width="110"/>
-                    <TextBox x:Name="PercentEVProcedure3TextBox" Margin="463,346,853,405" />
-                    <ProgressBar x:Name="Procedure3PercentEVProgressBar" Minimum="0" Maximum="40" Value="{Binding Text, ElementName=PercentEVProcedure3TextBox}" Height="49" VerticalAlignment="Top" Margin="777,126,537,0" RenderTransformOrigin="0.87,1.155" Width="240"/>
+                    <TextBox x:Name="PercentEVProcedure3TextBox" Margin="463,346,853,405" IsReadOnly="True"/>
+                    <ProgressBar x:Name="Procedure3PercentEVProgressBar" Minimum="0" Maximum="40" Value="{Binding Text, ElementName=PercentEVProcedure3TextBox}" Height="49" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="777,126,537,0" RenderTransformOrigin="0.87,1.155" Width="240"/>
                     <Line X1="60" Y1="0" X2="60" Y2="50" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" Margin="777,126,539,0" Height="49"/>
                     <Line X1="180" Y1="0" X2="180" Y2="50" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" Margin="777,126,539,0" Height="49"/>
                     <Label Content="%EV:" HorizontalAlignment="Left" Height="37" Margin="777,84,0,0" VerticalAlignment="Top" Width="110"/>
+                    <Label Content="10%" HorizontalAlignment="Left" Height="26" Margin="824,176,0,0" VerticalAlignment="Top" Width="34"/>
+                    <Label Content="30%" HorizontalAlignment="Left" Height="26" Margin="944,176,0,0" VerticalAlignment="Top" Width="34"/>
                 </Grid>
             </TabItem>
         </TabControl>

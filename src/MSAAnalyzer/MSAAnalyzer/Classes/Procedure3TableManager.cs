@@ -19,12 +19,23 @@ public class Procedure3TableManager
     public void CreateProcedure3Tables(List<string> serie)
     {
         var mainGrid = new Grid();
+
+        var textBlock = new TextBlock
+        {
+            Text = "PROCEDURA 3",
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Margin = new Thickness(0, 0, 0, 10),
+            FontWeight = FontWeights.Bold,
+            FontSize = 16,
+        };
+        mainGrid.Children.Add(textBlock);
+        mainGrid.VerticalAlignment = VerticalAlignment.Center;
         mainGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
 
         var innerGrid = new Grid
         {
             HorizontalAlignment = HorizontalAlignment.Center,
-            Margin = new Thickness(10, 10, 10, 10)
+            Margin = new Thickness(10, 50, 10, 10)
         };
 
         var columnIndex = 0;
@@ -43,7 +54,7 @@ public class Procedure3TableManager
 
             var dataGrid = CreateThirdProcedureDataGrid(items);
 
-            innerGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+            innerGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
             Grid.SetColumn(dataGrid, columnIndex);
             innerGrid.Children.Add(dataGrid);
             columnIndex++;
@@ -89,21 +100,24 @@ public class Procedure3TableManager
             window.Close();
         };
 
-        innerGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+        innerGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Auto) });
         Grid.SetColumn(saveProcedure3ValuesButton, 1);
         mainGrid.Children.Add(saveProcedure3ValuesButton);
+        mainGrid.Children.Add(innerGrid);
 
         window.Content = mainGrid;
         window.ShowDialog();
     }
 
-    private DataGrid CreateThirdProcedureDataGrid(List<ThirdProcedureDataGridItem> items)
+    private static DataGrid CreateThirdProcedureDataGrid(IEnumerable<ThirdProcedureDataGridItem> items)
     {
         var dataGrid = new DataGrid
         {
             AutoGenerateColumns = false,
-            
+            CanUserAddRows = false,
+            Margin = new Thickness(10, 0, 10, 0),
         };
+
 
         dataGrid.Columns.Add(new DataGridTextColumn
         {
@@ -128,8 +142,6 @@ public class Procedure3TableManager
         return dataGrid;
     }
 
-
-
     private bool isValidThirdProcedureGridItem(ThirdProcedureDataGridItem dataGridItem)
     {
         if (string.IsNullOrWhiteSpace(dataGridItem.Value))
@@ -147,6 +159,4 @@ public class Procedure3TableManager
 
         return true;
     }
-    // Utwórz klasę ThirdProcedureDataGridItem w osobnym pliku lub w tym samym pliku, przed klasą Procedure3TableManager.
-    // Następnie utwórz instancję Procedure3TableManager w swoim kodzie i wywołaj metodę CreateProcedure3Tables, przekazując wymagane parametry.
 }

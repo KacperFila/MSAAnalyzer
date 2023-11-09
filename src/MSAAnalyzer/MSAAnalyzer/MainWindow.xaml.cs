@@ -49,22 +49,13 @@ public partial class MainWindow : Window
         secondProcedure = new SecondProcedure();
         thirdProcedure = new ThirdProcedure();
         UpdateFirstProcedureUIWithResults();
-        timer = new DispatcherTimer();
-        timer.Tick += Timer_Tick;
-        timer.Interval = TimeSpan.FromSeconds(2);
         KolejnyPomiarTextBox.IsEnabled = false;
         firstProcedureResult = firstProcedure.Calculate();
         DataContext = this;
     }
 
     #region procedura1
-
-    private void Timer_Tick(object sender, EventArgs e)
-    {
-        ZapisanoDaneTextBox.Text = "";
-        timer.Stop();
-    }
-
+    
     private void ValidateAndEnableKolejnyPomiarTextBox()
     {
         if (ValidateTextBoxes())
@@ -83,7 +74,6 @@ public partial class MainWindow : Window
     {
         InitializeFirstProcedure();
         UpdateFirstProcedureUIWithResults();
-        
     }
 
     private void InitializeFirstProcedure()
@@ -101,8 +91,7 @@ public partial class MainWindow : Window
 
         ValidateAndEnableKolejnyPomiarTextBox();
         if (!fieldsValidated) return;
-        ZapisanoDaneTextBox.Text = "Dane zostały zapisane";
-        timer.Start();
+        MessageBox.Show("Zapisano dane!", "Konfiguracja procedury 1", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
     private void KolejnyPomiarTextBox_KeyDown(object sender, KeyEventArgs e)
