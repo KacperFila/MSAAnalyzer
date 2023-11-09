@@ -4,7 +4,7 @@ namespace MSAAnalyzer.Classes;
 internal record SecondProcedureResult
 {
      // Srednia A, B, C ... RANGE
-    public double Rsr { get; set; }
+    public double Rsr;
     public double Xdiff;
     public double Rp;
     public double EV;
