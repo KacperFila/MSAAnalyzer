@@ -194,7 +194,7 @@ public partial class MainWindow : Window
 
         if (errorMessages.Count <= 0) return true;
 
-        MessageBox.Show(string.Join("\n", errorMessages));
+        MessageBox.Show(string.Join("\n", errorMessages), "Niepoprawne wartości", MessageBoxButton.OK, MessageBoxImage.Information);
         return false;
 
     }

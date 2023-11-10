@@ -164,40 +164,40 @@
                         </Grid.RowDefinitions>
 
                         <Label Content="Rsr:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
-                        <TextBox x:Name="RsrTextBox" Grid.Column="0" Grid.Row="0" Margin="5,49,5,5" Height="44" />
+                        <TextBox x:Name="RsrTextBox" Grid.Column="0" Grid.Row="0" Margin="5,49,5,5" Height="44" IsReadOnly="True"/>
 
                         <Label Content="Xdiff:" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
-                        <TextBox x:Name="XdiffTextBox" Grid.Column="1" Grid.Row="1" Margin="5,48,5,6" Height="44" />
+                        <TextBox x:Name="XdiffTextBox" Grid.Column="1" Grid.Row="1" Margin="5,48,5,6" Height="44" IsReadOnly="True"/>
 
                         <Label Content="Rp:" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
-                        <TextBox x:Name="RpTextBox" Grid.Column="2" Grid.Row="2" Margin="5,50,5,4" Height="44" />
+                        <TextBox x:Name="RpTextBox" Grid.Column="2" Grid.Row="2" Margin="5,50,5,4" Height="44" IsReadOnly="True"/>
 
                         <Label Content="EV:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
-                        <TextBox x:Name="EVTextBox" Grid.Column="0" Grid.Row="1" Margin="4,48,6,6" Height="44" />
+                        <TextBox x:Name="EVTextBox" Grid.Column="0" Grid.Row="1" Margin="4,48,6,6" Height="44" IsReadOnly="True"/>
 
                         <Label Content="AV:" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
-                        <TextBox x:Name="AVTextBox" Grid.Column="1" Grid.Row="0" Margin="5,49,5,5" Height="44" />
+                        <TextBox x:Name="AVTextBox" Grid.Column="1" Grid.Row="0" Margin="5,49,5,5" Height="44" IsReadOnly="True"/>
 
                         <Label Content="GRR:" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
-                        <TextBox x:Name="GRRTextBox" Grid.Column="2" Grid.Row="1" Margin="5,48,5,6" Height="44" />
+                        <TextBox x:Name="GRRTextBox" Grid.Column="2" Grid.Row="1" Margin="5,48,5,6" Height="44" IsReadOnly="True"/>
 
                         <Label Content="PV:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
-                        <TextBox x:Name="PVTextBox" Grid.Column="0" Grid.Row="2" Margin="5,50,5,0" Height="44" VerticalAlignment="Top" />
+                        <TextBox x:Name="PVTextBox" Grid.Column="0" Grid.Row="2" Margin="5,50,5,0" Height="44" VerticalAlignment="Top" IsReadOnly="True"/>
 
                         <Label Content="TV:" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
-                        <TextBox x:Name="TVTextBox" Grid.Column="1" Grid.Row="2" Margin="5,50,5,0" Height="44" VerticalAlignment="Top" />
+                        <TextBox x:Name="TVTextBox" Grid.Column="1" Grid.Row="2" Margin="5,50,5,0" Height="44" VerticalAlignment="Top" IsReadOnly="True"/>
 
                         <Label Content="%EV:" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                        <TextBox x:Name="PercentEVTextBox" Grid.Column="1" Grid.Row="3" Margin="5,49,5,5" Height="44" />
+                        <TextBox x:Name="PercentEVTextBox" Grid.Column="1" Grid.Row="3" Margin="5,49,5,5" Height="44" IsReadOnly="True"/>
 
                         <Label Content="%AV:" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
-                        <TextBox x:Name="PercentAVTextBox" Grid.Column="2" Grid.Row="0" Margin="5,49,5,5" Height="44" />
+                        <TextBox x:Name="PercentAVTextBox" Grid.Column="2" Grid.Row="0" Margin="5,49,5,5" Height="44" IsReadOnly="True"/>
 
                         <Label Content="%GRR:" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
-                        <TextBox x:Name="PercentGRRTextBox" Grid.Column="0" Grid.Row="3" Margin="5,49,5,5" Height="44" />
+                        <TextBox x:Name="PercentGRRTextBox" Grid.Column="0" Grid.Row="3" Margin="5,49,5,5" Height="44" IsReadOnly="True"/>
 
                         <Label Content="%PV:" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
-                        <TextBox x:Name="PercentPVTextBox" Grid.Column="2" Grid.Row="3" Margin="5,49,5,5" Height="44" />
+                        <TextBox x:Name="PercentPVTextBox" Grid.Column="2" Grid.Row="3" Margin="5,49,5,5" Height="44" IsReadOnly="True"/>
                     </Grid>
                 </Grid>
             </TabItem>
