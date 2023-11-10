@@ -66,15 +66,21 @@
 
         <StackPanel Orientation="Horizontal" Margin="10,10,10,0"/>
 
-        <TabControl x:Name="tabControl" Grid.Row="1" Margin="7,10,13,10" Background="Gainsboro">
+        <TabControl x:Name="tabControl" Grid.Row="1" Margin="7,10,10,10" Background="Gainsboro">
 
             <TabItem Header="Procedura 1">
-                <Grid Margin="10" Width="1200" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+
+                <Grid Width="1200" HorizontalAlignment="Center" Height="396">
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="3*"/>
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Row="0" Grid.ColumnSpan="3" Margin="0,-156,0,396">
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" FontWeight="Bold" TextDecorations="Underline"><Run Text="PROCEDURA "/><Run Language="pl-pl" Text="1"/></TextBlock>
+                    </Grid>
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="395" Width="256">
                         <Button Content="Zapisz dane" Margin="0,300,0,0" VerticalAlignment="Top" Click="Button_Click" HorizontalAlignment="Center" Width="110" Height="33"/>
                         <TextBox HorizontalAlignment="Center" Height="23" Margin="0,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" x:Name="WartoscWzorcaTextBox"/>
@@ -85,7 +91,6 @@
                         <Label Content="Dolna granica:" HorizontalAlignment="Center" Height="36" Margin="0,153,0,0" VerticalAlignment="Top" Width="110"/>
                         <TextBox HorizontalAlignment="Center" Height="23" Margin="0,242,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" x:Name="RozdzielczoscTextBox"/>
                         <Label Content="Rozdzielczość:" HorizontalAlignment="Center" Height="37" Margin="0,216,0,0" VerticalAlignment="Top" Width="110"/>
-
                     </Grid>
 
                     <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="395" Width="256">
@@ -116,11 +121,11 @@
                         <Label Content="Cg:" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="199" Margin="38,154,0,0"/>
                         <Label Content="Cgk:" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="200" Margin="38,218,0,0" />
                         <Label Content="Zdolność systemu:" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="200" Margin="38,282,0,0" />
-                        <!-- Dodaj pozostałe elementy dla trzeciej kolumny tutaj -->
                     </Grid>
-
                 </Grid>
+
             </TabItem>
+
             <TabItem Header="Procedura 2">
                 <Grid Margin="10" Width="1200" HorizontalAlignment="Center" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
@@ -128,22 +133,23 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    
+                    <Grid Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,552">
+                        <TextBlock Text="PROCEDURA 2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" FontWeight="Bold" TextDecorations="Underline"/>
+                    </Grid>
+
                     <Grid Grid.Column="0" Height="395">
                         <Label Content="Liczba operatorów:" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="199" Margin="118,95,0,0"/>
                         <Label Content="Liczba serii:" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="199" Margin="118,155,0,0"/>
-                        <TextBox x:Name="OperatorzyTextBox" HorizontalAlignment="Left" Width="110" Margin="120,119,0,253" RenderTransformOrigin="0.5,0.5" Height="23" ></TextBox>
+                        <TextBox x:Name="OperatorzyTextBox" HorizontalAlignment="Left" Width="110" Margin="120,119,0,253" RenderTransformOrigin="0.5,0.5" Height="23" />
                         <TextBox x:Name="SeriaTextBox" HorizontalAlignment="Left" Width="110" Margin="120,179,0,193" Height="23" />
                         <TextBox x:Name="WyrobyTextBox" HorizontalAlignment="Left" Width="110" Margin="120,246,0,126" Height="23" />
                         <Button Content="Zapisz dane" Click="SaveProcedure2ConfigClick" Width="110" Margin="370,109,0,253" Height="33"/>
                         <Button Name="WprowadzPomiaryButton" Content="➕ Dodaj" Click="ShowProcedure2TablesButton_Click" Width="110" Margin="370,174,0,188"/>
-                        <Button Name ="ObliczButton" Content="Oblicz" Click="CalculateProcedure2Button_Click" Width="110"  Height="33" Margin="370,246,0,116"/>
+                        <Button Name="ObliczButton" Content="Oblicz" Click="CalculateProcedure2Button_Click" Width="110"  Height="33" Margin="370,246,0,116"/>
                         <Label Content="Liczba wyrobów:" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="199" Margin="118,221,0,0"/>
                     </Grid>
 
-                    <!-- Drugi Grid -->
                     <Grid Grid.Column="1" Height="395">
-
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
@@ -182,7 +188,7 @@
                         <TextBox x:Name="TVTextBox" Grid.Column="1" Grid.Row="2" Margin="5,50,5,0" Height="44" VerticalAlignment="Top" />
 
                         <Label Content="%EV:" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                        <TextBox x:Name="PercentEVTextBox" Grid.Column="1" Grid.Row="3" Margin="5,45,5,5" Height="44" />
+                        <TextBox x:Name="PercentEVTextBox" Grid.Column="1" Grid.Row="3" Margin="5,49,5,5" Height="44" />
 
                         <Label Content="%AV:" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
                         <TextBox x:Name="PercentAVTextBox" Grid.Column="2" Grid.Row="0" Margin="5,49,5,5" Height="44" />
@@ -192,29 +198,54 @@
 
                         <Label Content="%PV:" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
                         <TextBox x:Name="PercentPVTextBox" Grid.Column="2" Grid.Row="3" Margin="5,49,5,5" Height="44" />
-
                     </Grid>
-
                 </Grid>
             </TabItem>
 
 
+
+
             <TabItem Header="Procedura 3">
-                <Grid Margin="10" Width="1600">
-                    <Button Name="ShowProcedure3TablesButton" Click="ShowProcedure3TablesButton_Click" Content="➕ Wprowadź pomiary" Width="180" VerticalAlignment="Top" Margin="52,88,0,0"/>
-                    <Button Name="ObliczProcedure3Button" Content="Oblicz" Width="180" VerticalAlignment="Top" Margin="52,145,0,0" Click="ObliczProcedure3Button_Click"/>
-                    <Label Content="σΔ:" HorizontalAlignment="Left" Height="37" Margin="463,84,0,0" VerticalAlignment="Top" Width="110"/>
-                    <TextBox x:Name="sigmaProcedure3TextBox" Margin="463,126,853,625" IsReadOnly="True"/>
-                    <Label Content="EV:" HorizontalAlignment="Left" Height="37" Margin="463,194,0,0" VerticalAlignment="Top" Width="110"/>
-                    <TextBox x:Name="EVProcedure3TextBox" Margin="463,236,853,515" IsReadOnly="True"/>
-                    <Label Content="%EV:" HorizontalAlignment="Left" Height="37" Margin="463,304,0,0" VerticalAlignment="Top" Width="110"/>
-                    <TextBox x:Name="PercentEVProcedure3TextBox" Margin="463,346,853,405" IsReadOnly="True"/>
-                    <ProgressBar x:Name="Procedure3PercentEVProgressBar" Minimum="0" Maximum="40" Value="{Binding Text, ElementName=PercentEVProcedure3TextBox}" Height="49" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="777,126,537,0" RenderTransformOrigin="0.87,1.155" Width="240"/>
-                    <Line X1="60" Y1="0" X2="60" Y2="50" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" Margin="777,126,539,0" Height="49"/>
-                    <Line X1="180" Y1="0" X2="180" Y2="50" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" Margin="777,126,539,0" Height="49"/>
-                    <Label Content="%EV:" HorizontalAlignment="Left" Height="37" Margin="777,84,0,0" VerticalAlignment="Top" Width="110"/>
-                    <Label Content="10%" HorizontalAlignment="Left" Height="26" Margin="824,176,0,0" VerticalAlignment="Top" Width="34"/>
-                    <Label Content="30%" HorizontalAlignment="Left" Height="26" Margin="944,176,0,0" VerticalAlignment="Top" Width="34"/>
+
+                <Grid Margin="10" Width="1200" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,552">
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" FontWeight="Bold" TextDecorations="Underline"><Run Text="PROCEDURA "/><Run Language="pl-pl" Text="3"/></TextBlock>
+                    </Grid>
+                    <Grid Grid.Column="0" Height="395">
+                        <Button Name="ShowProcedure3TablesButton" Click="ShowProcedure3TablesButton_Click" Content="➕ Wprowadź pomiary" Width="180" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,156,0,0"/>
+                        <Button Name="ObliczProcedure3Button" Content="Oblicz" Width="180" VerticalAlignment="Top"  Click="ObliczProcedure3Button_Click" HorizontalAlignment="Center" Margin="0,226,0,0"/>
+                    </Grid>
+                    <Grid Grid.Column="1" Height="395">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="79*"/>
+                            <RowDefinition Height="79*"/>
+                            <RowDefinition Height="79*"/>
+                            <RowDefinition Height="79*"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Content="σΔ:" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,368,0" />
+                        <TextBox x:Name="sigmaProcedure3TextBox" Grid.Row="0" Margin="205,28,205,7" IsReadOnly="True" Width="190" Height="44" />
+
+                        <Label Content="EV:" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,11,369,0" />
+                        <TextBox x:Name="EVProcedure3TextBox" Grid.Row="1" Margin="205,27,205,8" IsReadOnly="True" Width="190" Height="44" />
+
+                        <Label Content="%EV:" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,12,364,0" />
+                        <TextBox x:Name="PercentEVProcedure3TextBox" Grid.Row="2" Margin="205,28,205,7" IsReadOnly="True" Width="190" Height="44" />
+
+                        <ProgressBar x:Name="Procedure3PercentEVProgressBar" Grid.Row="3" Minimum="0" Maximum="40" Value="{Binding Text, ElementName=PercentEVProcedure3TextBox}" Height="44.5" Margin="205,22,205,12" Width="190" />
+                        <Line X1="47.5" Y1="0" X2="47.5" Y2="50" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" HorizontalAlignment="Center" Width="190" Grid.Row="3" Height="43" Margin="0,33,0,0" />
+                        <Line X1="142.5" Y1="0" X2="142.5" Y2="50" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" HorizontalAlignment="Center" Width="190" Margin="0,33,0,0" Height="43" Grid.Row="3" />
+
+                        <Label Content="%EV:" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,364,0" />
+                        <Label Content="10%" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="236,72,0,0" />
+                        <Label Content="30%" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="334,72,0,0" />
+                    </Grid>
+
                 </Grid>
             </TabItem>
         </TabControl>

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 
 namespace MSAAnalyzer.Classes;
-internal record SecondProcedureResult
+
+public record SecondProcedureResult
 {
      // Srednia A, B, C ... RANGE
     public double Rsr;

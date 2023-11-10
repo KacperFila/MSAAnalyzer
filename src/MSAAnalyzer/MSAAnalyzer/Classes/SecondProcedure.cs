@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace MSAAnalyzer.Classes;
 
-internal class SecondProcedure
+public class SecondProcedure
 {
     public Dictionary<int, double> calkowiteSrednieWyrobow = new(); // wyrob                       PART AVERAGE
     public Dictionary<int, double> calkowityRozstepWyrobow = new(); // wyrob                       PART RANGE

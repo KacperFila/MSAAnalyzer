@@ -22,6 +22,7 @@ public partial class MainWindow : Window
     private ThirdProcedure thirdProcedure;
     private List<double> listaPomiarow = new();
     private bool fieldsValidated;
+    private bool _tCalculated = false;
     public static Dictionary<(int, int, int), double> pomiary = new();
     public Dictionary<(int, int), double> thirdProcedurePomiary = new Dictionary<(int, int), double>
     {
@@ -73,6 +74,7 @@ public partial class MainWindow : Window
     {
         InitializeFirstProcedure();
         UpdateFirstProcedureUIWithResults();
+        _tCalculated = true;
     }
 
     private void InitializeFirstProcedure()
@@ -212,120 +214,16 @@ public partial class MainWindow : Window
         var window = new Window
         {
             Title = "Pomiary - procedura 2",
-            Width = 600,
-            Height = 450,
+            Width = 1200,
+            Height = 900,
             WindowStartupLocation = WindowStartupLocation.CenterScreen
         };
 
-        var mainGrid = new Grid();
-        mainGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
-        mainGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Auto) });
+        var procedure2TableManager = new Procedure2TableManager();
 
-        var stackPanel = new StackPanel
-        {
-            Margin = new Thickness(10, 10, 10, 10),
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center
-        };
-
-        var dimensions = new List<string>();
-
-        foreach (var pomiar in pomiary.Where(pomiar => !dimensions.Contains(pomiar.Key.Item1.ToString())))
-        {
-            dimensions.Add(pomiar.Key.Item1.ToString());
-        }
-
-
-        foreach (var dimension in dimensions)
-        {
-            var filteredPomiary = pomiary.Where(item => item.Key.Item1.ToString() == dimension).ToList();
-            if (filteredPomiary.Count == 0) continue;
-
-            var dataGrid = new DataGrid
-            {
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Top,
-                CanUserAddRows = false,
-                IsReadOnly = false
-            };
-
-            var items = filteredPomiary.Select(item => new SecondProcedureDataGridItem()
-            {
-                Key = $"Operator {item.Key.Item1}/Serie {item.Key.Item2}/Wyrób {item.Key.Item3}",
-                Value = item.Value == 0 ? " " : item.Value.ToString()
-            }).ToList();
-
-            // Usuń istniejące kolumny
-            dataGrid.AutoGenerateColumns = false;
-
-            // Dodaj ręcznie kolumny
-            var keyColumn = new DataGridTextColumn
-            {
-                Header = "Operator/Seria/Wyrób",
-                Binding = new Binding("Key"),
-                IsReadOnly = true
-            };
-            dataGrid.Columns.Add(keyColumn);
-
-            var valueColumn = new DataGridTextColumn
-            {
-                Header = "Wartość",
-                Binding = new Binding("Value")
-            };
-            dataGrid.Columns.Add(valueColumn);
-
-            dataGrid.ItemsSource = items;
-
-            stackPanel.Children.Add(dataGrid);
-        }
-
-        var saveButton = new Button
-        {
-            Content = "Zapisz zmiany",
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Bottom,
-            Margin = new Thickness(10, 10, 10, 10)
-        };
-        saveButton.Click += (sender, e) =>
-        {
-            foreach (var child in stackPanel.Children)
-            {
-                if (child is DataGrid dataGrid)
-                {
-                    foreach (var item in dataGrid.Items)
-                    {
-                        if (item is SecondProcedureDataGridItem dataGridItem)
-                        {
-                            var keyParts = dataGridItem.Key.Split('/');
-                            var key1 = int.Parse(keyParts[0].Split(' ')[1]); // Pobierz numer operatora
-                            var key2 = int.Parse(keyParts[1].Split(' ')[1]); // Pobierz numer serii
-                            var key3 = int.Parse(keyParts[2].Split(' ')[1]); // Pobierz numer wyrobu
-                            if (double.TryParse(dataGridItem.Value, out double value))
-                            {
-                                pomiary[(key1, key2, key3)] = value;
-                            }
-                        }
-                    }
-                }
-            }
-
-            MessageBox.Show("Zapisano dane!", "Zawartość pomiarów", MessageBoxButton.OK, MessageBoxImage.Information);
-            window.Close();
-        };
-
-        var scrollViewer = new ScrollViewer
-        {
-            VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-            HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
-            Content = stackPanel
-        };
-
-        Grid.SetColumn(scrollViewer, 0);
-        mainGrid.Children.Add(scrollViewer);
-        Grid.SetColumn(saveButton, 1);
-        mainGrid.Children.Add(saveButton);
-
-        window.Content = mainGrid;
+        var grid = procedure2TableManager.CreateMainGrid(pomiary, window);
+        
+        window.Content = grid;
         window.ShowDialog();
     }
     private void SaveProcedure2ConfigClick(object sender, RoutedEventArgs e)
@@ -372,6 +270,7 @@ public partial class MainWindow : Window
     }
     private void CalculateProcedure2Button_Click(object sender, RoutedEventArgs e)
     {
+        
         int.TryParse(WyrobyTextBox.Text, out var  liczbaWyrobow);
         int.TryParse(OperatorzyTextBox.Text, out var liczbaOperatorow);
         int.TryParse(SeriaTextBox.Text, out var numerSerii);
@@ -387,8 +286,10 @@ public partial class MainWindow : Window
         {
             UpdateSecondProcedureUIWithResults(null);
             MessageBox.Show("Wprowadzone pomiary nie są kompletne!", "Pomiary", MessageBoxButton.OK, MessageBoxImage.Information);
-            
+            if (!_tCalculated)
+                MessageBox.Show("Przed wykonaniem obliczeń, należy obliczyć tolerancję T.", "Pomiary", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
 
     }
     private bool isSecondProcedureDataReadyToCalculate()
@@ -419,8 +320,8 @@ public partial class MainWindow : Window
         var window = new Window
         {
             Title = "Pomiary - procedura 3",
-            Width = 1000,
-            Height = 750,
+            Width = 1200,
+            Height = 900,
             WindowStartupLocation = WindowStartupLocation.CenterScreen
         };
 
@@ -445,8 +346,10 @@ public partial class MainWindow : Window
             UpdateThirdProcedureUIWithResults(thirdProcedureResult);
         }
         else
-        {
+        {   
             MessageBox.Show("Wprowadzone pomiary nie są kompletne!", "Pomiary", MessageBoxButton.OK, MessageBoxImage.Information);
+            if (!_tCalculated)
+                MessageBox.Show("Przed wykonaniem obliczeń, należy obliczyć tolerancję T.", "Pomiary", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 
