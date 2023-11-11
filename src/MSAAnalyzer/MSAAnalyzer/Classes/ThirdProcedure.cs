@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace MSAAnalyzer.Classes;
 
-internal class ThirdProcedure
+public class ThirdProcedure
 {
     public Dictionary<int, double> roznice = new();
     public Dictionary<int, double> rozstepy = new();

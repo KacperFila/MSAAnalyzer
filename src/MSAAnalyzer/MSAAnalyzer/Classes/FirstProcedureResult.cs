@@ -1,5 +1,5 @@
 ﻿namespace MSAAnalyzer.Classes;
-    internal record FirstProcedureResult
+    public record FirstProcedureResult
     {
         public double Mean { get; set; } = 0;
         public double SumOfSquares { get; set; } = 0;

@@ -1,0 +1,85 @@
+﻿<Window x:Class="MSAAnalyzer.Windows.Procedure2DataGridWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MSAAnalyzer.Windows"
+        mc:Ignorable="d"
+        Title="Pomiary - procedura 2" Width="1200" Height="900"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Margin" Value="0,10,0,0" />
+            <Setter Property="Width" Value="120" />
+            <Setter Property="Background" Value="#FF00AF83" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#FF00AF83" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TabItem">
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Background" Value="#FF00AF83" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="ProgressBar">
+            <Setter Property="Foreground" Value="#FF00AF83" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <StaticResourceExtension ResourceKey="AppDataContext"/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+            <Grid Row="0">
+                <TextBlock Text="PROCEDURA 2" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="25" Margin="0,50,0,10"/>
+            </Grid>
+
+            <Grid Row="1" x:Name="generatedDataGrids" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1200">
+            <!-- WYGENEROWANE GRIDY  -->
+            </Grid>
+
+            <Grid Row="2">
+                <Button Content="Zapisz" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,0" Width="120" Background="#FF00AF83" Foreground="Black" FontSize="16" Padding="5" BorderThickness="1" BorderBrush="#FF00AF83" Effect="{DynamicResource {x:Static DropShadowEffect.ColorProperty}}" Click="SaveButton_Click"/>
+            </Grid>
+
+    </Grid>
+
+</Window>

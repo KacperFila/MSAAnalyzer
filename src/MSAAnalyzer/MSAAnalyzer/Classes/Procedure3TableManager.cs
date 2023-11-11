@@ -2,17 +2,18 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace MSAAnalyzer.Classes
 {
     public class Procedure3TableManager
     {
-        private readonly Dictionary<(int, int), double> thirdProcedurePomiary;
+        private readonly Dictionary<(int, int), double> thirdProcedureMeasurements;
         private readonly Window window;
 
         public Procedure3TableManager(Dictionary<(int, int), double> data, Window window)
         {
-            thirdProcedurePomiary = data;
+            thirdProcedureMeasurements = data;
             this.window = window;
         }
 
@@ -43,7 +44,7 @@ namespace MSAAnalyzer.Classes
 
             foreach (var seria in serie)
             {
-                var pomiaryZSerii = thirdProcedurePomiary.Where(item => item.Key.Item1.ToString() == seria).ToList();
+                var pomiaryZSerii = thirdProcedureMeasurements.Where(item => item.Key.Item1.ToString() == seria).ToList();
                 if (pomiaryZSerii.Count == 0) continue;
 
                 var items = pomiaryZSerii.Select(item => new ThirdProcedureDataGridItem()
@@ -84,7 +85,7 @@ namespace MSAAnalyzer.Classes
                                 if (isValidThirdProcedureGridItem(dataGridItem))
                                 {
                                     double.TryParse(dataGridItem.Value, out double value);
-                                    thirdProcedurePomiary[(key1, key2)] = value;
+                                    thirdProcedureMeasurements[(key1, key2)] = value;
                                 }
                                 else
                                 {
@@ -125,6 +126,7 @@ namespace MSAAnalyzer.Classes
                 AutoGenerateColumns = false,
                 CanUserAddRows = false,
                 Margin = new Thickness(10, 0, 10, 0),
+                AlternatingRowBackground = Brushes.LightGray
             };
 
             dataGrid.Columns.Add(new DataGridTextColumn

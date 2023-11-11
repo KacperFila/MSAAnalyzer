@@ -4,18 +4,18 @@ using System.Linq;
 
 namespace MSAAnalyzer.Classes
 {
-    internal class FirstProcedure
+    public class FirstProcedure
     {
         internal List<double> Data;
         private double GornaGranica;
         private double DolnaGranica;
         internal double WartoscWzorca;
-        internal int LicznikElementów = 0;
-        const double K = 0.2;
+        public double K;
         
-        public FirstProcedure(List<double> wartosciWzorcowe)
+        public FirstProcedure(List<double> wartosciWzorcowe, double K)
         {
             Data = wartosciWzorcowe;
+            this.K = K;
         }
 
         public void UpdateData(List<double> updatedData)
@@ -56,6 +56,7 @@ namespace MSAAnalyzer.Classes
             var sigma = Math.Sqrt(variance);
             var cg = K * (diffT/ (4 * sigma));
             var cgk = (0.1 * diffT - (Math.Abs(mean - WartoscWzorca))) / (2 * sigma);
+
             return new FirstProcedureResult
             {
                 Mean = mean,

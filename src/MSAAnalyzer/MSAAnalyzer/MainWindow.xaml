@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MSAAnalyzer"
+        xmlns:dataContext="clr-namespace:MSAAnalyzer.DataContext"
         mc:Ignorable="d"
         Title="MSAAnalyzer" Height="810" Width="1440" WindowStartupLocation="CenterScreen">
 
@@ -54,9 +55,12 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
     </Window.Resources>
 
-
+    <Window.DataContext>
+        <StaticResourceExtension ResourceKey="AppDataContext"/>
+    </Window.DataContext>
 
     <Grid Background="Silver">
         <Grid.RowDefinitions>
@@ -82,36 +86,37 @@
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" FontWeight="Bold" TextDecorations="Underline"><Run Text="PROCEDURA "/><Run Language="pl-pl" Text="1"/></TextBlock>
                     </Grid>
                     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="395" Width="256">
-                        <Button Content="Zapisz dane" Margin="0,300,0,0" VerticalAlignment="Top" Click="Button_Click" HorizontalAlignment="Center" Width="110" Height="33"/>
-                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" x:Name="WartoscWzorcaTextBox"/>
-                        <Label Content="Wartość wzorca:" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="110"/>
-                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" x:Name="GornaGranicaTextBox"/>
-                        <Label Content="Górna granica:" HorizontalAlignment="Center" Height="37" Margin="0,86,0,0" VerticalAlignment="Top" Width="110"/>
-                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,179,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" x:Name="DolnaGranicaTextBox"/>
-                        <Label Content="Dolna granica:" HorizontalAlignment="Center" Height="36" Margin="0,153,0,0" VerticalAlignment="Top" Width="110"/>
-                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,242,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" x:Name="RozdzielczoscTextBox"/>
-                        <Label Content="Rozdzielczość:" HorizontalAlignment="Center" Height="37" Margin="0,216,0,0" VerticalAlignment="Top" Width="110"/>
+                        <Button Content="Zapisz dane" Margin="28,308,0,0" VerticalAlignment="Top" Click="Button_Click" Width="90" Height="33" FontSize="14"/>
+                        <Button Content="Ustawienia" Click="OpenProcedure1SettingsButton_Click" VerticalAlignment="Top" Margin="138,308,0,0" Height="33" Width="90"></Button>
+                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" x:Name="WartoscWzorcaTextBox"/>
+                        <Label Content="Wartość wzorca:" HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="199"/>
+                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" x:Name="GornaGranicaTextBox"/>
+                        <Label Content="Górna granica:" HorizontalAlignment="Center" Height="37" Margin="0,86,0,0" VerticalAlignment="Top" Width="199"/>
+                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,179,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" x:Name="DolnaGranicaTextBox"/>
+                        <Label Content="Dolna granica:" HorizontalAlignment="Center" Height="36" Margin="0,153,0,0" VerticalAlignment="Top" Width="199"/>
+                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,242,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" x:Name="RozdzielczoscTextBox"/>
+                        <Label Content="Rozdzielczość:" HorizontalAlignment="Center" Height="37" Margin="0,216,0,0" VerticalAlignment="Top" Width="199"/>
                     </Grid>
 
                     <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="395" Width="256">
-                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,242,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" IsReadOnly="True" x:Name="TTextBox"/>
-                        <Label Content="T:" HorizontalAlignment="Left" Height="37" Margin="73,218,0,0" VerticalAlignment="Top" Width="110" Grid.Column="4"/>
-                        <TextBox x:Name="KolejnyPomiarTextBox" HorizontalAlignment="Center" Height="23" Margin="0,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" KeyDown="KolejnyPomiarTextBox_KeyDown"/>
-                        <Label Content="Kolejny pomiar:" HorizontalAlignment="Left" Height="25" Margin="73,24,0,0" VerticalAlignment="Top" Width="110" Grid.Column="4"/>
-                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" IsReadOnly="True" x:Name="SredniaTextBox"/>
-                        <Label Content="Średnia:" HorizontalAlignment="Left" Height="37" Margin="73,87,0,0" VerticalAlignment="Top" Width="110" Grid.Column="4"/>
-                        <TextBox HorizontalAlignment="Center" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Margin="0,179,0,0" Width="110" IsReadOnly="True" x:Name="OdchylenieTextBox"/>
-                        <Label Content="Odchylenie:" HorizontalAlignment="Left" Height="36" Margin="73,154,0,0" VerticalAlignment="Top" Width="110" Grid.Column="4"/>
-                        <TextBox HorizontalAlignment="Center" Height="24" Margin="0,307,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="110" IsReadOnly="True" x:Name="LiczbaPomiarowTextBox"/>
-                        <Label Content="Liczba pomiarów:" HorizontalAlignment="Center" Height="37" Margin="0,282,0,0" VerticalAlignment="Top" Width="110"/>
+                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,242,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" IsReadOnly="True" x:Name="TTextBox"/>
+                        <Label Content="T:" HorizontalAlignment="Center" Height="37" Margin="0,218,0,0" VerticalAlignment="Top" Width="200"/>
+                        <TextBox x:Name="KolejnyPomiarTextBox" HorizontalAlignment="Center" Height="23" Margin="0,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" KeyDown="KolejnyPomiarTextBox_KeyDown"/>
+                        <Label Content="Kolejny pomiar:" HorizontalAlignment="Center" Height="25" Margin="0,23,0,0" VerticalAlignment="Top" Width="200"/>
+                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" IsReadOnly="True" x:Name="SredniaTextBox"/>
+                        <Label Content="Średnia:" HorizontalAlignment="Center" Height="37" Margin="0,86,0,0" VerticalAlignment="Top" Width="200"/>
+                        <TextBox HorizontalAlignment="Center" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Margin="0,179,0,0" Width="199" IsReadOnly="True" x:Name="OdchylenieTextBox"/>
+                        <Label Content="Odchylenie:" HorizontalAlignment="Center" Height="36" Margin="0,153,0,0" VerticalAlignment="Top" Width="200"/>
+                        <TextBox HorizontalAlignment="Center" Height="24" Margin="0,307,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" IsReadOnly="True" x:Name="LiczbaPomiarowTextBox"/>
+                        <Label Content="Liczba pomiarów:" HorizontalAlignment="Center" Height="37" Margin="0,282,0,0" VerticalAlignment="Top" Width="199"/>
                     </Grid>
 
                     <Grid Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="395" Width="256">
-                        <ProgressBar x:Name="CgProgressBar" Minimum="0" Maximum="4" Value="{Binding Text, ElementName=CgTextBox}" Height="26" VerticalAlignment="Top" Width="200" Margin="38,48,18,0"/>
+                        <ProgressBar x:Name="CgProgressBar" Minimum="0" Maximum="4" Height="26" VerticalAlignment="Top" Width="200" Margin="38,48,18,0"/>
                         <Line X1="66" Y1="0" X2="66" Y2="25" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" Margin="38,49,19,0"/>
                         <Label Content="Cg:" HorizontalAlignment="Left" Height="37" Margin="38,24,0,0" VerticalAlignment="Top" Width="200"/>
                         <Label Content="1.33" HorizontalAlignment="Left" Height="26" Margin="107,48,0,0" VerticalAlignment="Top" Width="107"/>
-                        <ProgressBar x:Name="CgkProgressBar" Minimum="0" Maximum="4" Value="{Binding Text, ElementName=CgkTextBox}" Height="26" VerticalAlignment="Top" Width="200" Margin="38,115,18,0"/>
+                        <ProgressBar x:Name="CgkProgressBar" Minimum="0" Maximum="4" Height="26" VerticalAlignment="Top" Width="200" Margin="38,115,18,0"/>
                         <Line X1="66" Y1="0" X2="66" Y2="25" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" Margin="38,116,18,0"/>
                         <Label Content="Cgk:" HorizontalAlignment="Left" Height="37" Margin="38,94,0,0" VerticalAlignment="Top" Width="200"/>
                         <Label Content="1.33" HorizontalAlignment="Left" Height="25" Margin="107,116,0,0" VerticalAlignment="Top" Width="107"/>
@@ -146,6 +151,7 @@
                         <Button Content="Zapisz dane" Click="SaveProcedure2ConfigClick" Width="110" Margin="370,109,0,253" Height="33"/>
                         <Button Name="WprowadzPomiaryButton" Content="➕ Dodaj" Click="ShowProcedure2TablesButton_Click" Width="110" Margin="370,174,0,188"/>
                         <Button Name="ObliczButton" Content="Oblicz" Click="CalculateProcedure2Button_Click" Width="110"  Height="33" Margin="370,246,0,116"/>
+                        <Button Content="Ustawienia" Click="OpenProcedure2SettingsButton_Click" VerticalAlignment="Top" Margin="370,318,0,0" Height="33" Width="110"></Button>
                         <Label Content="Liczba wyrobów:" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="199" Margin="118,221,0,0"/>
                     </Grid>
 

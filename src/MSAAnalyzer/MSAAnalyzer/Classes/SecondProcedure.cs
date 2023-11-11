@@ -12,10 +12,8 @@ public class SecondProcedure
     public Dictionary<(int, int), double> rozstepWyrobowDlaOperatora = new(); // operator/wyrob    A, B, C ... RANGE
     public Dictionary<int, double> sredniaOperatora = new(); // Srednia A, B, C ... AVERAGE
     public Dictionary<int, double> rozstepOperatora = new();
-    const double k1 = 0.5908;
-    const double k2 = 0.5231;
-    const double k3 = 0.4030;
-    public SecondProcedureResult Calculate(Dictionary<(int, int, int), double> pomiary, int _liczbaWyrobow, int _liczbaOperatorow, int _numerSerii, double _t)
+
+    public SecondProcedureResult Calculate(Dictionary<(int, int, int), double> pomiary, int _liczbaWyrobow, int _liczbaOperatorow, int _numerSerii, double _t, double k1, double k2, double k3)
     {
         ClearData();
 

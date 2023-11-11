@@ -1,14 +1,13 @@
 ﻿using MSAAnalyzer.Classes;
-using System;
+using MSAAnalyzer.DataContext;
+using MSAAnalyzer.Windows;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace MSAAnalyzer;
 
@@ -17,45 +16,33 @@ namespace MSAAnalyzer;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private FirstProcedure firstProcedure;
-    private SecondProcedure secondProcedure;
-    private ThirdProcedure thirdProcedure;
-    private List<double> listaPomiarow = new();
+    private AppDataContext appDataContext;
+
+    public FirstProcedure firstProcedure;
+    public SecondProcedure secondProcedure;
+    public ThirdProcedure thirdProcedure;
+
+    
     private bool fieldsValidated;
     private bool _tCalculated = false;
-    public static Dictionary<(int, int, int), double> pomiary = new();
-    public Dictionary<(int, int), double> thirdProcedurePomiary = new Dictionary<(int, int), double>
-    {
-        {(1, 1), 0.0}, {(1, 2), 0.0}, {(1, 3), 0.0}, {(1, 4), 0.0}, {(1, 5), 0.0},
-        {(1, 6), 0.0}, {(1, 7), 0.0}, {(1, 8), 0.0}, {(1, 9), 0.0}, {(1, 10), 0.0},
-        {(1, 11), 0.0}, {(1, 12), 0.0}, {(1, 13), 0.0}, {(1, 14), 0.0}, {(1, 15), 0.0},
-        {(1, 16), 0.0}, {(1, 17), 0.0}, {(1, 18), 0.0}, {(1, 19), 0.0}, {(1, 20), 0.0},
-        {(1, 21), 0.0}, {(1, 22), 0.0}, {(1, 23), 0.0}, {(1, 24), 0.0}, {(1, 25), 0.0},
-        {(2, 1), 0.0}, {(2, 2), 0.0}, {(2, 3), 0.0}, {(2, 4), 0.0}, {(2, 5), 0.0},
-        {(2, 6), 0.0}, {(2, 7), 0.0}, {(2, 8), 0.0}, {(2, 9), 0.0}, {(2, 10), 0.0},
-        {(2, 11), 0.0}, {(2, 12), 0.0}, {(2, 13), 0.0}, {(2, 14), 0.0}, {(2, 15), 0.0},
-        {(2, 16), 0.0}, {(2, 17), 0.0}, {(2, 18), 0.0}, {(2, 19), 0.0}, {(2, 20), 0.0},
-        {(2, 21), 0.0}, {(2, 22), 0.0}, {(2, 23), 0.0}, {(2, 24), 0.0}, {(2, 25), 0.0}
-    };
-
-
+    
     private static FirstProcedureResult firstProcedureResult;
-    private static int LicznikElementow = 0;
+    private static int LicznikElementow;
 
     public MainWindow()
     {
         InitializeComponent();
-        firstProcedure = new FirstProcedure(listaPomiarow);
+        appDataContext = (AppDataContext)DataContext;
+
+        firstProcedure = new FirstProcedure(appDataContext.FirstProcedureMeasurements, appDataContext.K);
         secondProcedure = new SecondProcedure();
         thirdProcedure = new ThirdProcedure();
-        UpdateFirstProcedureUIWithResults();
         KolejnyPomiarTextBox.IsEnabled = false;
-        firstProcedureResult = firstProcedure.Calculate();
-        DataContext = this;
+        
     }
 
     #region procedura1
-    
+
     private void ValidateAndEnableKolejnyPomiarTextBox()
     {
         if (ValidateTextBoxes())
@@ -73,25 +60,30 @@ public partial class MainWindow : Window
     private void Button_Click(object sender, RoutedEventArgs e) // Zapis procedura 1
     {
         InitializeFirstProcedure();
-        UpdateFirstProcedureUIWithResults();
-        _tCalculated = true;
     }
 
     private void InitializeFirstProcedure()
     {
-        listaPomiarow.Clear();
-        firstProcedureResult = firstProcedure.Calculate();
-        LicznikElementow = 0;
-
+        appDataContext.FirstProcedureMeasurements.Clear();
+        
         double.TryParse(WartoscWzorcaTextBox.Text, out var wartoscWzorca);
         double.TryParse(GornaGranicaTextBox.Text, out var gorna);
         double.TryParse(DolnaGranicaTextBox.Text, out var dolna);
+
+        LicznikElementow = 0;
 
         firstProcedure.SetWartoscWzorca(wartoscWzorca);
         firstProcedure.SetGranice(gorna, dolna);
 
         ValidateAndEnableKolejnyPomiarTextBox();
         if (!fieldsValidated) return;
+
+        firstProcedureResult = firstProcedure.Calculate();
+
+        appDataContext.T = firstProcedureResult.T;
+        _tCalculated = true;
+
+        UpdateFirstProcedureUIWithResults();
         MessageBox.Show("Zapisano dane!", "Konfiguracja procedury 1", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
@@ -107,10 +99,10 @@ public partial class MainWindow : Window
         else
         {
 
-            listaPomiarow.Add(pomiarValue);
+            appDataContext.FirstProcedureMeasurements.Add(pomiarValue);
 
             KolejnyPomiarTextBox.Clear();
-            firstProcedure.UpdateData(listaPomiarow);
+            firstProcedure.UpdateData(appDataContext.FirstProcedureMeasurements);
             LicznikElementow++;
             ValidateTextBoxes();
             UpdateFirstProcedureUIWithResults();
@@ -123,7 +115,7 @@ public partial class MainWindow : Window
 
         TTextBox.Text = firstProcedureResult.T.ToString();
 
-        LiczbaPomiarowTextBox.Text = LicznikElementow.ToString();
+        LiczbaPomiarowTextBox.Text = (LicznikElementow.ToString() != "0") ? LicznikElementow.ToString() : "-";
         
         if (LicznikElementow > 3)
         {
@@ -135,7 +127,7 @@ public partial class MainWindow : Window
 
             OdchylenieTextBox.Text = firstProcedureResult.Sigma.ToString();
             SredniaTextBox.Text = firstProcedureResult.Mean.ToString();
-            CgTextBox.Text = firstProcedureResult.Cg.ToString();
+            CgTextBox.Text =  firstProcedureResult.Cg.ToString();
             CgkTextBox.Text = firstProcedureResult.Cgk.ToString();
             CgProgressBar.Value = double.IsPositiveInfinity(firstProcedureResult.Cg) || double.IsNaN(firstProcedureResult.Cg) ? 4 : firstProcedureResult.Cg;
             CgkProgressBar.Value = double.IsPositiveInfinity(firstProcedureResult.Cgk) || double.IsNaN(firstProcedureResult.Cgk) ? 4 : firstProcedureResult.Cgk;
@@ -199,36 +191,31 @@ public partial class MainWindow : Window
 
     }
 
+    private void OpenProcedure1SettingsButton_Click(object sender, RoutedEventArgs e)
+    {
+        var settingsWindow = new Procedure1SettingsWindow();
+        settingsWindow.ShowDialog();
+        appDataContext.K = settingsWindow.KValue;
+    }
+
     #endregion
 
     #region procedura2
+
     private void ShowProcedure2TablesButton_Click(object sender, RoutedEventArgs e)
     {
-        if (!pomiary.Any())
+        if (!appDataContext.SecondProcedureMeasurements.Any())
         {
             MessageBox.Show("Aby wprowadzić pomiary podaj liczbę operatorów, serii oraz wyrobów.", "Błąd",
                 MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
-        var window = new Window
-        {
-            Title = "Pomiary - procedura 2",
-            Width = 1200,
-            Height = 900,
-            WindowStartupLocation = WindowStartupLocation.CenterScreen
-        };
-
-        var procedure2TableManager = new Procedure2TableManager();
-
-        var grid = procedure2TableManager.CreateMainGrid(pomiary, window);
-        
-        window.Content = grid;
+        var window = new Procedure2DataGridWindow();
         window.ShowDialog();
     }
     private void SaveProcedure2ConfigClick(object sender, RoutedEventArgs e)
     {
-
         if (!int.TryParse(OperatorzyTextBox.Text, out var liczbaOperatorow) || liczbaOperatorow < 0)
         {
             MessageBox.Show(
@@ -253,7 +240,7 @@ public partial class MainWindow : Window
             return;
         }
 
-        pomiary.Clear();
+        appDataContext.SecondProcedureMeasurements.Clear();
 
 
         for (var i = 1; i <= liczbaOperatorow; i++)
@@ -262,7 +249,7 @@ public partial class MainWindow : Window
             {
                 for (var k = 1; k <= liczbaWyrobow; k++)
                 {
-                    pomiary[(i, j, k)] = 0;
+                    appDataContext.SecondProcedureMeasurements[(i, j, k)] = 0;
                 }
             }
         }
@@ -270,15 +257,24 @@ public partial class MainWindow : Window
     }
     private void CalculateProcedure2Button_Click(object sender, RoutedEventArgs e)
     {
-        
-        int.TryParse(WyrobyTextBox.Text, out var  liczbaWyrobow);
+        MessageBox.Show($"{appDataContext.K1}, {appDataContext.K2}, {appDataContext.K3}");
+        int.TryParse(WyrobyTextBox.Text, out var liczbaWyrobow);
         int.TryParse(OperatorzyTextBox.Text, out var liczbaOperatorow);
         int.TryParse(SeriaTextBox.Text, out var numerSerii);
-        double.TryParse(TTextBox.Text, out var t);
 
         if (isSecondProcedureDataReadyToCalculate())
         {
-            var secondProcedureResult = secondProcedure.Calculate(pomiary, liczbaWyrobow, liczbaOperatorow, numerSerii, t);
+            var secondProcedureResult = secondProcedure
+                .Calculate(
+                appDataContext.SecondProcedureMeasurements,
+                liczbaWyrobow,
+                liczbaOperatorow,
+                numerSerii,
+                appDataContext.T,
+                appDataContext.K1,
+                appDataContext.K2,
+                appDataContext.K3);
+
             UpdateSecondProcedureUIWithResults(secondProcedureResult);
         }
 
@@ -289,12 +285,13 @@ public partial class MainWindow : Window
             if (!_tCalculated)
                 MessageBox.Show("Przed wykonaniem obliczeń, należy obliczyć tolerancję T.", "Pomiary", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-
-
+        
     }
+
     private bool isSecondProcedureDataReadyToCalculate()
     {
-        return !(pomiary.Any(x => x.Value == 0) || pomiary.Count == 0);
+        return !(appDataContext.SecondProcedureMeasurements.Any(x => x.Value == 0) ||
+                 appDataContext.SecondProcedureMeasurements.Count == 0);
     }
     private void UpdateSecondProcedureUIWithResults(SecondProcedureResult? result)
     {
@@ -311,6 +308,15 @@ public partial class MainWindow : Window
         PercentGRRTextBox.Text = result is not null ? result.percentGRR.ToString() : "";
         PercentPVTextBox.Text = result is not null ? result.percentPV.ToString() : "";
     }
+
+    private void OpenProcedure2SettingsButton_Click(object sender, RoutedEventArgs e)
+    {
+        var settingsWindow = new Procedure2SettingsWindow();
+        settingsWindow.ShowDialog();
+        appDataContext.K1 = settingsWindow.K1Value;
+        appDataContext.K2 = settingsWindow.K2Value;
+        appDataContext.K3 = settingsWindow.K3Value;
+    }
     #endregion
 
     #region procedura3
@@ -325,10 +331,10 @@ public partial class MainWindow : Window
             WindowStartupLocation = WindowStartupLocation.CenterScreen
         };
 
-        var thirdProcedureTableManager = new Procedure3TableManager(thirdProcedurePomiary, window);
+        var thirdProcedureTableManager = new Procedure3TableManager(appDataContext.ThirdProcedureMeasurements, window);
 
         var serie = new List<string>();
-        foreach (var pomiar in thirdProcedurePomiary.Where(pomiar => !serie.Contains(pomiar.Key.Item1.ToString())))
+        foreach (var pomiar in appDataContext.ThirdProcedureMeasurements.Where(pomiar => !serie.Contains(pomiar.Key.Item1.ToString())))
         {
             serie.Add(pomiar.Key.Item1.ToString());
         }
@@ -338,11 +344,9 @@ public partial class MainWindow : Window
     
     private void ObliczProcedure3Button_Click(object sender, RoutedEventArgs e)
     {
-        double.TryParse(TTextBox.Text, out var t);
-
         if (isThirdProcedureDataReadyToCalculate())
         {
-            var thirdProcedureResult = thirdProcedure.Calculate(thirdProcedurePomiary, t);
+            var thirdProcedureResult = thirdProcedure.Calculate(appDataContext.ThirdProcedureMeasurements, appDataContext.T);
             UpdateThirdProcedureUIWithResults(thirdProcedureResult);
         }
         else
@@ -362,51 +366,11 @@ public partial class MainWindow : Window
     }
     private bool isThirdProcedureDataReadyToCalculate()
     {
-        return !(thirdProcedurePomiary.Any(x => x.Value == 0) || thirdProcedurePomiary.Count == 0);
+        return !(appDataContext.ThirdProcedureMeasurements.Any(x => x.Value == 0)
+                 || appDataContext.ThirdProcedureMeasurements.Count == 0);
     }
-   
-    private DataGrid CreateThirdProcedureDataGrid(List<ThirdProcedureDataGridItem> items)
-    {
-        var dataGrid = new DataGrid
-        {
-            HorizontalAlignment = HorizontalAlignment.Left,
-            VerticalAlignment = VerticalAlignment.Top,
-            CanUserAddRows = false,
-            IsReadOnly = false,
-            Margin = new Thickness(10, 10, 10, 10),
-            AutoGenerateColumns = false
-        };
-
-        var seriaColumn = new DataGridTextColumn
-        {
-            Header = "Seria",
-            Binding = new Binding("SeriaKey"),
-            IsReadOnly = true
-        };
-
-        var wyrobColumn = new DataGridTextColumn
-        {
-            Header = "Wyrób",
-            Binding = new Binding("WyrobKey"),
-            IsReadOnly = true
-        };
-
-        var valueColumn = new DataGridTextColumn
-        {
-            Header = "Wartość",
-            Binding = new Binding("Value")
-        };
-
-        dataGrid.Columns.Add(seriaColumn);
-        dataGrid.Columns.Add(wyrobColumn);
-        dataGrid.Columns.Add(valueColumn);
-
-        dataGrid.ItemsSource = items;
-
-        return dataGrid;
-    }
-
-
     #endregion
+
+    
 }
 

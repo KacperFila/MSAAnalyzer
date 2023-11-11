@@ -1,0 +1,87 @@
+﻿<Window x:Class="MSAAnalyzer.Windows.Procedure2SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MSAAnalyzer.Windows"
+        mc:Ignorable="d"
+        Title="Procedure2SettingsWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Margin" Value="0,10,0,0" />
+            <Setter Property="Width" Value="120" />
+            <Setter Property="Background" Value="#FF00AF83" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#FF00AF83" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TabItem">
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Background" Value="#FF00AF83" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="ProgressBar">
+            <Setter Property="Foreground" Value="#FF00AF83" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="Gainsboro">
+        <Grid>
+            <Label Content="K1:" Margin="160,128,520,280"/>
+            <ComboBox x:Name="K1ValueComboBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="160,154,0,0" Width="120">
+                <ComboBoxItem Content="0.8862"/>
+                <ComboBoxItem Content="0.0598"/>
+            </ComboBox>
+            <Label Content="K2:" Margin="340,128,340,280"/>
+            <ComboBox x:Name="K2ValueComboBox" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,154,0,0" Width="120">
+                <ComboBoxItem Content="0.7071"/>
+                <ComboBoxItem Content="0.5231"/>
+                <ComboBoxItem Content="0.20"/>
+            </ComboBox>
+            <Label Content="K3:" Margin="560,128,120,280"/>
+            <ComboBox x:Name="K3ValueComboBox" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="560,154,0,0" Width="120">
+                <ComboBoxItem Content="0.7071"/>
+                <ComboBoxItem Content="0.5231"/>
+                <ComboBoxItem Content="0.4467"/>
+                <ComboBoxItem Content="0.4030"/>
+                <ComboBoxItem Content="0.3742"/>
+                <ComboBoxItem Content="0.3534"/>
+                <ComboBoxItem Content="0.3375"/>
+                <ComboBoxItem Content="0.3249"/>
+                <ComboBoxItem Content="0.3146"/>
+            </ComboBox>
+
+            <Button Content="Zapisz" HorizontalAlignment="Center" VerticalAlignment="Top" Width="80" Name="SaveFirstProcedureSettingsButton" Click="SaveSecondProcedureSettingsButton_Click" Margin="0,217,0,0"/>
+        </Grid>
+    </Grid>
+</Window>

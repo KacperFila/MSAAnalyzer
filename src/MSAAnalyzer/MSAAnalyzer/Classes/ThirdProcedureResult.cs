@@ -1,5 +1,5 @@
 ﻿namespace MSAAnalyzer.Classes;
-internal class ThirdProcedureResult
+public class ThirdProcedureResult
 {
     public double SredniaRoznica;
     public double SumOfSquares;

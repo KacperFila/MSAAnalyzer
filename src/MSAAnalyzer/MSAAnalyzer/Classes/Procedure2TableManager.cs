@@ -3,35 +3,24 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace MSAAnalyzer.Classes
 {
     public class Procedure2TableManager
     {
-        public Procedure2TableManager()
+        public Dictionary<(int, int, int), double> _pomiary;
+
+        public Procedure2TableManager(Dictionary<(int, int, int), double> pomiary)
         {
+            _pomiary = pomiary;
         }
 
-        public Grid CreateMainGrid(Dictionary<(int, int, int), double> pomiary, Window window)
+        public Grid CreateMainGrid(Window window)
         {
+
             var mainGrid = new Grid();
-
-            // Add three rows to mainGrid
-            mainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Auto) });
-            mainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
-            mainGrid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Auto) });
-
-            var textBlock = new TextBlock
-            {
-                Text = "PROCEDURA 2",
-                HorizontalAlignment = HorizontalAlignment.Center,
-                FontWeight = FontWeights.Bold,
-                FontSize = 25,
-                Margin = new Thickness(0, 50, 0, 10)
-            };
-            Grid.SetRow(textBlock, 0);
-            mainGrid.Children.Add(textBlock);
-
+            
             var dataGridsGrid = new Grid
             {
                 Margin = new Thickness(10, 10, 10, 10),
@@ -41,7 +30,7 @@ namespace MSAAnalyzer.Classes
 
             var dimensions = new List<string>();
 
-            foreach (var pomiar in pomiary.Where(pomiar => !dimensions.Contains(pomiar.Key.Item1.ToString())))
+            foreach (var pomiar in _pomiary.Where(pomiar => !dimensions.Contains(pomiar.Key.Item1.ToString())))
             {
                 dimensions.Add(pomiar.Key.Item1.ToString());
             }
@@ -50,7 +39,7 @@ namespace MSAAnalyzer.Classes
 
             foreach (var dimension in dimensions)
             {
-                var filteredPomiary = pomiary.Where(item => item.Key.Item1.ToString() == dimension).ToList();
+                var filteredPomiary = _pomiary.Where(item => item.Key.Item1.ToString() == dimension).ToList();
                 if (filteredPomiary.Count == 0) continue;
 
                 var dataGrid = new DataGrid
@@ -58,7 +47,8 @@ namespace MSAAnalyzer.Classes
                     CanUserAddRows = false,
                     IsReadOnly = false,
                     Margin = new Thickness(10, 0, 10, 0),
-                    VerticalAlignment = VerticalAlignment.Center
+                    VerticalAlignment = VerticalAlignment.Center,
+                    AlternatingRowBackground = Brushes.LightGray,
                 };
 
                 var items = filteredPomiary.Select(item => new SecondProcedureDataGridItem()
@@ -110,47 +100,6 @@ namespace MSAAnalyzer.Classes
                 columnIndex++;
             }
 
-            var saveButton = new Button
-            {
-                Content = "Zapisz zmiany",
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Bottom,
-                Margin = new Thickness(10, 10, 50, 50)
-            };
-            saveButton.Click += (sender, e) =>
-            {
-                foreach (var child in dataGridsGrid.Children)
-                {
-                    if (child is DataGrid dataGrid)
-                    {
-                        foreach (var item in dataGrid.Items)
-                        {
-                            if (item is SecondProcedureDataGridItem dataGridItem)
-                            {
-                                var key1 = int.Parse(dataGridItem.OperatorKey); // Pobierz numer operatora
-                                var key2 = int.Parse(dataGridItem.SeriaKey); // Pobierz numer serii
-                                var key3 = int.Parse(dataGridItem.WyrobKey); // Pobierz numer wyrobu
-
-                                if (isValidSecondProcedureGridItem(dataGridItem))
-                                {
-                                    double.TryParse(dataGridItem.Value, out var value);
-                                    pomiary[(key1, key2, key3)] = value;
-                                }
-                                else
-                                {
-                                    MessageBox.Show("Wprowadzone wartości zawierają niedozwoloną wartość", "Błąd wartości", MessageBoxButton.OK, MessageBoxImage.Error);
-                                    return;
-                                }
-
-                            }
-                        }
-                    }
-                }
-
-                MessageBox.Show("Zapisano dane!", "Zawartość pomiarów", MessageBoxButton.OK, MessageBoxImage.Information);
-                window.Close();
-            };
-
             var scrollViewer = new ScrollViewer
             {
                 VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
@@ -160,28 +109,9 @@ namespace MSAAnalyzer.Classes
 
             Grid.SetRow(scrollViewer, 1);
             mainGrid.Children.Add(scrollViewer);
-            Grid.SetRow(saveButton, 2);
-            mainGrid.Children.Add(saveButton);
 
             return mainGrid;
         }
 
-        private bool isValidSecondProcedureGridItem(SecondProcedureDataGridItem dataGridItem)
-        {
-            if (string.IsNullOrWhiteSpace(dataGridItem.Value))
-            {
-                return false;
-            }
-            if (!double.TryParse(dataGridItem.Value, out double value))
-            {
-                return false;
-            }
-            if (value <= 0)
-            {
-                return false;
-            }
-
-            return true;
-        }
     }
 }
