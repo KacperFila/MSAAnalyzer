@@ -17,7 +17,7 @@ namespace MSAAnalyzer.Windows
         public Procedure2DataGridWindow()
         {
             InitializeComponent();
-            appDataContext = (AppDataContext)DataContext; // Przypisanie DataContext do zmiennej appDataContext
+            appDataContext = (AppDataContext)DataContext;
             procedure2TableManager = new Procedure2TableManager(appDataContext.SecondProcedureMeasurements);
             var dataGrid = procedure2TableManager.CreateMainGrid(this);
             generatedDataGrids.Children.Add(dataGrid);
@@ -42,12 +42,20 @@ namespace MSAAnalyzer.Windows
                             foreach (var item3 in dataGrid.ItemsSource)
                             {
                                 if (item3 is not SecondProcedureDataGridItem dataGridItem) continue;
-                                double.TryParse(dataGridItem.Value, out double value);
-                                int.TryParse(dataGridItem.OperatorKey, out int key1);
-                                int.TryParse(dataGridItem.SeriaKey, out int key2);
-                                int.TryParse(dataGridItem.WyrobKey, out int key3);
+                                if (isValidSecondProcedureGridItem(dataGridItem))
+                                {
+                                    double.TryParse(dataGridItem.Value, out double value);
+                                    int.TryParse(dataGridItem.OperatorKey, out int key1);
+                                    int.TryParse(dataGridItem.SeriaKey, out int key2);
+                                    int.TryParse(dataGridItem.WyrobKey, out int key3);
 
-                                appDataContext.SecondProcedureMeasurements[(key1, key2, key3)] = value;;
+                                    appDataContext.SecondProcedureMeasurements[(key1, key2, key3)] = value;
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Wprowadzone wartości zawierają niedozwoloną wartość", "Błąd wartości", MessageBoxButton.OK, MessageBoxImage.Error);
+                                    return;
+                                }
                             }
                         }
 

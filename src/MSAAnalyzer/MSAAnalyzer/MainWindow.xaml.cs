@@ -257,7 +257,6 @@ public partial class MainWindow : Window
     }
     private void CalculateProcedure2Button_Click(object sender, RoutedEventArgs e)
     {
-        MessageBox.Show($"{appDataContext.K1}, {appDataContext.K2}, {appDataContext.K3}");
         int.TryParse(WyrobyTextBox.Text, out var liczbaWyrobow);
         int.TryParse(OperatorzyTextBox.Text, out var liczbaOperatorow);
         int.TryParse(SeriaTextBox.Text, out var numerSerii);
