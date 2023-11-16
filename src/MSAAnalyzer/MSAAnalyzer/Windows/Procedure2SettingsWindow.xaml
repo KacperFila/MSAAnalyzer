@@ -60,7 +60,6 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <!-- K1 -->
@@ -81,24 +80,8 @@
                 </ComboBox>
             </Grid>
 
-            <!-- K3 -->
-            <Grid Grid.Column="2" Margin="10,10,10,0">
-                <Label Content="K3:" Margin="0,-31,0,30"/>
-                <ComboBox x:Name="K3ValueComboBox" VerticalAlignment="Top" Width="120">
-                    <ComboBoxItem Content="0.7071"/>
-                    <ComboBoxItem Content="0.5231"/>
-                    <ComboBoxItem Content="0.4467"/>
-                    <ComboBoxItem Content="0.4030"/>
-                    <ComboBoxItem Content="0.3742"/>
-                    <ComboBoxItem Content="0.3534"/>
-                    <ComboBoxItem Content="0.3375"/>
-                    <ComboBoxItem Content="0.3249"/>
-                    <ComboBoxItem Content="0.3146"/>
-                </ComboBox>
-            </Grid>
-
             <!-- Button -->
-            <Button Grid.Column="1" Content="Zapisz" HorizontalAlignment="Center" VerticalAlignment="Top" Width="80" Name="SaveFirstProcedureSettingsButton" Click="SaveSecondProcedureSettingsButton_Click" Margin="0,60,0,0"/>
+            <Button Content="Zapisz" VerticalAlignment="Top" Width="80" Name="SaveFirstProcedureSettingsButton" Click="SaveSecondProcedureSettingsButton_Click" Margin="100,75,0,0" Grid.ColumnSpan="2"/>
         </Grid>
     </Grid>
 
