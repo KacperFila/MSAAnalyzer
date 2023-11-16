@@ -11,6 +11,7 @@ namespace MSAAnalyzer.Windows
         public Procedure2SettingsWindow()
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
         public double K1Value
@@ -38,27 +39,7 @@ namespace MSAAnalyzer.Windows
                 };
             }
         }
-
-        public double K3Value
-        {
-            get
-            {
-                return K3ValueComboBox.SelectedIndex switch
-                {
-                    0 => 0.7071,
-                    1 => 0.5231,
-                    2 => 0.4467,
-                    3 => 0.4030,
-                    4 => 0.3742,
-                    5 => 0.3534,
-                    6 => 0.3375,
-                    7 => 0.3249,
-                    8 => 0.3146,
-                    _ => 0.7071
-                };
-            }
-        }
-
+        
         private void SaveSecondProcedureSettingsButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Zapisano ustawienia", "Ustawienia", MessageBoxButton.OK, MessageBoxImage.Information);

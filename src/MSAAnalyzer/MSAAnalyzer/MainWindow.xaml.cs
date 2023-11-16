@@ -27,7 +27,7 @@ public partial class MainWindow : Window
 
     
     private bool fieldsValidated;
-    private bool _tCalculated = false;
+    private bool _tCalculated;
     
     private static FirstProcedureResult firstProcedureResult;
     private static int LicznikElementow;
@@ -52,8 +52,7 @@ public partial class MainWindow : Window
             TfactorTextBox.Text = appDataContext.T.ToString();
             K1factorTextBox.Text = appDataContext.K1.ToString();
             K2factorTextBox.Text = appDataContext.K2.ToString();
-            var temp = appDataContext.getK3();
-            K3factorTextBox.Text = temp;
+            K3factorTextBox.Text = appDataContext.K3.ToString();
         }
     }
 
@@ -65,6 +64,7 @@ public partial class MainWindow : Window
         {
             fieldsValidated = true;
             KolejnyPomiarTextBox.IsEnabled = true;
+            undoButton.IsEnabled = true;
         }
         else
         {
@@ -322,12 +322,12 @@ public partial class MainWindow : Window
         PercentAVTextBox.Text = result is not null && !double.IsNaN(result.percentAV) ? result.percentAV.ToString() : "0";
         PercentGRRTextBox.Text = result is not null && !double.IsNaN(result.percentGRR) ? result.percentGRR.ToString() : "0";
         PercentPVTextBox.Text = result is not null && !double.IsNaN(result.percentPV) ? result.percentPV.ToString() : "0";
-        GRRProgressBar.Value = double.IsNaN(result.percentGRR) ? 0 : result.percentGRR;
+        GRRProgressBar.Value = (result != null && !double.IsNaN(result.percentGRR)) ? result.percentGRR : 0;
         ZdolnoscGRRTextBox.Text = result is not null && !double.IsNaN(result.percentGRR)
             ? result.percentGRR < 20 ? "SYSTEM JEST ZDOLNY" :
-            result.percentGRR >= 20 && result.percentGRR <= 30 ? "SYSTEM ZDOLNY WARUNKOWO" :
+            result.percentGRR is >= 20 and <= 30 ? "SYSTEM ZDOLNY WARUNKOWO" :
             "SYSTEM NIE JEST ZDOLNY"
-            : "BRAK DANYCH";
+            : "";
 
         ZdolnoscGRRTextBox.Foreground = result is not null && !double.IsNaN(result.percentGRR)
             ? result.percentGRR < 20
@@ -345,7 +345,6 @@ public partial class MainWindow : Window
         settingsWindow.ShowDialog();
         appDataContext.K1 = settingsWindow.K1Value;
         appDataContext.K2 = settingsWindow.K2Value;
-        appDataContext.K3 = settingsWindow.K3Value;
     }
     #endregion
 
@@ -361,7 +360,7 @@ public partial class MainWindow : Window
     {
         if (isThirdProcedureDataReadyToCalculate())
         {
-            var thirdProcedureResult = thirdProcedure.Calculate(appDataContext.ThirdProcedureMeasurements, appDataContext.T);
+            var thirdProcedureResult = thirdProcedure.Calculate(appDataContext.ThirdProcedureMeasurements, appDataContext.T, appDataContext.K3);
             UpdateThirdProcedureUIWithResults(thirdProcedureResult);
         }
         else
@@ -373,10 +372,24 @@ public partial class MainWindow : Window
 
     private void UpdateThirdProcedureUIWithResults(ThirdProcedureResult result)
     {
-        sigmaProcedure3TextBox.Text = result.rozrzutSystemu.ToString();
+        rangeAverageProcedure3TextBox.Text = result.rozstepSredni.ToString();
         EVProcedure3TextBox.Text = result.EV.ToString();
         PercentEVProcedure3TextBox.Text = result.percentEV.ToString();
         Procedure3PercentEVProgressBar.Value = double.Parse(PercentEVProcedure3TextBox.Text);
+
+        ZdolnoscEVTextBox.Text = result is not null && !double.IsNaN(result.percentEV)
+            ? result.percentEV < 20 ? "SYSTEM JEST ZDOLNY" :
+            result.percentEV is >= 20 and <= 30 ? "SYSTEM ZDOLNY WARUNKOWO" :
+            "SYSTEM NIE JEST ZDOLNY"
+            : "";
+
+        ZdolnoscEVTextBox.Foreground = result is not null && !double.IsNaN(result.percentEV)
+            ? result.percentEV < 20
+                ? new SolidColorBrush(Color.FromArgb(0xFF, 0x00, 0xAF, 0x83))
+                : result.percentEV >= 20 && result.percentEV<= 30
+                    ? new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xA5, 0x00))
+                    : new SolidColorBrush(Color.FromArgb(0xFF, 0xA2, 0x3D, 0x3D))
+            : new SolidColorBrush(Colors.Black);
     }
     private bool isThirdProcedureDataReadyToCalculate()
     {
@@ -397,8 +410,15 @@ public partial class MainWindow : Window
         }
         else
         {
-            MessageBox.Show("Ilość pomiarów wynosi 0!", "Pomiadry", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Ilość pomiarów wynosi 0!", "Pomiary", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+    }
+
+    private void OpenProcedure3SettingsButton_Click(object sender, RoutedEventArgs e)
+    {
+        var settingsWindow = new Procedure3SettingsWindow();
+        settingsWindow.ShowDialog();
+        appDataContext.K3 = settingsWindow.K3Value;
     }
 }
 

@@ -1,19 +1,9 @@
-﻿using System;
+﻿using MSAAnalyzer.Classes;
+using MSAAnalyzer.DataContext;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using MSAAnalyzer.Classes;
-using MSAAnalyzer.DataContext;
 
 namespace MSAAnalyzer.Windows
 {
@@ -27,6 +17,7 @@ namespace MSAAnalyzer.Windows
         public Procedure3DataGridWindow()
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
             appDataContext = (AppDataContext)DataContext;
             procedure3TableManager = new Procedure3TableManager(appDataContext.ThirdProcedureMeasurements);
             var serie = new List<string>();

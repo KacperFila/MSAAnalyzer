@@ -56,6 +56,10 @@
         </Style>
     </Window.Resources>
 
+    <Window.DataContext>
+        <StaticResourceExtension ResourceKey="AppDataContext"/>
+    </Window.DataContext>
+
     <Grid Background="Gainsboro">
         <Grid>
             <Label Content="Wartość współczynnika K:" HorizontalAlignment="Center" Height="37" Margin="0,112,0,0" VerticalAlignment="Top" Width="144"/>

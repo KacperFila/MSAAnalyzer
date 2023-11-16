@@ -17,6 +17,7 @@ namespace MSAAnalyzer.Windows
         public Procedure2DataGridWindow()
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
             appDataContext = (AppDataContext)DataContext;
             procedure2TableManager = new Procedure2TableManager(appDataContext.SecondProcedureMeasurements);
             var dataGrid = procedure2TableManager.CreateMainGrid(this);
