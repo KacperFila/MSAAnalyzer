@@ -387,9 +387,18 @@ public partial class MainWindow : Window
 
     #endregion
 
-    private void RsrTextBox_TextChanged(object sender, TextChangedEventArgs e)
+    private void Undo_pomiar(object sender, RoutedEventArgs e)
     {
-
+        if (appDataContext.FirstProcedureMeasurements.Count > 0)
+        {
+            appDataContext.FirstProcedureMeasurements.RemoveAt(appDataContext.FirstProcedureMeasurements.Count - 1);
+            LicznikElementow--;
+            UpdateFirstProcedureUIWithResults();
+        }
+        else
+        {
+            MessageBox.Show("Ilość pomiarów wynosi 0!", "Pomiadry", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
     }
 }
 

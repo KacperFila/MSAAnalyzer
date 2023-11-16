@@ -101,8 +101,9 @@
                     <Grid Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="395" Width="256">
                         <TextBox HorizontalAlignment="Center" Height="23" Margin="0,242,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" IsReadOnly="True" x:Name="TTextBox"/>
                         <Label Content="T:" HorizontalAlignment="Center" Height="37" Margin="0,218,0,0" VerticalAlignment="Top" Width="200"/>
-                        <TextBox x:Name="KolejnyPomiarTextBox" HorizontalAlignment="Center" Height="23" Margin="0,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" KeyDown="KolejnyPomiarTextBox_KeyDown"/>
+                        <TextBox x:Name="KolejnyPomiarTextBox" HorizontalAlignment="Left" Height="23" Margin="30,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="98" KeyDown="KolejnyPomiarTextBox_KeyDown"/>
                         <Label Content="Kolejny pomiar:" HorizontalAlignment="Center" Height="25" Margin="0,23,0,0" VerticalAlignment="Top" Width="200"/>
+                        <Button Content="COFNIJ" Click="Undo_pomiar" VerticalAlignment="Top" Margin="141,48,0,0" Height="23" Width="87" FontSize="10"/>
                         <TextBox HorizontalAlignment="Center" Height="23" Margin="0,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" IsReadOnly="True" x:Name="SredniaTextBox"/>
                         <Label Content="Średnia:" HorizontalAlignment="Center" Height="37" Margin="0,86,0,0" VerticalAlignment="Top" Width="200"/>
                         <TextBox HorizontalAlignment="Center" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Margin="0,179,0,0" Width="199" IsReadOnly="True" x:Name="OdchylenieTextBox"/>
@@ -172,7 +173,7 @@
                         </Grid.RowDefinitions>
 
                         <Label Content="Rsr:" Grid.Row="0" HorizontalAlignment="Center" Height="37" Margin="0,6,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
-                        <TextBox x:Name="RsrTextBox" Grid.Column="0" Grid.Row="0" Margin="4,28,6,20" Height="31" IsReadOnly="True" TextChanged="RsrTextBox_TextChanged"/>
+                        <TextBox x:Name="RsrTextBox" Grid.Column="0" Grid.Row="0" Margin="4,28,6,20" Height="31" IsReadOnly="True"/>
 
                         <Label Content="Xdiff:" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Height="37" Margin="0,6,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
                         <TextBox x:Name="XdiffTextBox" Grid.Column="1" Grid.Row="1" Margin="5,28,5,20" Height="31" IsReadOnly="True"/>
@@ -213,7 +214,7 @@
                         <Label Content="20%" HorizontalAlignment="Left"  Grid.Column="2" Grid.Row="4" Height="31" Margin="0,28,0,0" VerticalAlignment="Top" Width="106"/>
                         <Label Content="30%" Grid.Column="2" Grid.Row="4" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="106" Margin="96,28,0,0"/>
                         <Label Content="%GRR:" Grid.Row="4" HorizontalAlignment="Left" Height="31" Margin="10,7,0,0" VerticalAlignment="Top" Width="380" HorizontalContentAlignment="Center" Grid.Column="1" Grid.ColumnSpan="2"/>
-                        <TextBox x:Name="ZdolnoscGRRTextBox" Grid.Column="0" Grid.Row="4" Margin="5,27,5,21" Height="31" IsReadOnly="True"/>
+                        <TextBox x:Name="ZdolnoscGRRTextBox" Grid.Column="0" Grid.Row="4" Margin="5,28,5,20" Height="31" IsReadOnly="True"/>
                         <Label Content="Zdolność systemu:" Grid.Row="4" HorizontalAlignment="Center" Height="31" Margin="0,7,0,0" VerticalAlignment="Top" Width="190" HorizontalContentAlignment="Center"/>
                     </Grid>
                 </Grid>
