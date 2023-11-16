@@ -54,8 +54,8 @@ namespace MSAAnalyzer.Classes
             var sumOfSquares = Data.Sum(x => (x - mean) * (x - mean));
             var variance = sumOfSquares / (Data.Count - 1);
             var sigma = Math.Sqrt(variance);
-            var cg = K * (diffT/ (4 * sigma));
-            var cgk = (0.1 * diffT - (Math.Abs(mean - WartoscWzorca))) / (2 * sigma);
+            var cg = K * (diffT/ (6 * sigma));
+            var cgk = (0.1 * diffT - (Math.Abs(mean - WartoscWzorca))) / (3 * sigma);
 
             return new FirstProcedureResult
             {

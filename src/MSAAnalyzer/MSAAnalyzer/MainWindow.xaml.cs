@@ -1,13 +1,16 @@
-﻿using MSAAnalyzer.Classes;
+﻿using System;
+using MSAAnalyzer.Classes;
 using MSAAnalyzer.DataContext;
 using MSAAnalyzer.Windows;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Globalization;
 
 namespace MSAAnalyzer;
 
@@ -38,7 +41,20 @@ public partial class MainWindow : Window
         secondProcedure = new SecondProcedure();
         thirdProcedure = new ThirdProcedure();
         KolejnyPomiarTextBox.IsEnabled = false;
-        
+        menuTabControl.SelectionChanged += TabControl_SelectionChanged;
+    }
+
+    private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (menuTabControl.SelectedItem is TabItem selectedTab && selectedTab.Header.ToString() == "Wartości współczynników")
+        {
+            KfactorTextBox.Text = appDataContext.K.ToString();
+            TfactorTextBox.Text = appDataContext.T.ToString();
+            K1factorTextBox.Text = appDataContext.K1.ToString();
+            K2factorTextBox.Text = appDataContext.K2.ToString();
+            var temp = appDataContext.getK3();
+            K3factorTextBox.Text = temp;
+        }
     }
 
     #region procedura1
@@ -280,9 +296,7 @@ public partial class MainWindow : Window
         else
         {
             UpdateSecondProcedureUIWithResults(null);
-            MessageBox.Show("Wprowadzone pomiary nie są kompletne!", "Pomiary", MessageBoxButton.OK, MessageBoxImage.Information);
-            if (!_tCalculated)
-                MessageBox.Show("Przed wykonaniem obliczeń, należy obliczyć tolerancję T.", "Pomiary", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Wprowadzone dane nie są kompletne lub nie obliczono tolerancji!", "Pomiary", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         
     }
@@ -290,22 +304,39 @@ public partial class MainWindow : Window
     private bool isSecondProcedureDataReadyToCalculate()
     {
         return !(appDataContext.SecondProcedureMeasurements.Any(x => x.Value == 0) ||
-                 appDataContext.SecondProcedureMeasurements.Count == 0);
+                 appDataContext.SecondProcedureMeasurements.Count == 0 ||
+                 !_tCalculated);
     }
+
     private void UpdateSecondProcedureUIWithResults(SecondProcedureResult? result)
     {
-        RsrTextBox.Text = result is not null ? result.Rsr.ToString() : "";
-        XdiffTextBox.Text = result is not null ? result.Xdiff.ToString() : "";
-        RpTextBox.Text = result is not null ? result.Rp.ToString() : "";
-        EVTextBox.Text = result is not null ? result.EV.ToString() : "";
-        AVTextBox.Text = result is not null ? result.AV.ToString() : "";
-        GRRTextBox.Text = result is not null ? result.GRR.ToString() : "";
-        PVTextBox.Text = result is not null ? result.PV.ToString() : "";
-        TVTextBox.Text = result is not null ? result.TV.ToString() : "";
-        PercentEVTextBox.Text = result is not null ? result.percentEV.ToString() : "";
-        PercentAVTextBox.Text = result is not null ? result.percentAV.ToString() : "";
-        PercentGRRTextBox.Text = result is not null ? result.percentGRR.ToString() : "";
-        PercentPVTextBox.Text = result is not null ? result.percentPV.ToString() : "";
+        RsrTextBox.Text = result is not null && !double.IsNaN(result.Rsr) ? result.Rsr.ToString() : "0";
+        XdiffTextBox.Text = result is not null && !double.IsNaN(result.Xdiff) ? result.Xdiff.ToString() : "0";
+        RpTextBox.Text = result is not null && !double.IsNaN(result.Rp) ? result.Rp.ToString() : "0";
+        EVTextBox.Text = result is not null && !double.IsNaN(result.EV) ? result.EV.ToString() : "0";
+        AVTextBox.Text = result is not null && !double.IsNaN(result.AV) ? result.AV.ToString() : "0";
+        GRRTextBox.Text = result is not null && !double.IsNaN(result.GRR) ? result.GRR.ToString() : "0";
+        PVTextBox.Text = result is not null && !double.IsNaN(result.PV) ? result.PV.ToString() : "0";
+        TVTextBox.Text = result is not null && !double.IsNaN(result.TV) ? result.TV.ToString() : "0";
+        PercentEVTextBox.Text = result is not null && !double.IsNaN(result.percentEV) ? result.percentEV.ToString() : "0";
+        PercentAVTextBox.Text = result is not null && !double.IsNaN(result.percentAV) ? result.percentAV.ToString() : "0";
+        PercentGRRTextBox.Text = result is not null && !double.IsNaN(result.percentGRR) ? result.percentGRR.ToString() : "0";
+        PercentPVTextBox.Text = result is not null && !double.IsNaN(result.percentPV) ? result.percentPV.ToString() : "0";
+        GRRProgressBar.Value = double.IsNaN(result.percentGRR) ? 0 : result.percentGRR;
+        ZdolnoscGRRTextBox.Text = result is not null && !double.IsNaN(result.percentGRR)
+            ? result.percentGRR < 20 ? "SYSTEM JEST ZDOLNY" :
+            result.percentGRR >= 20 && result.percentGRR <= 30 ? "SYSTEM ZDOLNY WARUNKOWO" :
+            "SYSTEM NIE JEST ZDOLNY"
+            : "BRAK DANYCH";
+
+        ZdolnoscGRRTextBox.Foreground = result is not null && !double.IsNaN(result.percentGRR)
+            ? result.percentGRR < 20
+                ? new SolidColorBrush(Color.FromArgb(0xFF, 0x00, 0xAF, 0x83))
+                : result.percentGRR >= 20 && result.percentGRR <= 30
+                    ? new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xA5, 0x00))
+                    : new SolidColorBrush(Color.FromArgb(0xFF, 0xA2, 0x3D, 0x3D))
+            : new SolidColorBrush(Colors.Black);
+
     }
 
     private void OpenProcedure2SettingsButton_Click(object sender, RoutedEventArgs e)
@@ -322,23 +353,8 @@ public partial class MainWindow : Window
 
     private void ShowProcedure3TablesButton_Click(object sender, RoutedEventArgs e)
     {
-        var window = new Window
-        {
-            Title = "Pomiary - procedura 3",
-            Width = 1200,
-            Height = 900,
-            WindowStartupLocation = WindowStartupLocation.CenterScreen
-        };
-
-        var thirdProcedureTableManager = new Procedure3TableManager(appDataContext.ThirdProcedureMeasurements, window);
-
-        var serie = new List<string>();
-        foreach (var pomiar in appDataContext.ThirdProcedureMeasurements.Where(pomiar => !serie.Contains(pomiar.Key.Item1.ToString())))
-        {
-            serie.Add(pomiar.Key.Item1.ToString());
-        }
-
-        thirdProcedureTableManager.CreateProcedure3Tables(serie);
+        var window = new Procedure3DataGridWindow();
+        window.ShowDialog();
     }
     
     private void ObliczProcedure3Button_Click(object sender, RoutedEventArgs e)
@@ -349,10 +365,9 @@ public partial class MainWindow : Window
             UpdateThirdProcedureUIWithResults(thirdProcedureResult);
         }
         else
-        {   
-            MessageBox.Show("Wprowadzone pomiary nie są kompletne!", "Pomiary", MessageBoxButton.OK, MessageBoxImage.Information);
-            if (!_tCalculated)
-                MessageBox.Show("Przed wykonaniem obliczeń, należy obliczyć tolerancję T.", "Pomiary", MessageBoxButton.OK, MessageBoxImage.Information);
+        {
+            MessageBox.Show("Wprowadzone pomiary nie są kompletne lub nie obliczono tolerancji T!", "Pomiary", MessageBoxButton.OK,
+                MessageBoxImage.Information);
         }
     }
 
@@ -366,10 +381,15 @@ public partial class MainWindow : Window
     private bool isThirdProcedureDataReadyToCalculate()
     {
         return !(appDataContext.ThirdProcedureMeasurements.Any(x => x.Value == 0)
-                 || appDataContext.ThirdProcedureMeasurements.Count == 0);
+                 || appDataContext.ThirdProcedureMeasurements.Count == 0 ||
+                 !_tCalculated);
     }
+
     #endregion
 
-    
+    private void RsrTextBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
+
+    }
 }
 

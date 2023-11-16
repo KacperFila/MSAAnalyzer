@@ -19,9 +19,9 @@ namespace MSAAnalyzer.Windows
             {
                 return K1ValueComboBox.SelectedIndex switch
                 {
-                    0 => 0.8862,
-                    1 => 0.0598,
-                    _ => 0.8862
+                    0 => 3.05,
+                    1 => 4.56,
+                    _ => 3.05
                 };
             }
         }
@@ -32,10 +32,9 @@ namespace MSAAnalyzer.Windows
             {
                 return K2ValueComboBox.SelectedIndex switch
                 {
-                    0 => 0.7071,
-                    1 => 0.5231,
-                    2 => 0.20,
-                    _ => 0.7071
+                    0 => 2.70,
+                    1 => 3.65,
+                    _ => 2.7
                 };
             }
         }

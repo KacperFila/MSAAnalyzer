@@ -17,8 +17,5 @@ public record SecondProcedureResult
     public double percentAV;
     public double percentGRR;
     public double percentPV;
-    const double k1 = 3.05;
-    const double k2 = 3.65;
-    const double k3 = 0.4030;
     public double _t;
 }

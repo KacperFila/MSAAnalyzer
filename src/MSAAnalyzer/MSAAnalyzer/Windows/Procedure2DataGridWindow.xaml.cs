@@ -20,13 +20,13 @@ namespace MSAAnalyzer.Windows
             appDataContext = (AppDataContext)DataContext;
             procedure2TableManager = new Procedure2TableManager(appDataContext.SecondProcedureMeasurements);
             var dataGrid = procedure2TableManager.CreateMainGrid(this);
-            generatedDataGrids.Children.Add(dataGrid);
+            generatedProcedure2DataGrids.Children.Add(dataGrid);
         }
 
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var child in generatedDataGrids.Children)
+            foreach (var child in generatedProcedure2DataGrids.Children)
             {
                 if (child is not Grid grid) continue;
                 foreach (var temp in grid.Children)
