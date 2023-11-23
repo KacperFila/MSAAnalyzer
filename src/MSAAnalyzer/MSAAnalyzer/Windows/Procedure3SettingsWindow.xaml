@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MSAAnalyzer.Windows"
+        xmlns:global="clr-namespace:"
         mc:Ignorable="d"
         Title="Procedure3SettingsWindow" Height="450" Width="800">
     <Window.Resources>
@@ -53,6 +54,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <global:BoolToCursorConverter x:Key="BoolToCursorConverter"/>
     </Window.Resources>
 
     <Grid Background="Gainsboro">
@@ -64,7 +66,8 @@
             
             <!-- K3 -->
             <Grid Grid.Column="2" Margin="10,10,10,0">
-                <Label Content="K3:" Margin="0,-31,0,30"/>
+                <Label Content="K3:" Margin="0,-31,0,30" 
+                       ToolTip="4.57 - poziom ufności 99%&#x0a;5.32 - poziom ufności 99.73%" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}"/>
                 <ComboBox x:Name="K3ValueComboBox" VerticalAlignment="Top" Width="120">
                     <ComboBoxItem Content="4.57"/>
                     <ComboBoxItem Content="5.32"/>

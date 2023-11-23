@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MSAAnalyzer.Windows"
+        xmlns:global="clr-namespace:"
         mc:Ignorable="d"
         Title="Procedure2SettingsWindow" Height="450" Width="800">
     <Window.Resources>
@@ -53,6 +54,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <global:BoolToCursorConverter x:Key="BoolToCursorConverter"/>
     </Window.Resources>
 
     <Grid Background="Gainsboro">
@@ -64,7 +66,7 @@
 
             <!-- K1 -->
             <Grid Grid.Column="0" Margin="10,10,10,0">
-                <Label Content="K1:" Margin="0,-31,0,30"/>
+                <Label Content="K1:" Margin="0,-31,0,30" ToolTip="4.56 - 2 serie pomiarów&#x0a;3.05 - 3 serie pomiarów" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}"/>
                 <ComboBox x:Name="K1ValueComboBox" VerticalAlignment="Top" Width="120">
                     <ComboBoxItem Content="3.05"/>
                     <ComboBoxItem Content="4.56"/>
@@ -73,7 +75,7 @@
 
             <!-- K2 -->
             <Grid Grid.Column="1" Margin="10,10,10,0">
-                <Label Content="K2:" Margin="0,-31,0,30"/>
+                <Label Content="K2:" Margin="0,-31,0,30" ToolTip="2.70 - 3 operatorów&#x0a;3.65 - 2 operatorów" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}"/>
                 <ComboBox x:Name="K2ValueComboBox" VerticalAlignment="Top" Width="120">
                     <ComboBoxItem Content="2.70"/>
                     <ComboBoxItem Content="3.65"/>

@@ -1,16 +1,12 @@
-﻿using System;
-using MSAAnalyzer.Classes;
+﻿using MSAAnalyzer.Classes;
 using MSAAnalyzer.DataContext;
 using MSAAnalyzer.Windows;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Globalization;
 
 namespace MSAAnalyzer;
 
@@ -132,6 +128,7 @@ public partial class MainWindow : Window
         TTextBox.Text = firstProcedureResult.T.ToString();
 
         LiczbaPomiarowTextBox.Text = (LicznikElementow.ToString() != "0") ? LicznikElementow.ToString() : "-";
+        OstatniPomiarTextBox.Text = (appDataContext.FirstProcedureMeasurements.Any()) ? appDataContext.FirstProcedureMeasurements.Last().ToString() : "-";
         
         if (LicznikElementow > 3)
         {
@@ -256,6 +253,12 @@ public partial class MainWindow : Window
             return;
         }
 
+        if (!isOperatorsSeriesElementsQuantityCorrect(liczbaWyrobow, liczbaSerii, liczbaOperatorow))
+        {
+            MessageBox.Show("Ilość operatorów, serii lub wyrobów przekracza dopuszczalną wartość!", "Pomiary", MessageBoxButton.OK, MessageBoxImage.Information);
+            return;
+        }
+
         appDataContext.SecondProcedureMeasurements.Clear();
 
 
@@ -306,6 +309,11 @@ public partial class MainWindow : Window
         return !(appDataContext.SecondProcedureMeasurements.Any(x => x.Value == 0) ||
                  appDataContext.SecondProcedureMeasurements.Count == 0 ||
                  !_tCalculated);
+    }
+
+    private bool isOperatorsSeriesElementsQuantityCorrect(int liczbaWyrobow, int liczbaSerii, int liczbaOperatorow)
+    {
+        return (liczbaOperatorow < 5 && liczbaSerii < 5 && liczbaWyrobow < 20);
     }
 
     private void UpdateSecondProcedureUIWithResults(SecondProcedureResult? result)

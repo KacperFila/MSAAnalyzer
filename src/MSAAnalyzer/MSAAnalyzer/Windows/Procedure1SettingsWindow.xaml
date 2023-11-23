@@ -62,7 +62,7 @@
 
     <Grid Background="Gainsboro">
         <Grid>
-            <Label Content="Wartość współczynnika K:" HorizontalAlignment="Center" Height="37" Margin="0,112,0,0" VerticalAlignment="Top" Width="144"/>
+            <Label Content="Wartość współczynnika K:" HorizontalAlignment="Center" Height="37" Margin="0,112,0,0" VerticalAlignment="Top" Width="144" ToolTip=""/>
 
             <ComboBox x:Name="KValueComboBox" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,154,0,0" Width="120">
                 <ComboBoxItem Content="0.10"/>
