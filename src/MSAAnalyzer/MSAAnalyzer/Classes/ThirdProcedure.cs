@@ -25,13 +25,13 @@ public class ThirdProcedure
         }
 
         var sredniRozstep = rozstepy.Values.Average();
-        var EV =  K3 * sredniRozstep;
-        var percentEV = 100 * (EV / _t);
+        var ev =  K3 * sredniRozstep;
+        var percentEv = 100 * (ev / _t);
 
         return new ThirdProcedureResult
         {
-            EV = EV,
-            percentEV = percentEV,
+            EV = ev,
+            percentEV = percentEv,
             rozstepSredni = sredniRozstep
         };
     }

@@ -64,7 +64,6 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- K1 -->
             <Grid Grid.Column="0" Margin="10,10,10,0">
                 <Label Content="K1:" Margin="0,-31,0,30" ToolTip="4.56 - 2 serie pomiarów&#x0a;3.05 - 3 serie pomiarów" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}"/>
                 <ComboBox x:Name="K1ValueComboBox" VerticalAlignment="Top" Width="120">
@@ -73,7 +72,6 @@
                 </ComboBox>
             </Grid>
 
-            <!-- K2 -->
             <Grid Grid.Column="1" Margin="10,10,10,0">
                 <Label Content="K2:" Margin="0,-31,0,30" ToolTip="2.70 - 3 operatorów&#x0a;3.65 - 2 operatorów" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}"/>
                 <ComboBox x:Name="K2ValueComboBox" VerticalAlignment="Top" Width="120">
@@ -82,7 +80,6 @@
                 </ComboBox>
             </Grid>
 
-            <!-- Button -->
             <Button Content="Zapisz" VerticalAlignment="Top" Width="80" Name="SaveFirstProcedureSettingsButton" Click="SaveSecondProcedureSettingsButton_Click" Margin="100,75,0,0" Grid.ColumnSpan="2"/>
         </Grid>
     </Grid>

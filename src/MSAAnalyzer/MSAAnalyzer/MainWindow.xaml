@@ -95,21 +95,23 @@
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="25" FontWeight="Bold" TextDecorations="Underline"><Run Text="PROCEDURA "/><Run Language="pl-pl" Text="1"/></TextBlock>
                     </Grid>
                     <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="395" Width="256">
-                        <Button Content="Zapisz dane" Margin="28,308,0,0" VerticalAlignment="Top" Click="Button_Click" Width="90" Height="33" FontSize="14"/>
-                        <Button Content="Ustawienia" Click="OpenProcedure1SettingsButton_Click" VerticalAlignment="Top" Margin="138,308,0,0" Height="33" Width="90"></Button>
-                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" x:Name="WartoscWzorcaTextBox"/>
+                        <Button Content="Zapisz dane" Margin="28,358,0,0" VerticalAlignment="Top" Click="SaveProcedure1Button_Click" Width="90" Height="33" FontSize="14"/>
+                        <Button Content="Ustawienia" Click="OpenProcedure1SettingsButton_Click" VerticalAlignment="Top" Margin="138,358,0,0" Height="33" Width="90"></Button>
+                        <TextBox HorizontalAlignment="Center" Height="24" Margin="0,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" x:Name="WartoscWzorcaTextBox"/>
                         <Label HorizontalAlignment="Center" Height="37" Margin="0,22,0,0" VerticalAlignment="Top" Width="199">
                             <TextBlock  ToolTip="Wartość nominalna wzorca" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}">
                             <Run FontSize="12">X</Run>
-                            <Run Typography.Variants="Subscript" FontSize="8">nom</Run>
+                            <Run Typography.Variants="Subscript" FontSize="10">nom</Run>
                             </TextBlock>
                         </Label>
-                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" x:Name="GornaGranicaTextBox" />
+                        <TextBox HorizontalAlignment="Center" Height="24" Margin="0,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" x:Name="GornaGranicaTextBox" />
                         <Label Content="USL" HorizontalAlignment="Center" Height="37" Margin="0,86,0,0" VerticalAlignment="Top" Width="199" ToolTip="Górna granica specyfikacji produkcyjnej" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}"/>
-                            <TextBox HorizontalAlignment="Center" Height="23" Margin="0,179,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" x:Name="DolnaGranicaTextBox"/>
+                        <TextBox HorizontalAlignment="Center" Height="24" Margin="0,179,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" x:Name="DolnaGranicaTextBox"/>
                         <Label Content="LSL" HorizontalAlignment="Center" Height="36" Margin="0,153,0,0" VerticalAlignment="Top" Width="199" ToolTip="Dolna granica specyfikacji produkcyjnej" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}"/>
-                        <TextBox HorizontalAlignment="Center" Height="23" Margin="0,242,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" x:Name="RozdzielczoscTextBox"/>
+                        <TextBox HorizontalAlignment="Center" Height="24" Margin="0,242,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" x:Name="RozdzielczoscTextBox"/>
                         <Label Content="Res" HorizontalAlignment="Center" Height="37" Margin="0,216,0,0" VerticalAlignment="Top" Width="199" ToolTip="Rozdzielczość przyrządu" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}"/>
+                        <Label Content="Rozdzielczość wskazania RES" HorizontalAlignment="Center" Height="37" Margin="0,281,0,0" VerticalAlignment="Top" Width="200" ToolTip="Rozdzielczość przyrządu" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}"/>
+                        <TextBox HorizontalAlignment="Center" Height="24" Margin="0,306,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="200" x:Name="ZdolnoscRozdzielczoscTextBox" IsReadOnly="True"/>
                     </Grid>
 
                     <Grid Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="395" Width="256">
@@ -117,34 +119,34 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Grid.ColumnSpan="2" HorizontalAlignment="Center" Height="23" Margin="0,242,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" IsReadOnly="True" x:Name="TTextBox"/>
+                        <TextBox Grid.ColumnSpan="2" HorizontalAlignment="Center" Height="24" Margin="0,242,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" IsReadOnly="True" x:Name="TTextBox"/>
                         <Label Content="T" Grid.ColumnSpan="2" HorizontalAlignment="Center" Height="37" Margin="0,218,0,0" VerticalAlignment="Top" Width="200" ToolTip="Tolerancja" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}"/>
-                        <TextBox x:Name="KolejnyPomiarTextBox" Grid.Column="0" HorizontalAlignment="Left" Height="23" Margin="30,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="88" KeyDown="KolejnyPomiarTextBox_KeyDown"/>
+                        <TextBox x:Name="KolejnyPomiarTextBox" Grid.Column="0" HorizontalAlignment="Left" Height="24" Margin="30,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="88" KeyDown="KolejnyPomiarTextBox_KeyDown"/>
                         <Label  Grid.ColumnSpan="2" HorizontalAlignment="Center" Height="25" Margin="0,23,0,0" VerticalAlignment="Top" Width="200">
                             <TextBlock  ToolTip="Kolejny pomiar" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}">
                                 <Run FontSize="12">X</Run>
-                                <Run Typography.Variants="Subscript" FontSize="8">i</Run>
+                                <Run Typography.Variants="Subscript" FontSize="10">i</Run>
                             </TextBlock>
                         </Label>
                         <Button x:Name="undoButton" Grid.Column="1" IsEnabled="False" Content="COFNIJ" Click="Undo_pomiar" VerticalAlignment="Top" Margin="13,48,0,0" Height="23" Width="88" FontSize="10"/>
-                        <TextBox HorizontalAlignment="Center" Height="23" Grid.ColumnSpan="2" Margin="0,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" IsReadOnly="True" x:Name="SredniaTextBox"/>
+                        <TextBox HorizontalAlignment="Center" Height="24" Grid.ColumnSpan="2" Margin="0,112,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="199" IsReadOnly="True" x:Name="SredniaTextBox"/>
                         <Label HorizontalAlignment="Center" Grid.ColumnSpan="2" Height="37" Margin="0,86,0,0" VerticalAlignment="Top" Width="200">
                             <TextBlock  ToolTip="Średnia arytmetyczna" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}">
                                 <Run FontSize="12">X</Run>
-                                <Run Typography.Variants="Subscript" FontSize="8">bar</Run>
+                                <Run Typography.Variants="Subscript" FontSize="10">bar</Run>
                             </TextBlock>
                         </Label>
-                        <TextBox HorizontalAlignment="Center" Height="23" Grid.ColumnSpan="2" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Margin="0,179,0,0" Width="199" IsReadOnly="True" x:Name="OdchylenieTextBox"/>
+                        <TextBox HorizontalAlignment="Center" Height="24" Grid.ColumnSpan="2" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Margin="0,179,0,0" Width="199" IsReadOnly="True" x:Name="OdchylenieTextBox"/>
                         <Label HorizontalAlignment="Center" Grid.ColumnSpan="2" Height="36" Margin="0,153,0,0" VerticalAlignment="Top" Width="200">
                             <TextBlock  ToolTip="Odchylenie standardowe" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}">
                                 <Run FontSize="12">S</Run>
-                                <Run Typography.Variants="Subscript" FontSize="8">x</Run>
+                                <Run Typography.Variants="Subscript" FontSize="10">x</Run>
                             </TextBlock>
                         </Label>
                         <TextBox HorizontalAlignment="Left" Height="24" Grid.Column="0" Margin="30,306,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="88" IsReadOnly="True" x:Name="LiczbaPomiarowTextBox"/>
                         <Label Content="n" HorizontalAlignment="Left" Grid.Column="0" Height="37" Margin="30,281,0,0" VerticalAlignment="Top" Width="88" FontSize="12" ToolTip="Liczba pomiarów" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}"/>
                         <TextBox HorizontalAlignment="Left" Height="24" Grid.Column="1" Margin="13,306,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="88" IsReadOnly="True" x:Name="OstatniPomiarTextBox"/>
-                        <Label Grid.Column="1" Height="31" Margin="13,277,80,0" VerticalAlignment="Top" FontSize="12" ToolTip="n-ty pomiar" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}">
+                        <Label Grid.Column="1" Height="31" Margin="13,277,27,0" VerticalAlignment="Top" FontSize="12" ToolTip="n-ty pomiar" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}">
                             <TextBlock Height="24">
                                 <Run Text="X"/>
                                 <Run Text="{Binding ElementName=LiczbaPomiarowTextBox, Path=Text, Converter={StaticResource SubscriptConverter}}" Typography.Variants="Subscript" FontSize="15"/>
@@ -154,11 +156,11 @@
                     </Grid>
 
                     <Grid Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="395" Width="256">
-                        <ProgressBar x:Name="CgProgressBar" Minimum="0" Maximum="4" Height="23" VerticalAlignment="Top" Width="200" Margin="38,112,18,0"/>
+                        <ProgressBar x:Name="CgProgressBar" Minimum="0" Maximum="4" Height="24" VerticalAlignment="Top" Width="199" Margin="38,112,18,0"/>
                         <Line X1="66" Y1="0" X2="66" Y2="25" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" Margin="38,112,18,0" Height="23"/>
                         <Label Content="Cg:" HorizontalAlignment="Left" Height="38" Margin="38,86,0,0" VerticalAlignment="Top" Width="200"/>
                         <Label Content="1.33" HorizontalAlignment="Left" Height="23" Margin="107,112,0,0" VerticalAlignment="Top" Width="107"/>
-                        <ProgressBar x:Name="CgkProgressBar" Minimum="0" Maximum="4" Height="23" VerticalAlignment="Top" Width="200" Margin="38,242,18,0"/>
+                        <ProgressBar x:Name="CgkProgressBar" Minimum="0" Maximum="4" Height="24" VerticalAlignment="Top" Width="199" Margin="38,242,18,0"/>
                         <Line X1="66" Y1="0" X2="66" Y2="25" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" Margin="38,242,18,0" Height="23"/>
                         <Label Content="Cgk:" HorizontalAlignment="Left" Height="37" Margin="38,153,0,0" VerticalAlignment="Top" Width="200"/>
                         <Label Content="1.33" HorizontalAlignment="Left" Height="23" Margin="107,242,0,0" VerticalAlignment="Top" Width="107"/>
@@ -297,25 +299,25 @@
                             <RowDefinition Height="79*"/>
                         </Grid.RowDefinitions>
 
-                        <Label Content="Średni rozstęp:" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,306,0" />
-                        <TextBox x:Name="rangeAverageProcedure3TextBox" Grid.Row="0" Margin="205,28,205,7" IsReadOnly="True" Width="190" Height="44" />
+                        <Label Content="Średni rozstęp:" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="170" />
+                        <TextBox x:Name="rangeAverageProcedure3TextBox" Grid.Row="0" Margin="205,28,205,7" IsReadOnly="True" Height="31" />
 
-                        <Label Content="EV:" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,7,369,0" />
-                        <TextBox x:Name="EVProcedure3TextBox" Grid.Row="1" Margin="205,27,205,8" IsReadOnly="True" Width="190" Height="44" />
+                        <Label Content="EV:" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,7,0,0" Width="170" />
+                        <TextBox x:Name="EVProcedure3TextBox" Grid.Row="1" Margin="205,27,205,8" IsReadOnly="True" Height="31" />
 
-                        <Label Content="%EV:" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,7,364,0" />
-                        <TextBox x:Name="PercentEVProcedure3TextBox" Grid.Row="2" Margin="205,28,205,7" IsReadOnly="True" Width="190" Height="44" />
+                        <Label Content="%EV:" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,7,0,0" Width="170" />
+                        <TextBox x:Name="PercentEVProcedure3TextBox" Grid.Row="2" Margin="205,28,205,7" IsReadOnly="True" Height="31" />
 
-                        <ProgressBar x:Name="Procedure3PercentEVProgressBar" Grid.Row="3" Minimum="0" Maximum="40" Value="{Binding Text, ElementName=PercentEVProcedure3TextBox}" Height="44.5" Margin="205,22,205,12" Width="190" />
-                        <Label Content="20%" HorizontalAlignment="Left" Grid.Row="3" Height="31" Margin="300,33,0,0" VerticalAlignment="Top" Width="106"/>
+                        <ProgressBar x:Name="Procedure3PercentEVProgressBar" Grid.Row="3" Minimum="0" Maximum="40" Value="{Binding Text, ElementName=PercentEVProcedure3TextBox}" Height="31" Margin="205,22,205,12" />
+                        <Label Content="20%" HorizontalAlignment="Left" Grid.Row="3" Height="31" Margin="290,23,0,0" VerticalAlignment="Top" Width="106"/>
 
-                        <Line X1="95" Y1="0" X2="95" Y2="50" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" HorizontalAlignment="Center" Width="190" Grid.Row="3" Height="43" Margin="0,23,0,0" />
-                        <Line X1="142.5" Y1="0" X2="142.5" Y2="50" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" HorizontalAlignment="Center" Width="190" Margin="0,23,0,0" Height="43" Grid.Row="3" />
+                        <Line X1="85" Y1="0" X2="85" Y2="50" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" HorizontalAlignment="Center" Width="170" Grid.Row="3" Height="31" Margin="0,22,0,0" />
+                        <Line X1="127.5" Y1="0" X2="127.5" Y2="50" Stroke="Black" StrokeThickness="2" VerticalAlignment="Top" HorizontalAlignment="Center" Width="170" Margin="0,23,0,0" Height="31" Grid.Row="3" />
 
-                        <Label Content="%EV:" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,364,0" />
-                        <TextBox x:Name="ZdolnoscEVTextBox" Grid.Column="0" Grid.Row="4" Margin="205,25,205,10" Height="44" IsReadOnly="True"/>
+                        <Label Content="%EV:" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Top" Width="170" />
+                        <TextBox x:Name="ZdolnoscEVTextBox" Grid.Column="0" Grid.Row="4" Margin="205,25,205,10" Height="31" IsReadOnly="True"/>
                         <Label Content="Zdolność systemu:" Grid.Row="4" HorizontalAlignment="Center" Height="31" VerticalAlignment="Top" Width="190" HorizontalContentAlignment="Left" Margin="0,1,0,0"/>
-                        <Label Content="30%" HorizontalAlignment="Left" Grid.Row="3" Height="31" Margin="348,33,0,0" VerticalAlignment="Top" Width="106"/>
+                        <Label Content="30%" HorizontalAlignment="Left" Grid.Row="3" Height="31" Margin="338,23,0,0" VerticalAlignment="Top" Width="106"/>
                     </Grid>
 
                 </Grid>

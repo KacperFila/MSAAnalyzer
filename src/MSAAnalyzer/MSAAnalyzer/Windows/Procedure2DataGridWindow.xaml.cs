@@ -11,15 +11,14 @@ namespace MSAAnalyzer.Windows
     /// </summary>
     public partial class Procedure2DataGridWindow : Window
     {
-        private AppDataContext appDataContext;
-        private Dictionary<(int, int, int), double> pomiary;
-        private Procedure2TableManager procedure2TableManager;
+        private readonly AppDataContext _appDataContext;
+
         public Procedure2DataGridWindow()
         {
             InitializeComponent();
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            appDataContext = (AppDataContext)DataContext;
-            procedure2TableManager = new Procedure2TableManager(appDataContext.SecondProcedureMeasurements);
+            _appDataContext = (AppDataContext)DataContext;
+            var procedure2TableManager = new Procedure2TableManager(_appDataContext.SecondProcedureMeasurements);
             var dataGrid = procedure2TableManager.CreateMainGrid(this);
             generatedProcedure2DataGrids.Children.Add(dataGrid);
         }
@@ -43,18 +42,19 @@ namespace MSAAnalyzer.Windows
                             foreach (var item3 in dataGrid.ItemsSource)
                             {
                                 if (item3 is not SecondProcedureDataGridItem dataGridItem) continue;
-                                if (isValidSecondProcedureGridItem(dataGridItem))
+                                if (IsValidSecondProcedureGridItem(dataGridItem))
                                 {
                                     double.TryParse(dataGridItem.Value, out double value);
                                     int.TryParse(dataGridItem.OperatorKey, out int key1);
                                     int.TryParse(dataGridItem.SeriaKey, out int key2);
                                     int.TryParse(dataGridItem.WyrobKey, out int key3);
 
-                                    appDataContext.SecondProcedureMeasurements[(key1, key2, key3)] = value;
+                                    _appDataContext.SecondProcedureMeasurements[(key1, key2, key3)] = value;
                                 }
                                 else
                                 {
-                                    MessageBox.Show("Wprowadzone wartości zawierają niedozwoloną wartość", "Błąd wartości", MessageBoxButton.OK, MessageBoxImage.Error);
+                                    MessageBox.Show("Wprowadzone wartości zawierają niedozwoloną wartość",
+                                        "Błąd wartości", MessageBoxButton.OK, MessageBoxImage.Error);
                                     return;
                                 }
                             }
@@ -70,7 +70,7 @@ namespace MSAAnalyzer.Windows
         }
 
 
-        private bool isValidSecondProcedureGridItem(SecondProcedureDataGridItem dataGridItem)
+        private bool IsValidSecondProcedureGridItem(SecondProcedureDataGridItem dataGridItem)
         {
             if (string.IsNullOrWhiteSpace(dataGridItem.Value))
             {

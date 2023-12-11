@@ -32,10 +32,13 @@ namespace MSAAnalyzer.Classes
 
             foreach (var seria in serie)
             {
-                var pomiaryZSerii = thirdProcedureMeasurements.Where(item => item.Key.Item1.ToString() == seria).ToList();
+                var pomiaryZSerii = thirdProcedureMeasurements
+                    .Where(item => item.Key.Item1.ToString() == seria)
+                    .ToList();
                 if (pomiaryZSerii.Count == 0) continue;
 
-                var items = pomiaryZSerii.Select(item => new ThirdProcedureDataGridItem()
+                var items = pomiaryZSerii
+                    .Select(item => new ThirdProcedureDataGridItem()
                 {
                     SeriaKey = item.Key.Item1.ToString(),
                     WyrobKey = item.Key.Item2.ToString(),

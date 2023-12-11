@@ -6,19 +6,22 @@ namespace MSAAnalyzer.Classes;
 
 public class SecondProcedure
 {
-    public Dictionary<int, double> calkowiteSrednieWyrobow = new(); // wyrob                       PART AVERAGE
-    public Dictionary<int, double> calkowityRozstepWyrobow = new(); // wyrob                       PART RANGE
-    public Dictionary<(int, int), double> srednieWyrobowDlaOperatora = new(); // operator/wyrob     A, B, C ... AVERAGE
-    public Dictionary<(int, int), double> rozstepWyrobowDlaOperatora = new(); // operator/wyrob    A, B, C ... RANGE
-    public Dictionary<int, double> sredniaOperatora = new(); // Srednia A, B, C ... AVERAGE
-    public Dictionary<int, double> rozstepOperatora = new();
+    public Dictionary<int, double> CalkowiteSrednieWyrobow = new();
+    public Dictionary<int, double> CalkowityRozstepWyrobow = new();
+    public Dictionary<(int, int), double> SrednieWyrobowDlaOperatora = new();
+    public Dictionary<(int, int), double> RozstepWyrobowDlaOperatora = new();
+    public Dictionary<int, double> SredniaOperatora = new();
+    public Dictionary<int, double> RozstepOperatora = new();
 
-    public SecondProcedureResult Calculate(Dictionary<(int, int, int), double> pomiary, int _liczbaWyrobow, int _liczbaOperatorow, int _numerSerii, double _t, double k1, double k2, double k3)
+    public SecondProcedureResult Calculate(
+        Dictionary<(int, int, int), double> pomiary,
+        int liczbaWyrobow, int liczbaOperatorow, int numerSerii,
+        double t, double k1, double k2, double k3)
     {
         ClearData();
 
         #region OBLICZANIE CALKOWITYCH SREDNICH WYROBOW
-        for (var k = 1; k <= _liczbaWyrobow; k++)
+        for (var k = 1; k <= liczbaWyrobow; k++)
         {
             var listaPomiarowWyrobu = pomiary
                 .Where(p => p.Key.Item3 == k)
@@ -26,112 +29,112 @@ public class SecondProcedure
                 .ToList();
 
             var calkowitaSredniaWyrobu = listaPomiarowWyrobu.Sum() / listaPomiarowWyrobu.Count;
-            calkowiteSrednieWyrobow.Add(k, calkowitaSredniaWyrobu);
+            CalkowiteSrednieWyrobow.Add(k, calkowitaSredniaWyrobu);
 
         }
         #endregion
 
         #region OBLICZANIE SREDNICH WYROBOW DANEGO OPERATORA
-        for (var i = 1; i <= _liczbaOperatorow; i++)
+        for (var i = 1; i <= liczbaOperatorow; i++)
         {
-            for (var j = 1; j <= _liczbaWyrobow; j++)
+            for (var j = 1; j <= liczbaWyrobow; j++)
             {
                 var sumaSerii = new List<double>();
-                for (var k = 1; k <= _numerSerii; k++)
+                for (var k = 1; k <= numerSerii; k++)
                 {
                     sumaSerii.Add(pomiary[(i, k, j)]);
                 }
 
                 var sredniaSerii = sumaSerii.Sum() / sumaSerii.Count;
-                srednieWyrobowDlaOperatora.Add((i, j), sredniaSerii);
+                SrednieWyrobowDlaOperatora.Add((i, j), sredniaSerii);
             }
         }
         #endregion
 
         #region OBLICZANIE ROZSTEPU WYROBOW 
-        for (var i = 1; i <= _liczbaOperatorow; i++)
+        for (var i = 1; i <= liczbaOperatorow; i++)
         {
 
-            for (var j = 1; j <= _liczbaWyrobow; j++)
+            for (var j = 1; j <= liczbaWyrobow; j++)
             {
                 var pomiaryWSerii = new List<double>();
-                for (var k = 1; k <= _numerSerii; k++)
+                for (var k = 1; k <= numerSerii; k++)
                 {
                     pomiaryWSerii.Add(pomiary[(i, k, j)]);
                 }
                 var rozstep = Math.Abs(pomiaryWSerii.Max() - pomiaryWSerii.Min());
-                rozstepWyrobowDlaOperatora.Add((i, j), rozstep);
+                RozstepWyrobowDlaOperatora.Add((i, j), rozstep);
             }
 
         }
         #endregion
 
         #region CALKOWITE SREDNIE DLA SERII
-        for (var i = 1; i <= _liczbaOperatorow; i++)
+        for (var i = 1; i <= liczbaOperatorow; i++)
         {
-            var listaPomiarow = srednieWyrobowDlaOperatora.Where(x => x.Key.Item1 == i);
+            var listaPomiarow = SrednieWyrobowDlaOperatora.Where(x => x.Key.Item1 == i);
             var sumaSrednich = new List<double>();
             foreach (var lista in listaPomiarow)
             {
                 sumaSrednich.Add(lista.Value);
             }
-            sredniaOperatora.Add(i, sumaSrednich.Sum() / sumaSrednich.Count);
+            SredniaOperatora.Add(i, sumaSrednich.Sum() / sumaSrednich.Count);
         }
         #endregion
 
         #region CALKOWITE ROZSTEPY DLA SERII
-        for (var i = 1; i <= _liczbaOperatorow; i++)
+        for (var i = 1; i <= liczbaOperatorow; i++)
         {
-            var listaPomiarow = rozstepWyrobowDlaOperatora.Where(x => x.Key.Item1 == i);
+            var listaPomiarow = RozstepWyrobowDlaOperatora.Where(x => x.Key.Item1 == i);
             var sumaRozstepow = new List<double>();
             foreach (var lista in listaPomiarow)
             {
                 sumaRozstepow.Add(lista.Value);
             }
-            rozstepOperatora.Add(i, sumaRozstepow.Sum() / sumaRozstepow.Count);
+            RozstepOperatora.Add(i, sumaRozstepow.Sum() / sumaRozstepow.Count);
         }
         #endregion
 
-        var Rsr = (rozstepOperatora.Values.Sum() / rozstepOperatora.Count);
-        var Xdiff = (sredniaOperatora.Values.Max() - sredniaOperatora.Values.Min());
-        var Rp = (calkowiteSrednieWyrobow.Values.Max() - calkowiteSrednieWyrobow.Values.Min());
-        var EV = k1 * Rsr;
-        var AV = k2 * Xdiff;
-        var GRR = Math.Sqrt(Math.Pow(EV, 2) + Math.Pow(AV, 2));
-        var PV = (Rp * k3);
-        var TV = (Math.Sqrt(Math.Pow(GRR, 2) + Math.Pow(PV, 2)));
-        var percentEV = 100 * ((Math.Pow(EV, 2) / (GRR * _t)));
-        var percentAV = 100 * (Math.Pow(AV, 2) / (GRR * _t));
-        var percentGRR = percentEV + percentAV;
-        var percentPV = (100 * (PV / TV));
+        var rsr = (RozstepOperatora.Values.Sum() / RozstepOperatora.Count);
+        var xdiff = (SredniaOperatora.Values.Max() - SredniaOperatora.Values.Min());
+        var rp = (CalkowiteSrednieWyrobow.Values.Max() - CalkowiteSrednieWyrobow.Values.Min());
+        var ev = k1 * rsr;
+        var av = k2 * xdiff;
+        var grr = Math.Sqrt(Math.Pow(ev, 2) + Math.Pow(av, 2));
+        var pv = (rp * k3);
+        var tv = (Math.Sqrt(Math.Pow(grr, 2) + Math.Pow(pv, 2)));
+        var percentEv = 100 * ((Math.Pow(ev, 2) / (grr * t)));
+        var percentAv = 100 * (Math.Pow(av, 2) / (grr * t));
+        var percentGrr = percentEv + percentAv;
+        var percentPv = (100 * (pv / tv));
 
 
         return new SecondProcedureResult()
         {
-            Rp = Rp,
-            EV = EV,
-            AV = AV,
-            GRR = GRR,
-            PV = PV,
-            TV = TV,
-            percentEV = percentEV,
-            percentAV = percentAV,
-            percentGRR = percentGRR,
-            percentPV = percentPV,
-            _t = _t,
-            Rsr = Rsr,
-            Xdiff = Xdiff
+            Rp = rp,
+            EV = ev,
+            AV = av,
+            GRR = grr,
+            PV = pv,
+            TV = tv,
+            percentEV = percentEv,
+            percentAV = percentAv,
+            percentGRR = percentGrr,
+            percentPV = percentPv,
+            _t = t,
+            Rsr = rsr,
+            Xdiff = xdiff
         };
     }
 
     private void ClearData()
     {
-        calkowiteSrednieWyrobow.Clear();
-        calkowityRozstepWyrobow.Clear();
-        srednieWyrobowDlaOperatora.Clear();
-        rozstepWyrobowDlaOperatora.Clear();
-        sredniaOperatora.Clear();
-        rozstepOperatora.Clear();
+        CalkowiteSrednieWyrobow.Clear();
+        CalkowityRozstepWyrobow.Clear();
+        SrednieWyrobowDlaOperatora.Clear();
+        RozstepWyrobowDlaOperatora.Clear();
+        SredniaOperatora.Clear();
+        RozstepOperatora.Clear();
     }
 }
 

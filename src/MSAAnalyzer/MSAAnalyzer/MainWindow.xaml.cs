@@ -1,12 +1,16 @@
 ﻿using MSAAnalyzer.Classes;
 using MSAAnalyzer.DataContext;
 using MSAAnalyzer.Windows;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+
+using WebSocket4Net;
 
 namespace MSAAnalyzer;
 
@@ -15,27 +19,26 @@ namespace MSAAnalyzer;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private AppDataContext appDataContext;
-
-    public FirstProcedure firstProcedure;
-    public SecondProcedure secondProcedure;
-    public ThirdProcedure thirdProcedure;
-
-    
-    private bool fieldsValidated;
+    private readonly AppDataContext _appDataContext;
+    public FirstProcedure FirstProcedure;
+    public SecondProcedure SecondProcedure;
+    public ThirdProcedure ThirdProcedure;
+    private bool _fieldsValidated;
     private bool _tCalculated;
-    
-    private static FirstProcedureResult firstProcedureResult;
-    private static int LicznikElementow;
+    private static FirstProcedureResult? _firstProcedureResult;
+    private static int _licznikElementow;
 
+    private WebSocket websocket;
     public MainWindow()
     {
         InitializeComponent();
-        appDataContext = (AppDataContext)DataContext;
-
-        firstProcedure = new FirstProcedure(appDataContext.FirstProcedureMeasurements, appDataContext.K);
-        secondProcedure = new SecondProcedure();
-        thirdProcedure = new ThirdProcedure();
+        InitializeWebSocket();
+        _appDataContext = (AppDataContext)DataContext;
+        FirstProcedure = new FirstProcedure(
+            _appDataContext.FirstProcedureMeasurements,
+            _appDataContext.K);
+        SecondProcedure = new SecondProcedure();
+        ThirdProcedure = new ThirdProcedure();
         KolejnyPomiarTextBox.IsEnabled = false;
         menuTabControl.SelectionChanged += TabControl_SelectionChanged;
     }
@@ -44,11 +47,11 @@ public partial class MainWindow : Window
     {
         if (menuTabControl.SelectedItem is TabItem selectedTab && selectedTab.Header.ToString() == "Wartości współczynników")
         {
-            KfactorTextBox.Text = appDataContext.K.ToString();
-            TfactorTextBox.Text = appDataContext.T.ToString();
-            K1factorTextBox.Text = appDataContext.K1.ToString();
-            K2factorTextBox.Text = appDataContext.K2.ToString();
-            K3factorTextBox.Text = appDataContext.K3.ToString();
+            KfactorTextBox.Text = _appDataContext.K.ToString("0.##");
+            TfactorTextBox.Text = _appDataContext.T.ToString("0.##");
+            K1factorTextBox.Text = _appDataContext.K1.ToString("0.##");
+            K2factorTextBox.Text = _appDataContext.K2.ToString("0.##");
+            K3factorTextBox.Text = _appDataContext.K3.ToString("0.##");
         }
     }
 
@@ -58,41 +61,41 @@ public partial class MainWindow : Window
     {
         if (ValidateTextBoxes())
         {
-            fieldsValidated = true;
+            _fieldsValidated = true;
             KolejnyPomiarTextBox.IsEnabled = true;
             undoButton.IsEnabled = true;
         }
         else
         {
-            fieldsValidated = false;
+            _fieldsValidated = false;
             KolejnyPomiarTextBox.IsEnabled = false;
         }
     }
 
-    private void Button_Click(object sender, RoutedEventArgs e) // Zapis procedura 1
+    private void SaveProcedure1Button_Click(object sender, RoutedEventArgs e) // Zapis procedura 1
     {
         InitializeFirstProcedure();
     }
 
     private void InitializeFirstProcedure()
     {
-        appDataContext.FirstProcedureMeasurements.Clear();
+        _appDataContext.FirstProcedureMeasurements.Clear();
         
         double.TryParse(WartoscWzorcaTextBox.Text, out var wartoscWzorca);
         double.TryParse(GornaGranicaTextBox.Text, out var gorna);
         double.TryParse(DolnaGranicaTextBox.Text, out var dolna);
 
-        LicznikElementow = 0;
+        _licznikElementow = 0;
 
-        firstProcedure.SetWartoscWzorca(wartoscWzorca);
-        firstProcedure.SetGranice(gorna, dolna);
+        FirstProcedure.SetWartoscWzorca(wartoscWzorca);
+        FirstProcedure.SetGranice(gorna, dolna);
 
         ValidateAndEnableKolejnyPomiarTextBox();
-        if (!fieldsValidated) return;
+        if (!_fieldsValidated) return;
 
-        firstProcedureResult = firstProcedure.Calculate();
+        _firstProcedureResult = FirstProcedure.Calculate();
 
-        appDataContext.T = firstProcedureResult.T;
+        _appDataContext.T = _firstProcedureResult.T;
         _tCalculated = true;
 
         UpdateFirstProcedureUIWithResults();
@@ -111,11 +114,11 @@ public partial class MainWindow : Window
         else
         {
 
-            appDataContext.FirstProcedureMeasurements.Add(pomiarValue);
+            _appDataContext.FirstProcedureMeasurements.Add(pomiarValue);
 
             KolejnyPomiarTextBox.Clear();
-            firstProcedure.UpdateData(appDataContext.FirstProcedureMeasurements);
-            LicznikElementow++;
+            FirstProcedure.UpdateData(_appDataContext.FirstProcedureMeasurements);
+            _licznikElementow++;
             ValidateTextBoxes();
             UpdateFirstProcedureUIWithResults();
         }
@@ -123,28 +126,42 @@ public partial class MainWindow : Window
 
     private void UpdateFirstProcedureUIWithResults()
     {
-        firstProcedureResult = firstProcedure.Calculate();
+        _firstProcedureResult = FirstProcedure.Calculate();
 
-        TTextBox.Text = firstProcedureResult.T.ToString();
+        TTextBox.Text = Math.Round(_firstProcedureResult.T, 3).ToString();
 
-        LiczbaPomiarowTextBox.Text = (LicznikElementow.ToString() != "0") ? LicznikElementow.ToString() : "-";
-        OstatniPomiarTextBox.Text = (appDataContext.FirstProcedureMeasurements.Any()) ? appDataContext.FirstProcedureMeasurements.Last().ToString() : "-";
-        
-        if (LicznikElementow > 3)
+        LiczbaPomiarowTextBox.Text = (_licznikElementow.ToString() != "0") ? _licznikElementow.ToString() : "-";
+        OstatniPomiarTextBox.Text = (_appDataContext.FirstProcedureMeasurements.Any()) ? _appDataContext.FirstProcedureMeasurements.Last().ToString() : "-";
+
+        if (double.TryParse(RozdzielczoscTextBox.Text, out double rozdzielczosc))
+        {
+            if (rozdzielczosc <= _appDataContext.T * 0.05)
+            {
+                ZdolnoscRozdzielczoscTextBox.Text = "WYSTARCZAJĄCA";
+                ZdolnoscRozdzielczoscTextBox.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0x00, 0xAF, 0x83));
+            }
+            else
+            {
+                ZdolnoscRozdzielczoscTextBox.Text = "NIEWYSTARCZAJĄCA";
+                ZdolnoscRozdzielczoscTextBox.Foreground = new SolidColorBrush(Color.FromArgb(0xFF, 0xA2, 0x3D, 0x3D));
+            }
+        }
+
+        if (_licznikElementow > 3)
         {
             ZdolnoscSystemuTextBox.Text =
-                firstProcedureResult is { Cg: > 1.33, Cgk: > 1.33 } ? "SYSTEM JEST ZDOLNY" : "SYSTEM NIE JEST ZDOLNY";
-            ZdolnoscSystemuTextBox.Foreground = firstProcedureResult is { Cg: > 1.33, Cgk: > 1.33 }
+                _firstProcedureResult is { Cg: > 1.33, Cgk: > 1.33 } ? "SYSTEM JEST ZDOLNY" : "SYSTEM NIE JEST ZDOLNY";
+            ZdolnoscSystemuTextBox.Foreground = _firstProcedureResult is { Cg: > 1.33, Cgk: > 1.33 }
                 ? new SolidColorBrush(Color.FromArgb(0xFF, 0x00, 0xAF, 0x83))
                 : new SolidColorBrush(Color.FromArgb(0xFF, 0xA2, 0x3D, 0x3D));
 
-            OdchylenieTextBox.Text = firstProcedureResult.Sigma.ToString();
-            SredniaTextBox.Text = firstProcedureResult.Mean.ToString();
-            CgTextBox.Text =  firstProcedureResult.Cg.ToString();
-            CgkTextBox.Text = firstProcedureResult.Cgk.ToString();
-            CgProgressBar.Value = double.IsPositiveInfinity(firstProcedureResult.Cg) || double.IsNaN(firstProcedureResult.Cg) ? 4 : firstProcedureResult.Cg;
-            CgkProgressBar.Value = double.IsPositiveInfinity(firstProcedureResult.Cgk) || double.IsNaN(firstProcedureResult.Cgk) ? 4 : firstProcedureResult.Cgk;
-
+            OdchylenieTextBox.Text = Math.Round(_firstProcedureResult.Sigma, 6).ToString();
+            SredniaTextBox.Text = Math.Round(_firstProcedureResult.Mean, 6).ToString();
+            CgTextBox.Text = Math.Round(_firstProcedureResult.Cg, 2).ToString();
+            CgkTextBox.Text = Math.Round(_firstProcedureResult.Cgk, 2).ToString();
+            CgProgressBar.Value = double.IsInfinity(_firstProcedureResult.Cg) || double.IsNaN(_firstProcedureResult.Cg) ? 4 : _firstProcedureResult.Cg;
+            CgkProgressBar.Value = double.IsInfinity(_firstProcedureResult.Cgk) || double.IsNaN(_firstProcedureResult.Cgk) ? 4 : _firstProcedureResult.Cgk;
+            
         }
         else
         {
@@ -208,16 +225,15 @@ public partial class MainWindow : Window
     {
         var settingsWindow = new Procedure1SettingsWindow();
         settingsWindow.ShowDialog();
-        appDataContext.K = settingsWindow.KValue;
+        _appDataContext.K = settingsWindow.KValue;
     }
 
     #endregion
 
     #region procedura2
-
     private void ShowProcedure2TablesButton_Click(object sender, RoutedEventArgs e)
     {
-        if (!appDataContext.SecondProcedureMeasurements.Any())
+        if (!_appDataContext.SecondProcedureMeasurements.Any())
         {
             MessageBox.Show("Aby wprowadzić pomiary podaj liczbę operatorów, serii oraz wyrobów.", "Błąd",
                 MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -253,13 +269,13 @@ public partial class MainWindow : Window
             return;
         }
 
-        if (!isOperatorsSeriesElementsQuantityCorrect(liczbaWyrobow, liczbaSerii, liczbaOperatorow))
+        if (!IsOperatorsSeriesElementsQuantityCorrect(liczbaWyrobow, liczbaSerii, liczbaOperatorow))
         {
             MessageBox.Show("Ilość operatorów, serii lub wyrobów przekracza dopuszczalną wartość!", "Pomiary", MessageBoxButton.OK, MessageBoxImage.Information);
             return;
         }
 
-        appDataContext.SecondProcedureMeasurements.Clear();
+        _appDataContext.SecondProcedureMeasurements.Clear();
 
 
         for (var i = 1; i <= liczbaOperatorow; i++)
@@ -268,7 +284,7 @@ public partial class MainWindow : Window
             {
                 for (var k = 1; k <= liczbaWyrobow; k++)
                 {
-                    appDataContext.SecondProcedureMeasurements[(i, j, k)] = 0;
+                    _appDataContext.SecondProcedureMeasurements[(i, j, k)] = 0;
                 }
             }
         }
@@ -280,18 +296,18 @@ public partial class MainWindow : Window
         int.TryParse(OperatorzyTextBox.Text, out var liczbaOperatorow);
         int.TryParse(SeriaTextBox.Text, out var numerSerii);
 
-        if (isSecondProcedureDataReadyToCalculate())
+        if (IsSecondProcedureDataReadyToCalculate())
         {
-            var secondProcedureResult = secondProcedure
+            var secondProcedureResult = SecondProcedure
                 .Calculate(
-                appDataContext.SecondProcedureMeasurements,
+                _appDataContext.SecondProcedureMeasurements,
                 liczbaWyrobow,
                 liczbaOperatorow,
                 numerSerii,
-                appDataContext.T,
-                appDataContext.K1,
-                appDataContext.K2,
-                appDataContext.K3);
+                _appDataContext.T,
+                _appDataContext.K1,
+                _appDataContext.K2,
+                _appDataContext.K3);
 
             UpdateSecondProcedureUIWithResults(secondProcedureResult);
         }
@@ -303,39 +319,37 @@ public partial class MainWindow : Window
         }
         
     }
-
-    private bool isSecondProcedureDataReadyToCalculate()
+    private bool IsSecondProcedureDataReadyToCalculate()
     {
-        return !(appDataContext.SecondProcedureMeasurements.Any(x => x.Value == 0) ||
-                 appDataContext.SecondProcedureMeasurements.Count == 0 ||
+        return !(_appDataContext.SecondProcedureMeasurements.Any(x => x.Value == 0) ||
+                 _appDataContext.SecondProcedureMeasurements.Count == 0 ||
                  !_tCalculated);
     }
-
-    private bool isOperatorsSeriesElementsQuantityCorrect(int liczbaWyrobow, int liczbaSerii, int liczbaOperatorow)
+    private bool IsOperatorsSeriesElementsQuantityCorrect(int liczbaWyrobow, int liczbaSerii, int liczbaOperatorow)
     {
         return (liczbaOperatorow < 5 && liczbaSerii < 5 && liczbaWyrobow < 20);
     }
-
     private void UpdateSecondProcedureUIWithResults(SecondProcedureResult? result)
     {
-        RsrTextBox.Text = result is not null && !double.IsNaN(result.Rsr) ? result.Rsr.ToString() : "0";
-        XdiffTextBox.Text = result is not null && !double.IsNaN(result.Xdiff) ? result.Xdiff.ToString() : "0";
-        RpTextBox.Text = result is not null && !double.IsNaN(result.Rp) ? result.Rp.ToString() : "0";
-        EVTextBox.Text = result is not null && !double.IsNaN(result.EV) ? result.EV.ToString() : "0";
-        AVTextBox.Text = result is not null && !double.IsNaN(result.AV) ? result.AV.ToString() : "0";
-        GRRTextBox.Text = result is not null && !double.IsNaN(result.GRR) ? result.GRR.ToString() : "0";
-        PVTextBox.Text = result is not null && !double.IsNaN(result.PV) ? result.PV.ToString() : "0";
-        TVTextBox.Text = result is not null && !double.IsNaN(result.TV) ? result.TV.ToString() : "0";
-        PercentEVTextBox.Text = result is not null && !double.IsNaN(result.percentEV) ? result.percentEV.ToString() : "0";
-        PercentAVTextBox.Text = result is not null && !double.IsNaN(result.percentAV) ? result.percentAV.ToString() : "0";
-        PercentGRRTextBox.Text = result is not null && !double.IsNaN(result.percentGRR) ? result.percentGRR.ToString() : "0";
-        PercentPVTextBox.Text = result is not null && !double.IsNaN(result.percentPV) ? result.percentPV.ToString() : "0";
+        RsrTextBox.Text = (result != null && !double.IsNaN(result.Rsr)) ? result.Rsr.ToString("0.#####") : "0";
+        XdiffTextBox.Text = (result != null && !double.IsNaN(result.Xdiff)) ? result.Xdiff.ToString("0.#####") : "0";
+        RpTextBox.Text = (result != null && !double.IsNaN(result.Rp)) ? result.Rp.ToString("0.#####") : "0";
+        EVTextBox.Text = (result != null && !double.IsNaN(result.EV)) ? result.EV.ToString("0.#####") : "0";
+        AVTextBox.Text = (result != null && !double.IsNaN(result.AV)) ? result.AV.ToString("0.#####") : "0";
+        GRRTextBox.Text = (result != null && !double.IsNaN(result.GRR)) ? result.GRR.ToString("0.#####") : "0";
+        PVTextBox.Text = (result != null && !double.IsNaN(result.PV)) ? result.PV.ToString("0.#####") : "0";
+        TVTextBox.Text = (result != null && !double.IsNaN(result.TV)) ? result.TV.ToString("0.#####") : "0";
+        PercentEVTextBox.Text = (result != null && !double.IsNaN(result.percentEV)) ? result.percentEV.ToString("0.##") : "0";
+        PercentAVTextBox.Text = (result != null && !double.IsNaN(result.percentAV)) ? result.percentAV.ToString("0.##") : "0";
+        PercentGRRTextBox.Text = (result != null && !double.IsNaN(result.percentGRR)) ? result.percentGRR.ToString("0.##") : "0";
+        PercentPVTextBox.Text = (result != null && !double.IsNaN(result.percentPV)) ? result.percentPV.ToString("0.##") : "0";
         GRRProgressBar.Value = (result != null && !double.IsNaN(result.percentGRR)) ? result.percentGRR : 0;
-        ZdolnoscGRRTextBox.Text = result is not null && !double.IsNaN(result.percentGRR)
+        ZdolnoscGRRTextBox.Text = (result != null && !double.IsNaN(result.percentGRR))
             ? result.percentGRR < 20 ? "SYSTEM JEST ZDOLNY" :
-            result.percentGRR is >= 20 and <= 30 ? "SYSTEM ZDOLNY WARUNKOWO" :
+            result.percentGRR >= 20 && result.percentGRR <= 30 ? "SYSTEM ZDOLNY WARUNKOWO" :
             "SYSTEM NIE JEST ZDOLNY"
             : "";
+
 
         ZdolnoscGRRTextBox.Foreground = result is not null && !double.IsNaN(result.percentGRR)
             ? result.percentGRR < 20
@@ -346,13 +360,12 @@ public partial class MainWindow : Window
             : new SolidColorBrush(Colors.Black);
 
     }
-
     private void OpenProcedure2SettingsButton_Click(object sender, RoutedEventArgs e)
     {
         var settingsWindow = new Procedure2SettingsWindow();
         settingsWindow.ShowDialog();
-        appDataContext.K1 = settingsWindow.K1Value;
-        appDataContext.K2 = settingsWindow.K2Value;
+        _appDataContext.K1 = settingsWindow.K1Value;
+        _appDataContext.K2 = settingsWindow.K2Value;
     }
     #endregion
 
@@ -368,7 +381,7 @@ public partial class MainWindow : Window
     {
         if (isThirdProcedureDataReadyToCalculate())
         {
-            var thirdProcedureResult = thirdProcedure.Calculate(appDataContext.ThirdProcedureMeasurements, appDataContext.T, appDataContext.K3);
+            var thirdProcedureResult = ThirdProcedure.Calculate(_appDataContext.ThirdProcedureMeasurements, _appDataContext.T, _appDataContext.K3);
             UpdateThirdProcedureUIWithResults(thirdProcedureResult);
         }
         else
@@ -380,10 +393,11 @@ public partial class MainWindow : Window
 
     private void UpdateThirdProcedureUIWithResults(ThirdProcedureResult result)
     {
-        rangeAverageProcedure3TextBox.Text = result.rozstepSredni.ToString();
-        EVProcedure3TextBox.Text = result.EV.ToString();
-        PercentEVProcedure3TextBox.Text = result.percentEV.ToString();
-        Procedure3PercentEVProgressBar.Value = double.Parse(PercentEVProcedure3TextBox.Text);
+        rangeAverageProcedure3TextBox.Text = result.rozstepSredni.ToString("0.#####");
+        EVProcedure3TextBox.Text = result.EV.ToString("0.#####");
+        result.percentEV = Math.Round(result.percentEV, 2);
+        PercentEVProcedure3TextBox.Text = result.percentEV.ToString("0.##");
+        Procedure3PercentEVProgressBar.Value = result.percentEV;
 
         ZdolnoscEVTextBox.Text = result is not null && !double.IsNaN(result.percentEV)
             ? result.percentEV < 20 ? "SYSTEM JEST ZDOLNY" :
@@ -401,19 +415,20 @@ public partial class MainWindow : Window
     }
     private bool isThirdProcedureDataReadyToCalculate()
     {
-        return !(appDataContext.ThirdProcedureMeasurements.Any(x => x.Value == 0)
-                 || appDataContext.ThirdProcedureMeasurements.Count == 0 ||
+        return !(_appDataContext.ThirdProcedureMeasurements.Any(x => x.Value == 0)
+                 || _appDataContext.ThirdProcedureMeasurements.Count == 0 ||
                  !_tCalculated);
     }
 
     #endregion
 
+    #region temp
     private void Undo_pomiar(object sender, RoutedEventArgs e)
     {
-        if (appDataContext.FirstProcedureMeasurements.Count > 0)
+        if (_appDataContext.FirstProcedureMeasurements.Count > 0)
         {
-            appDataContext.FirstProcedureMeasurements.RemoveAt(appDataContext.FirstProcedureMeasurements.Count - 1);
-            LicznikElementow--;
+            _appDataContext.FirstProcedureMeasurements.RemoveAt(_appDataContext.FirstProcedureMeasurements.Count - 1);
+            _licznikElementow--;
             UpdateFirstProcedureUIWithResults();
         }
         else
@@ -426,7 +441,64 @@ public partial class MainWindow : Window
     {
         var settingsWindow = new Procedure3SettingsWindow();
         settingsWindow.ShowDialog();
-        appDataContext.K3 = settingsWindow.K3Value;
+        _appDataContext.K3 = settingsWindow.K3Value;
     }
+    #endregion
+
+    private void InitializeWebSocket()
+    {
+        websocket = new WebSocket("ws://localhost:6123");
+
+        websocket.Opened += (sender, e) =>
+        {
+            MessageBox.Show("WebSocket connected!");
+        };
+
+        websocket.MessageReceived += (sender, e) =>
+        {
+            // Odebrano wiadomość
+            Debug.WriteLine(e.Message);
+
+            // Podziel wiadomość na fragmenty przy użyciu znaku nowej linii
+            string[] lines = e.Message.Split('\n');
+
+            if (lines.Length > 0)
+            {
+                // Weź ostatni fragment
+                string lastLine = lines[lines.Length - 1];
+
+                // Usuń wszystkie niecyfrowe znaki z końca fragmentu
+                string cleanedLastLine = new string(lastLine.Reverse().TakeWhile(char.IsDigit).Reverse().ToArray());
+
+                if (double.TryParse(cleanedLastLine, out var toAdd))
+                {
+                    _appDataContext.FirstProcedureMeasurements.Add(toAdd);
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        FirstProcedure.UpdateData(_appDataContext.FirstProcedureMeasurements);
+                        _licznikElementow++;
+                        UpdateFirstProcedureUIWithResults();
+                    });
+                }
+                else
+                {
+                    MessageBox.Show("Nieprawidłowa wartość dla pomiaru.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nie znaleziono liczby w wiadomości.");
+            }
+        };
+
+
+        websocket.Closed += (sender, e) =>
+        {
+            MessageBox.Show("WebSocket closed!");
+        };
+
+        websocket.Open();
+    }
+
 }
 
