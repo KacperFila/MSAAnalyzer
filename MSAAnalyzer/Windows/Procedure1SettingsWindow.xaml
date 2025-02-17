@@ -1,0 +1,76 @@
+﻿<Window x:Class="MSAAnalyzer.Procedure1SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MSAAnalyzer"
+        mc:Ignorable="d"
+        Title="Procedure1SettingsWindow" Height="450" Width="800">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Margin" Value="0,10,0,0" />
+            <Setter Property="Width" Value="120" />
+            <Setter Property="Background" Value="#FF00AF83" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#FF00AF83" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TabItem">
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Background" Value="#FF00AF83" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="ProgressBar">
+            <Setter Property="Foreground" Value="#FF00AF83" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <StaticResourceExtension ResourceKey="AppDataContext"/>
+    </Window.DataContext>
+
+    <Grid Background="Gainsboro">
+        <Grid>
+            <Label Content="Wartość współczynnika K:" HorizontalAlignment="Center" Height="37" Margin="0,112,0,0" VerticalAlignment="Top" Width="144"/>
+
+            <ComboBox x:Name="KValueComboBox" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,154,0,0" Width="120">
+                <ComboBoxItem Content="0.10"/>
+                <ComboBoxItem Content="0.15"/>
+                <ComboBoxItem Content="0.20"/>
+            </ComboBox>
+
+            <Button Content="Zapisz" HorizontalAlignment="Center" VerticalAlignment="Top" Width="80" Name="SaveFirstProcedureSettingsButton" Click="SaveFirstProcedureSettingsButton_Click" Margin="0,217,0,0"/>
+        </Grid>
+    </Grid>
+</Window>

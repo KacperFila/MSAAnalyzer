@@ -1,0 +1,88 @@
+﻿<Window x:Class="MSAAnalyzer.Windows.Procedure2SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MSAAnalyzer.Windows"
+        xmlns:global="clr-namespace:"
+        mc:Ignorable="d"
+        Title="Procedure2SettingsWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Margin" Value="0,10,0,0" />
+            <Setter Property="Width" Value="120" />
+            <Setter Property="Background" Value="#FF00AF83" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#FF00AF83" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TabItem">
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Background" Value="#FF00AF83" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="ProgressBar">
+            <Setter Property="Foreground" Value="#FF00AF83" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <global:BoolToCursorConverter x:Key="BoolToCursorConverter"/>
+    </Window.Resources>
+
+    <Grid Background="Gainsboro">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Margin="10,10,10,0">
+                <Label Content="K1:" Margin="0,-31,0,30" ToolTip="4.56 - 2 serie pomiarów&#x0a;3.05 - 3 serie pomiarów" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}"/>
+                <ComboBox x:Name="K1ValueComboBox" VerticalAlignment="Top" Width="120">
+                    <ComboBoxItem Content="3.05"/>
+                    <ComboBoxItem Content="4.56"/>
+                </ComboBox>
+            </Grid>
+
+            <Grid Grid.Column="1" Margin="10,10,10,0">
+                <Label Content="K2:" Margin="0,-31,0,30" ToolTip="2.70 - 3 operatorów&#x0a;3.65 - 2 operatorów" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}"/>
+                <ComboBox x:Name="K2ValueComboBox" VerticalAlignment="Top" Width="120">
+                    <ComboBoxItem Content="2.70"/>
+                    <ComboBoxItem Content="3.65"/>
+                </ComboBox>
+            </Grid>
+
+            <Button Content="Zapisz" VerticalAlignment="Top" Width="80" Name="SaveFirstProcedureSettingsButton" Click="SaveSecondProcedureSettingsButton_Click" Margin="100,75,0,0" Grid.ColumnSpan="2"/>
+        </Grid>
+    </Grid>
+
+
+</Window>

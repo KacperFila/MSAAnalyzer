@@ -1,0 +1,83 @@
+﻿<Window x:Class="MSAAnalyzer.Windows.Procedure3SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MSAAnalyzer.Windows"
+        xmlns:global="clr-namespace:"
+        mc:Ignorable="d"
+        Title="Procedure3SettingsWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Margin" Value="0,10,0,0" />
+            <Setter Property="Width" Value="120" />
+            <Setter Property="Background" Value="#FF00AF83" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="#FF00AF83" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TabItem">
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Background" Value="#FF00AF83" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="ProgressBar">
+            <Setter Property="Foreground" Value="#FF00AF83" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Gray" Direction="320" ShadowDepth="2" Opacity="0.5" />
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <global:BoolToCursorConverter x:Key="BoolToCursorConverter"/>
+    </Window.Resources>
+
+    <Grid Background="Gainsboro">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+  
+            </Grid.ColumnDefinitions>
+            
+            <!-- K3 -->
+            <Grid Grid.Column="2" Margin="10,10,10,0">
+                <Label Content="K3:" Margin="0,-31,0,30" 
+                       ToolTip="4.57 - poziom ufności 99%&#x0a;5.32 - poziom ufności 99.73%" Cursor="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver, Converter={StaticResource BoolToCursorConverter}, FallbackValue=Arrow}"/>
+                <ComboBox x:Name="K3ValueComboBox" VerticalAlignment="Top" Width="120">
+                    <ComboBoxItem Content="4.57"/>
+                    <ComboBoxItem Content="5.32"/>
+                </ComboBox>
+            </Grid>
+
+            <!-- Button -->
+            <Button Grid.Column="1" Content="Zapisz" HorizontalAlignment="Center" VerticalAlignment="Top" Width="80" Name="SaveThirdProcedureSettingsButton" Click="SaveThirdProcedureSettingsButton_Click" Margin="0,60,0,0"/>
+        </Grid>
+    </Grid>
+
+
+</Window>
